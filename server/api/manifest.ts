@@ -1,49 +1,56 @@
-import { joinURL } from "ufo"
+import { DestinyItemType, getDestinyManifest, getDestinyManifestSlice, HttpClientConfig } from "bungie-api-ts/destiny2";
+import type { ManifestData } from "~/types";
 
-const urlPrefix = 'https://www.bungie.net'
-const MAIN_URL = joinURL(urlPrefix, '/Platform/Destiny2/Manifest/')
+async function $http(config: HttpClientConfig) {
+  // fill in the API key, handle OAuth, etc., then make an HTTP request using the config.
+  return $fetch(config.url, {
+    params: config.params,
+    body: config.body
+  });
+}
 
-export default defineEventHandler(async () => {
-  const { Response: manifestResponse } = await $fetch<any>(MAIN_URL)
-  const subManifest = manifestResponse.jsonWorldComponentContentPaths.en
+export default defineEventHandler(async (event) => {
+  const { Response: destinyManifest } = await getDestinyManifest($http);
+  const manifestTables = await getDestinyManifestSlice($http, {
+    destinyManifest,
+    tableNames: [
+      'DestinyInventoryItemDefinition',
+      'DestinyItemTierTypeDefinition',
+      'DestinySocketTypeDefinition',
+      'DestinyStatDefinition',
+      'DestinyStatGroupDefinition',
+      'DestinyPlugSetDefinition',
+      'DestinyDamageTypeDefinition',
+      'DestinySandboxPerkDefinition',
+      'DestinyPowerCapDefinition',
+      'DestinyEnergyTypeDefinition',
+      'DestinyCollectibleDefinition',
+    ],
+    language: 'en',
+  });
 
-  const definitions = {
-    itemDefs: joinURL(MAIN_URL, subManifest.DestinyInventoryItemDefinition),
-    itemTiers: joinURL(MAIN_URL, subManifest.DestinyItemTierTypeDefinition),
-    socketTypes: joinURL(MAIN_URL, subManifest.DestinySocketTypeDefinition),
-    statDefs: joinURL(MAIN_URL, subManifest.DestinyStatDefinition),
-    statGroups: joinURL(MAIN_URL, subManifest.DestinyStatGroupDefinition),
-    plugSets: joinURL(MAIN_URL, subManifest.DestinyPlugSetDefinition),
-    damageType: joinURL(MAIN_URL, subManifest.DestinyDamageTypeDefinition),
-    sandboxPerks: joinURL(MAIN_URL, subManifest.DestinySandboxPerkDefinition),
-    powerCaps: joinURL(MAIN_URL, subManifest.DestinyPowerCapDefinition),
-    energyType: joinURL(MAIN_URL, subManifest.DestinyEnergyTypeDefinition),
-    collectibles: joinURL(MAIN_URL, subManifest.DestinyCollectibleDefinition)
-  }
+  const { version } = destinyManifest
 
-  type ManifestReturn = any[]
-  const [
-    itemDefs,
-    itemTiers,
-    socketTypes,
-    statDefs,
-    statGroups,
-    plugSets,
-    damageTypes,
-    sandboxPerks,
-    powerCaps,
-    energyTypes,
-    collectibles
-  ] = await Promise.all<ManifestReturn>(Object.values(definitions).map(d => $fetch<any>(d)))
-
-  const version = manifestResponse.version
+  const {
+    DestinyInventoryItemDefinition: itemDefs,
+    DestinyItemTierTypeDefinition: itemTiers,
+    DestinySocketTypeDefinition: socketTypes,
+    DestinyStatDefinition: statDefs,
+    DestinyStatGroupDefinition: statGroups,
+    DestinyPlugSetDefinition: plugSets,
+    DestinyDamageTypeDefinition: damageTypes,
+    DestinySandboxPerkDefinition: sandboxPerks,
+    DestinyPowerCapDefinition: powerCaps,
+    DestinyEnergyTypeDefinition: energyTypes,
+    DestinyCollectibleDefinition: collectibles,
+  } = manifestTables
 
   const weaponMods = Object.values(itemDefs)
     .filter((e) => e.itemCategoryHashes?.includes(1052191496))
     .filter((e) => e.plug?.plugCategoryIdentifier.includes("v400"))
 
-  const data = {
-    weapons: Object.values(itemDefs).filter(i => i.itemType === 3),
+  const data: ManifestData = {
+    weapons: Object.values(itemDefs).filter(i => i.itemType === DestinyItemType.Weapon).slice(0, 10), // TODO: Remove slice
     weaponTraits: Object.values(itemDefs).filter(e => {
       if (["Haft", "Enhanced Trait", "Origin Trait"].includes(e.itemTypeDisplayName)) {
         return true
@@ -64,9 +71,13 @@ export default defineEventHandler(async () => {
     sandboxPerks,
     sandboxMods: weaponMods.map(e => sandboxPerks[e.perks[0]?.perkHash]).filter(Boolean),
     powerCaps,
-    seasonCap: 'TODO? Ah, power cap for season currentSeasonRewardPowerCap from uhh, profile call. Can hardcode for now',
+    seasonCap: 1580,// TODO Ah, power cap for season currentSeasonRewardPowerCap from uhh, profile call. Can hardcode for now
     energyTypes,
     collectibles
   }
+  
+  // Set ETag to improve caching
+  setResponseHeader(event, 'ETag', version)
+  
   return { data, version }
 })

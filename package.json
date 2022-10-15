@@ -8,9 +8,11 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@headlessui/vue": "^0.0.0-insiders.ab78fbd",
+    "@heroicons/vue": "^2.0.12",
+    "@nuxtjs/tailwindcss": "^5.3.5",
+    "@pinia/nuxt": "^0.4.2",
+    "bungie-api-ts": "^4.19.0",
     "nuxt": "3.0.0-rc.11"
-  },
-  "dependencies": {
-    "@pinia/nuxt": "^0.4.2"
   }
 }
