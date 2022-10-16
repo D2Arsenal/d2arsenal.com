@@ -26,7 +26,6 @@ const decodeHashes = (str?: string) => {
 const decodedHashes = decodeHashes(possibleAttributes)
 
 const weapon = computed(() => manifestStore.weapons.find(w => w.hash === Number(weaponHash)))
-// const frame = computed(() => weapon.value && manifestStore.frames.find(f => f.hash === weapon.value?.summaryItemHash))
 const damageTypes = computed(() => {
   return weapon.value?.damageTypeHashes.map(hash => manifestStore.damageTypes[hash]) ?? []
 })
@@ -42,7 +41,6 @@ const masterwork = computed(() => {
     return
   }
   const { masterwork } = buildMasterwork(weapon.value, manifestStore.data.statGroups, manifestStore.data.plugSets, manifestStore.data.catalysts) ?? {}
-  console.log({masterwork})
   return masterwork
 })
 
@@ -55,6 +53,7 @@ const masterworkData = computed(() => Object.entries(masterwork.value ?? {})
 )
 
 const selectedMasterworkHash = ref(decodedHashes.masterwork)
+const selectedMasterworkItem = computed(() => manifestStore.data?.catalysts.find(i => i.hash === selectedMasterworkHash.value))
 
 const router = useRouter()
 const updateRouteOnChange = () => {
@@ -76,7 +75,7 @@ watch([selectedModHash, selectedPerkHashes, selectedMasterworkHash], updateRoute
 <template>
   <div>
     {{ selectedMod }}
-    <WeaponSummary v-if="weapon" :weapon="weapon" :damage-types="damageTypes" :mod="selectedMod" />
+    <WeaponSummary v-if="weapon && selectedMasterworkItem" :weapon="weapon" :damage-types="damageTypes" :masterwork="selectedMasterworkItem" :mod="selectedMod" />
     <WeaponMasterwork v-if="masterworkData" :options="masterworkData" v-model="selectedMasterworkHash" />
     <WeaponMods v-model="selectedModHash" v-if="manifestStore.mods" :mods="manifestStore.mods"
       :can-apply-adept-mods="canApplyAdeptMods" />
