@@ -1,9 +1,13 @@
-<script setup>
-import { useManifestStore } from '~/store/manifest';
+<script setup lang="ts">
+import { useManifestStore } from '~/store/manifest'
 
 const manifestStore = useManifestStore()
 await manifestStore.init()
 
+// TODO: Meta tags and so on
+useHead({
+  titleTemplate: t => t ? `${t} - D2Arsenal` : 'D2Arsenal - Craft your favorite weapon'
+})
 </script>
 
 <template>

@@ -7,20 +7,13 @@ const manifestStore = useManifestStore()
 const [weaponHash, possibleAttributes] = useRoute().params.slug as [string, string?]
 
 const decodeHashes = (str?: string) => {
-  const splitStrings = str?.split('-').map(s => Number(s))
-  if (!splitStrings || splitStrings.length < 6) {
-    return {
-      perks: [null, null, null, null],
-      masterwork: null,
-      mod: null
-    }
-  }
-  const perks = splitStrings.slice(0, 4)
-  const [masterwork, mod] = splitStrings.slice(4)
+  const [rawPerks, rawMasterwork, rawMod] = str?.split('-') ?? []
+  const perks = rawPerks.split(',').map(Number)
+  
   return {
     perks,
-    masterwork,
-    mod
+    masterwork: Number(rawMasterwork),
+    mod: Number(rawMod)
   }
 }
 const decodedHashes = decodeHashes(possibleAttributes)
@@ -36,6 +29,14 @@ const selectedModHash = ref<number | null>(decodedHashes.mod)
 const selectedMod = computed(() => manifestStore.mods.find(m => m.hash === selectedModHash.value))
 
 const selectedPerkHashes = ref(decodedHashes.perks)
+const selectedPerks = computed(() =>
+  selectedPerkHashes.value.map(hash => {
+    if (hash === 0) {
+      return null
+    }
+    return manifestStore.data?.weaponTraits.find(t => t.hash === hash) ?? null
+  })
+)
 
 const masterwork = computed(() => {
   if (!(weapon.value && manifestStore.data)) {
@@ -60,7 +61,7 @@ const router = useRouter()
 const updateRouteOnChange = () => {
   const newRoutePrefix = `/weapons/${weaponHash}/`
   const slugValues = [
-    ...selectedPerkHashes.value.map(h => h ?? 0),
+    selectedPerkHashes.value.map(h => h ?? 0).join(','),
     selectedMasterworkHash.value ?? 0,
     selectedModHash.value ?? 0,
   ].join('-')
@@ -71,21 +72,25 @@ const updateRouteOnChange = () => {
 }
 watch([selectedModHash, selectedPerkHashes, selectedMasterworkHash], updateRouteOnChange)
 
+// TODO: description based on changed values
+useHead({
+  title: weapon.value?.displayProperties.name
+})
+
 </script>
 
 <template>
   <div class="grid p-5 gap-4 grid-cols-3">
     <div class="grid gap-4 grid-cols-5 col-span-2">
-      <WeaponSummary class="col-span-5" v-if="weapon" :weapon="weapon" :damage-types="damageTypes" :masterwork="selectedMasterworkItem"
-        :mod="selectedMod" :stat-groups="statGroups" :stats="stats" />
+      <WeaponSummary class="col-span-5" v-if="weapon" :weapon="weapon" :damage-types="damageTypes"
+        :masterwork="selectedMasterworkItem" :mod="selectedMod" :stat-groups="statGroups" :stats="stats" :perks="selectedPerks" />
       <div class="col-span-2 bg-white">
         WIP
       </div>
       <div class="col-span-3 flex flex-col">
-        <WeaponMasterwork v-if="masterworkData" :options="masterworkData"
-        v-model="selectedMasterworkHash" />
-      <WeaponMods class="mt-4" v-model="selectedModHash" v-if="manifestStore.mods" :mods="manifestStore.mods"
-        :can-apply-adept-mods="canApplyAdeptMods" />
+        <WeaponMasterwork v-if="masterworkData" :options="masterworkData" v-model="selectedMasterworkHash" />
+        <WeaponMods class="mt-4" v-model="selectedModHash" v-if="manifestStore.mods" :mods="manifestStore.mods"
+          :can-apply-adept-mods="canApplyAdeptMods" />
       </div>
     </div>
     <WeaponPerks class="bg-red-500" />

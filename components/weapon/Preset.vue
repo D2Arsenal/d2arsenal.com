@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { DestinyInventoryItemDefinition, DestinySandboxPerkDefinition } from 'bungie-api-ts/destiny2';
+import type { DestinyInventoryItemDefinition } from 'bungie-api-ts/destiny2';
 
 const props = defineProps<{
   masterwork?: DestinyInventoryItemDefinition,
   mod?: DestinyInventoryItemDefinition,
   frame?: DestinyInventoryItemDefinition,
-  perks?: DestinySandboxPerkDefinition[]
+  perks?: Array<DestinyInventoryItemDefinition|null>
 }>()
 
 </script>
@@ -15,8 +15,9 @@ const props = defineProps<{
       <div class="relative">
         <WeaponIcon v-if="frame" :icon="frame.displayProperties.icon"/>
       </div>
-      <div v-for="i in 4" class="relative rounded-full border-2 h-16 w-16">
-        <WeaponIcon v-if="perks?.[i]" :icon="perks?.[i].displayProperties.icon"/>
+      <div v-for="i in 4" class="relative rounded-full border-2 h-16 w-16 flex justify-center items-center">
+        <!-- TODO: Nicer please -->
+        <WeaponIcon v-if="perks?.[i-1]" :icon="perks[i-1]?.displayProperties.icon ?? ''"/>
       </div>
       <!-- TODO: Origin trait! -->
       <div class="relative">

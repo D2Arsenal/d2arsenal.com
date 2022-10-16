@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { DestinyInventoryItemDefinition, DestinySandboxPerkDefinition, DestinyStatGroupDefinition, DestinyStatDefinition } from 'bungie-api-ts/destiny2';
+import type { DestinyInventoryItemDefinition, DestinyStatGroupDefinition, DestinyStatDefinition } from 'bungie-api-ts/destiny2';
 import type { DefinitionRecord } from '~/types';
 
 
 const props = defineProps<{
   weapon: DestinyInventoryItemDefinition,
-  perks: DestinySandboxPerkDefinition[],
+  perks: Array<DestinyInventoryItemDefinition|null>,
   masterwork?: DestinyInventoryItemDefinition,
   mod?: DestinyInventoryItemDefinition,
-  statGroups: DefinitionRecord<DestinyStatGroupDefinition>
+  statGroups?: DefinitionRecord<DestinyStatGroupDefinition>
   stats?: DefinitionRecord<DestinyStatDefinition>
 }>()
 

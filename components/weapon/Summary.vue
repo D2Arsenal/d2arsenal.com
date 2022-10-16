@@ -5,7 +5,7 @@ import type { DefinitionRecord } from '~/types';
 defineProps<{
   weapon: DestinyInventoryItemDefinition,
   damageTypes: DestinyDamageTypeDefinition[],
-  perks: DestinySandboxPerkDefinition[],
+  perks: Array<DestinyInventoryItemDefinition | null>,
   masterwork?: DestinyInventoryItemDefinition,
   mod?: DestinyInventoryItemDefinition,
   statGroups?: DefinitionRecord<DestinyStatGroupDefinition>,
@@ -40,7 +40,7 @@ defineProps<{
           :stat-groups="statGroups" :perks="perks" :stats="stats" />
       </div>
       <div class="mt-auto flex justify-end">
-        <WeaponPreset :masterwork="masterwork" :mod="mod" />
+        <WeaponPreset :masterwork="masterwork" :perks="perks" :mod="mod" />
       </div>
     </div>
     <img class="col-start-1 col-end-3 row-start-1 object-cover" :src="useBungieUrl(weapon.screenshot)" loading="lazy">
