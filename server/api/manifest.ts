@@ -1,5 +1,5 @@
-import { getDestinyManifest, getDestinyManifestSlice } from "bungie-api-ts/destiny2";
-import type { DestinyItemType, HttpClientConfig } from "bungie-api-ts/destiny2";
+import { DestinyItemType, getDestinyManifest, getDestinyManifestSlice } from "bungie-api-ts/destiny2";
+import type { HttpClientConfig } from "bungie-api-ts/destiny2";
 import type { ManifestData } from "~/types";
 
 async function $http(config: HttpClientConfig) {
