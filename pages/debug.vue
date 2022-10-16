@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// TODO: REMOVE before release
 import { useManifestStore } from '~/store/manifest';
 
 const manifestStore = useManifestStore()

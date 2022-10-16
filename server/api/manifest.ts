@@ -1,9 +1,11 @@
-import { DestinyItemType, getDestinyManifest, getDestinyManifestSlice, HttpClientConfig } from "bungie-api-ts/destiny2";
+import { getDestinyManifest, getDestinyManifestSlice } from "bungie-api-ts/destiny2";
+import type { DestinyItemType, HttpClientConfig } from "bungie-api-ts/destiny2";
 import type { ManifestData } from "~/types";
 
 async function $http(config: HttpClientConfig) {
   // fill in the API key, handle OAuth, etc., then make an HTTP request using the config.
   return $fetch(config.url, {
+    method: config.method,
     params: config.params,
     body: config.body
   });
@@ -75,9 +77,9 @@ export default defineEventHandler(async (event) => {
     energyTypes,
     collectibles
   }
-  
+
   // Set ETag to improve caching
   setResponseHeader(event, 'ETag', version)
-  
+
   return { data, version }
 })
