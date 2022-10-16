@@ -13,6 +13,7 @@
     "@nuxtjs/tailwindcss": "^5.3.5",
     "@pinia/nuxt": "^0.4.2",
     "bungie-api-ts": "^4.19.0",
-    "nuxt": "3.0.0-rc.11"
+    "nuxt": "3.0.0-rc.11",
+    "unstorage": "^0.6.0"
   }
 }

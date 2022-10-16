@@ -2358,6 +2358,16 @@ h3@^0.7.12, h3@^0.7.21:
     radix3 "^0.1.2"
     ufo "^0.8.5"
 
+h3@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/h3/-/h3-0.8.1.tgz#e9992f09dd1abcf2c190d4cd068febf9bddafd41"
+  integrity sha512-HWTShxx4RKpse3f2h5KOWTEAIZLKq9SHWaVBZkOhBH+fH8uRGYY1iNO7VDwImFwARtR/Pg+bVI8feXX9NIdQRQ==
+  dependencies:
+    cookie-es "^0.5.0"
+    destr "^1.1.1"
+    radix3 "^0.2.1"
+    ufo "^0.8.5"
+
 has-flag@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-3.0.0.tgz#b5d454dc2199ae225699f3467e5a07f3b955bafd"
@@ -2548,7 +2558,7 @@ inquirer@^9.1.1:
     through "^2.3.6"
     wrap-ansi "^8.0.1"
 
-ioredis@^5.2.2:
+ioredis@^5.2.2, ioredis@^5.2.3:
   version "5.2.3"
   resolved "https://registry.yarnpkg.com/ioredis/-/ioredis-5.2.3.tgz#d5b37eb13e643241660d6cee4eeb41a026cda8c0"
   integrity sha512-gQNcMF23/NpvjCaa1b5YycUyQJ9rBNH2xP94LWinNpodMWVUPP5Ai/xXANn/SM7gfIvI62B5CCvZxhg5pOgyMw==
@@ -2853,7 +2863,7 @@ listhen@^0.2.13:
     selfsigned "^2.0.1"
     ufo "^0.8.5"
 
-listhen@^0.3.1:
+listhen@^0.3.1, listhen@^0.3.4:
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/listhen/-/listhen-0.3.4.tgz#5bb0db65dae5f2204ffa7ee46b40f2330854cf7f"
   integrity sha512-cuzWWoIWF8JvsPLmIurTkUXi27owH4RRKnBsbPswRJvB82uTv15W01yOOLaPvjxY5mMlftmW2p1XnxB835AdRA==
@@ -3120,6 +3130,11 @@ minizlib@^2.1.1:
   dependencies:
     minipass "^3.0.0"
     yallist "^4.0.0"
+
+mkdir@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/mkdir/-/mkdir-0.0.2.tgz#3b9da7a4e5b13004ebc636581b160e1e04776851"
+  integrity sha512-98OnjcWaNEIRUJJe9rFoWlbkQ5n9z8F86wIPCrI961YEViiVybTuJln919WuuSHSnlrqXy0ELKCntoPy8C7lqg==
 
 mkdirp@^0.5.1, mkdirp@^0.5.5, mkdirp@^0.5.6:
   version "0.5.6"
@@ -3995,6 +4010,11 @@ radix3@^0.1.2:
   resolved "https://registry.yarnpkg.com/radix3/-/radix3-0.1.2.tgz#5f7351af7fc5e4b1d9a1b14a7266b6a4a8cac0ba"
   integrity sha512-Mpfd/OuX0zoJ6ojLD/RTOHvJPg6e6PjINtmYzV87kIXc5iUtDz34i7gg4SV4XjqRJTmSiYO/g9i/mKWGf4z8wg==
 
+radix3@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/radix3/-/radix3-0.2.1.tgz#77e66a41c7ba5600a8bc137fd259ef661d314418"
+  integrity sha512-FnhArTl5Tq7dodiLeSPKrDUyCQuJqEncP8cKdyy399g8F/cz7GH6FmzA3Rkosu2IZMkpswFFwXfb2ERSiL06pg==
+
 randombytes@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"
@@ -4665,6 +4685,11 @@ ufo@^0.8.3, ufo@^0.8.5:
   resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.8.5.tgz#e367b4205ece9d9723f2fa54f887d43ed1bce5d0"
   integrity sha512-e4+UtA5IRO+ha6hYklwj6r7BjiGMxS0O+UaSg9HbaTefg4kMkzj4tXzEBajRR+wkxf+golgAWKzLbytCUDMJAA==
 
+ufo@^0.8.6:
+  version "0.8.6"
+  resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.8.6.tgz#c0ec89bc0e0c9fa59a683680feb0f28b55ec323b"
+  integrity sha512-fk6CmUgwKCfX79EzcDQQpSCMxrHstvbLswFChHS0Vump+kFkw7nJBfTZoC1j0bOGoY9I7R3n2DGek5ajbcYnOw==
+
 unctx@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/unctx/-/unctx-2.0.2.tgz#7d14d9290e0879aa7be697b7f35066cffec4ffc4"
@@ -4738,6 +4763,23 @@ unstorage@^0.5.6:
     ohmyfetch "^0.4.18"
     ufo "^0.8.5"
     ws "^8.8.1"
+
+unstorage@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/unstorage/-/unstorage-0.6.0.tgz#9a70d770d08ed8dbb87f4aa5fbf7700baf4a641d"
+  integrity sha512-X05PIq28pVNA1BypX6Y00YNqAsHM25MGemvpjHeYvwJ8/wg936GoO1YD+VdWlqm3LmVX4fNJ5tlC7uhXsMPgeg==
+  dependencies:
+    anymatch "^3.1.2"
+    chokidar "^3.5.3"
+    destr "^1.1.1"
+    h3 "^0.8.1"
+    ioredis "^5.2.3"
+    listhen "^0.3.4"
+    mkdir "^0.0.2"
+    mri "^1.2.0"
+    ohmyfetch "^0.4.19"
+    ufo "^0.8.6"
+    ws "^8.9.0"
 
 untyped@^0.5.0:
   version "0.5.0"
@@ -4968,7 +5010,7 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==
 
-ws@^8.8.1:
+ws@^8.8.1, ws@^8.9.0:
   version "8.9.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.9.0.tgz#2a994bb67144be1b53fe2d23c53c028adeb7f45e"
   integrity sha512-Ja7nszREasGaYUYCI2k4lCKIRTt+y7XuqVoHR44YpI49TtryyqbqvDMn5eqfW7e6HzTukDRIsXqzVHScqRcafg==

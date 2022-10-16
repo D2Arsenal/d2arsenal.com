@@ -3,6 +3,10 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
   },
+  runtimeConfig: {
+    // Ideal for offline-work. Needs a manifest.json in /tmp
+    useCachedManifest: false
+  },
   build: {
     transpile: ["@heroicons/vue", "@headlessui/vue"]
   }

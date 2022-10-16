@@ -2,7 +2,17 @@ import { DestinyItemType, getDestinyManifest, getDestinyManifestSlice } from "bu
 import type { HttpClientConfig } from "bungie-api-ts/destiny2";
 import type { ManifestData } from "~/types";
 
-async function $http(config: HttpClientConfig) {
+import { createStorage } from 'unstorage'
+import fsDriver from 'unstorage/drivers/fs'
+
+const FILE_NAME = {
+  PREFIX: 'manifest-',
+  SUFFIX: '.json'
+}
+
+const getCacheKeyForVersion = (version: string) => FILE_NAME.PREFIX + version + FILE_NAME.SUFFIX
+
+async function $http (config: HttpClientConfig) {
   // fill in the API key, handle OAuth, etc., then make an HTTP request using the config.
   return $fetch(config.url, {
     method: config.method,
@@ -11,8 +21,36 @@ async function $http(config: HttpClientConfig) {
   });
 }
 
+const storage = createStorage({
+  driver: fsDriver({ base: './tmp' })
+})
+
+
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig()
+
+  if (config.useCachedManifest) {
+    const possibleCacheItem = await storage.getItem('manifest.json') as ManifestData | null
+    if (possibleCacheItem) {
+      return {
+        data: possibleCacheItem,
+        version: 'OFFLINE'
+      }
+    }
+  }
+
   const { Response: destinyManifest } = await getDestinyManifest($http);
+  const { version } = destinyManifest
+
+  const cacheKey = getCacheKeyForVersion(version)
+  const possibleCacheItem = await storage.getItem(cacheKey) as ManifestData | null
+  if (possibleCacheItem) {
+    return {
+      data: possibleCacheItem,
+      version
+    }
+  }
+
   const manifestTables = await getDestinyManifestSlice($http, {
     destinyManifest,
     tableNames: [
@@ -30,8 +68,6 @@ export default defineEventHandler(async (event) => {
     ],
     language: 'en',
   });
-
-  const { version } = destinyManifest
 
   const {
     DestinyInventoryItemDefinition: itemDefs,
@@ -77,6 +113,8 @@ export default defineEventHandler(async (event) => {
     energyTypes,
     collectibles
   }
+
+  storage.setItem(cacheKey, data)
 
   // Set ETag to improve caching
   setResponseHeader(event, 'ETag', version)

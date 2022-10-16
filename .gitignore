@@ -2,7 +2,8 @@ node_modules
 *.log*
 .nuxt
 .nitro
-.cache
+.cache  
 .output
 .env
 dist
+tmp
