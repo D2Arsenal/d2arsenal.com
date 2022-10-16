@@ -16,20 +16,22 @@ defineProps<{
 
 <template>
   <div class="max-w-full text-white grid grid-cols-1">
-    <div class="relative p-12 flex flex-col col-start-1 row-start-1">
+    <div class="relative p-4 flex flex-col col-start-1 row-start-1">
       <div class="flex justify-between">
-        <div class="flex">
-          <div class="inline-flex relative border-2 border-white mr-4">
-            <WeaponIcon :icon="weapon.displayProperties.icon" :watermark="weapon.iconWatermark" />
-          </div>
+        <div class="flex items-center">
           <div>
-            <h1 class="text-4xl bold uppercase">{{ weapon.displayProperties.name }}</h1>
-            <h2 class="text2xl uppercase">{{ weapon.itemTypeDisplayName }}</h2>
+            <div class="inline-block relative border-2 border-white mr-4">
+              <WeaponIcon size="lg" :icon="weapon.displayProperties.icon" :watermark="weapon.iconWatermark" />
+            </div>
+          </div>
+          <div class="uppercase -mt-2">
+            <h1 class="text-2xl bold">{{ weapon.displayProperties.name }}</h1>
+            <h2 class="text-lg">{{ weapon.itemTypeDisplayName }}</h2>
           </div>
         </div>
         <div>
           <div v-for="dt in damageTypes" :key="dt.hash">
-            <img class="w-16 h-16" :src="useBungieUrl(dt.displayProperties.icon)" loading="lazy" aria-hidden>
+            <img class="w-12 h-12" :src="useBungieUrl(dt.displayProperties.icon)" loading="lazy" aria-hidden>
           </div>
         </div>
       </div>

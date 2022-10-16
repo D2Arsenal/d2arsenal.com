@@ -54,10 +54,10 @@ const formattedStats = computed(() =>
 
 </script>
 <template>
-  <ul class="space-y-2">
-    <li class="grid grid-cols-4 break-inside-avoid text-shadow-lg" v-for="stat in formattedStats" :key="stat.hash">
+  <ul class="flex flex-col text-sm space-y-2">
+    <li class="grid grid-cols-3 break-inside-avoid" v-for="stat in formattedStats" :key="stat.hash">
       <span class="text-right pr-4">{{stat.name}}</span>
-      <WeaponStatsBar v-if="stat.value && stat.shouldShowStatBar" class="col-span-3" :base-value="stat.value"
+      <WeaponStatsBar class="col-span-2" v-if="stat.value && stat.shouldShowStatBar" :base-value="stat.value"
         :new-value="stat.value" />
       <span v-else>{{ stat.value }}</span>
     </li>

@@ -74,11 +74,20 @@ watch([selectedModHash, selectedPerkHashes, selectedMasterworkHash], updateRoute
 </script>
 
 <template>
-  <div>
-    <WeaponSummary v-if="weapon" :weapon="weapon" :damage-types="damageTypes" :masterwork="selectedMasterworkItem"
-      :mod="selectedMod" :stat-groups="statGroups" :stats="stats" />
-    <WeaponMasterwork v-if="masterworkData" :options="masterworkData" v-model="selectedMasterworkHash" />
-    <WeaponMods v-model="selectedModHash" v-if="manifestStore.mods" :mods="manifestStore.mods"
-      :can-apply-adept-mods="canApplyAdeptMods" />
+  <div class="grid p-5 gap-4 grid-cols-3">
+    <div class="grid gap-4 grid-cols-5 col-span-2">
+      <WeaponSummary class="col-span-5" v-if="weapon" :weapon="weapon" :damage-types="damageTypes" :masterwork="selectedMasterworkItem"
+        :mod="selectedMod" :stat-groups="statGroups" :stats="stats" />
+      <div class="col-span-2 bg-white">
+        WIP
+      </div>
+      <div class="col-span-3 flex flex-col">
+        <WeaponMasterwork v-if="masterworkData" :options="masterworkData"
+        v-model="selectedMasterworkHash" />
+      <WeaponMods class="mt-4" v-model="selectedModHash" v-if="manifestStore.mods" :mods="manifestStore.mods"
+        :can-apply-adept-mods="canApplyAdeptMods" />
+      </div>
+    </div>
+    <WeaponPerks class="bg-red-500" />
   </div>
 </template>
