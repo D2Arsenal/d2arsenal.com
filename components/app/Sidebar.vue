@@ -3,15 +3,11 @@
 import {
   Dialog,
   DialogPanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
-import { Bars3CenterLeftIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
+import {Bars3CenterLeftIcon, XMarkIcon} from '@heroicons/vue/24/outline'
+import {MagnifyingGlassIcon} from '@heroicons/vue/20/solid'
 import { useManifestStore } from '~/store/manifest';
 
 const manifestStore = useManifestStore()

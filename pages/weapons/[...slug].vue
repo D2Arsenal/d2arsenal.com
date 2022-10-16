@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useManifestStore } from '~/store/manifest';
 import { buildMasterwork } from '~/utils/masterwork';
+import { buildPerks } from '~/utils/perks';
 
 const manifestStore = useManifestStore()
 
@@ -8,12 +9,12 @@ const [weaponHash, possibleAttributes] = useRoute().params.slug as [string, stri
 
 const decodeHashes = (str?: string) => {
   const [rawPerks, rawMasterwork, rawMod] = str?.split('-') ?? []
-  const perks = rawPerks.split(',').map(Number)
-  
+  const perks = rawPerks?.split(',').map(Number) ?? [null, null, null, null, null]
+
   return {
     perks,
-    masterwork: Number(rawMasterwork),
-    mod: Number(rawMod)
+    masterwork: rawMasterwork ? Number(rawMasterwork) : null,
+    mod: rawMod ? Number(rawMod) : null
   }
 }
 const decodedHashes = decodeHashes(possibleAttributes)
@@ -37,6 +38,14 @@ const selectedPerks = computed(() =>
     return manifestStore.data?.weaponTraits.find(t => t.hash === hash) ?? null
   })
 )
+
+const perks = computed(() => {
+  if (!(weapon.value && manifestStore.data)) {
+    return
+  }
+
+  return buildPerks(weapon.value, manifestStore.data.plugSets, manifestStore.data.weaponTraits, false)
+})
 
 const masterwork = computed(() => {
   if (!(weapon.value && manifestStore.data)) {
@@ -83,7 +92,8 @@ useHead({
   <div class="grid p-5 gap-4 grid-cols-3">
     <div class="grid gap-4 grid-cols-5 col-span-2">
       <WeaponSummary class="col-span-5" v-if="weapon" :weapon="weapon" :damage-types="damageTypes"
-        :masterwork="selectedMasterworkItem" :mod="selectedMod" :stat-groups="statGroups" :stats="stats" :perks="selectedPerks" />
+        :masterwork="selectedMasterworkItem" :mod="selectedMod" :stat-groups="statGroups" :stats="stats"
+        :perks="selectedPerks" />
       <div class="col-span-2 bg-white">
         WIP
       </div>
@@ -93,6 +103,6 @@ useHead({
           :can-apply-adept-mods="canApplyAdeptMods" />
       </div>
     </div>
-    <WeaponPerks class="bg-red-500" />
+    <WeaponPerks v-if="perks" :perks="perks" v-model="selectedPerkHashes" />
   </div>
 </template>
