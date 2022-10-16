@@ -26,9 +26,10 @@ const decodeHashes = (str?: string) => {
 const decodedHashes = decodeHashes(possibleAttributes)
 
 const weapon = computed(() => manifestStore.weapons.find(w => w.hash === Number(weaponHash)))
-const damageTypes = computed(() => {
-  return weapon.value?.damageTypeHashes.map(hash => manifestStore.damageTypes[hash]) ?? []
-})
+const damageTypes = computed(() => weapon.value?.damageTypeHashes.map(hash => manifestStore.damageTypes[hash]) ?? [])
+
+const statGroups = computed(() => manifestStore.data?.statGroups)
+const stats = computed(() => manifestStore.data?.statDefs)
 
 const canApplyAdeptMods = computed(() => Boolean(weapon.value?.displayProperties.name.includes('(Adept)')))
 const selectedModHash = ref<number | null>(decodedHashes.mod)
@@ -74,7 +75,8 @@ watch([selectedModHash, selectedPerkHashes, selectedMasterworkHash], updateRoute
 
 <template>
   <div>
-    <WeaponSummary v-if="weapon" :weapon="weapon" :damage-types="damageTypes" :masterwork="selectedMasterworkItem" :mod="selectedMod" />
+    <WeaponSummary v-if="weapon" :weapon="weapon" :damage-types="damageTypes" :masterwork="selectedMasterworkItem"
+      :mod="selectedMod" :stat-groups="statGroups" :stats="stats" />
     <WeaponMasterwork v-if="masterworkData" :options="masterworkData" v-model="selectedMasterworkHash" />
     <WeaponMods v-model="selectedModHash" v-if="manifestStore.mods" :mods="manifestStore.mods"
       :can-apply-adept-mods="canApplyAdeptMods" />

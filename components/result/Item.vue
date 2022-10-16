@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
   <li>
-    <NuxtLink class="relative flex items-center border hover:bg-gray-300 hover:border-gray-400" :to="`/weapons/${hash}`">
+    <NuxtLink class="peer relative flex items-center border border-gray-700 hover:bg-gray-900 hover:border-gray-700" :to="`/weapons/${hash}`">
       <WeaponIcon :icon="icon" :watermark="watermark" />
       <span class="ml-4">
         {{ name }}

@@ -69,7 +69,7 @@ const sidebarOpen = ref(false)
 
     <!-- Static sidebar for desktop -->
     <div
-      class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-96 lg:flex-col lg:border-r lg:border-gray-200 lg:bg-gray-100 lg:pt-5 lg:pb-4">
+      class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-96 lg:flex-col lg:border-r lg:border-gray-700 lg:bg-gray-800 lg:pt-5 lg:pb-4">
       <div class="flex flex-shrink-0 items-center px-6">
         <p class="text-2xl">D2 Arsenal</p>
       </div>
@@ -80,10 +80,10 @@ const sidebarOpen = ref(false)
           <label for="search" class="sr-only">Search</label>
           <div class="relative mt-1 rounded-md shadow-sm">
             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3" aria-hidden="true">
-              <MagnifyingGlassIcon class="mr-3 h-4 w-4 text-gray-400" aria-hidden="true" />
+              <MagnifyingGlassIcon class="mr-3 h-4 w-4 text-gray-100" aria-hidden="true" />
             </div>
             <input type="text" name="search" id="search"
-              class="block w-full rounded-md border-gray-300 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-4"
+              class="block w-full rounded-md border-gray-100 placeholder-gray-100 bg-gray-900 text-gray-100 pl-9 focus:ring-indigo-800 sm:text-sm py-4"
               placeholder="Search" />
           </div>
         </div>
@@ -93,9 +93,9 @@ const sidebarOpen = ref(false)
     <!-- Main column -->
     <div class="flex flex-col lg:pl-64">
       <!-- Search header -->
-      <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white lg:hidden">
+      <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-800 bg-black lg:hidden">
         <button type="button"
-          class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 lg:hidden"
+          class="border-r border-gray-700 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 lg:hidden"
           @click="sidebarOpen = true">
           <span class="sr-only">Open sidebar</span>
           <Bars3CenterLeftIcon class="h-6 w-6" aria-hidden="true" />

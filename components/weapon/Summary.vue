@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { DestinyDamageTypeDefinition, DestinyInventoryItemDefinition, DestinySandboxPerkDefinition } from 'bungie-api-ts/destiny2';
+import type { DestinyDamageTypeDefinition, DestinyInventoryItemDefinition, DestinySandboxPerkDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2';
+import type { DefinitionRecord } from '~/types';
 
 defineProps<{
   weapon: DestinyInventoryItemDefinition,
   damageTypes: DestinyDamageTypeDefinition[],
   perks: DestinySandboxPerkDefinition[],
   masterwork?: DestinyInventoryItemDefinition,
-  mod?: DestinyInventoryItemDefinition
+  mod?: DestinyInventoryItemDefinition,
+  statGroups?: DefinitionRecord<DestinyStatGroupDefinition>,
+  stats?: DefinitionRecord<DestinyStatDefinition>
 }>()
 
 </script>
@@ -30,8 +33,9 @@ defineProps<{
           </div>
         </div>
       </div>
-      <div>
-        <WeaponStatsSummary />
+      <div class="mt-8">
+        <WeaponStats class="w-1/2" :weapon="weapon" :damage-types="damageTypes" :masterwork="masterwork" :mod="mod"
+          :stat-groups="statGroups" :perks="perks" :stats="stats" />
       </div>
       <div class="mt-auto flex justify-end">
         <WeaponPreset :masterwork="masterwork" :mod="mod" />

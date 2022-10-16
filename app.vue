@@ -7,7 +7,7 @@ await manifestStore.init()
 </script>
 
 <template>
-  <div class="h-full bg-white">
+  <div class="h-full bg-gray-800 text-gray-100">
     <AppSidebar />
 
     <div class="flex flex-col lg:pl-96">
