@@ -59,9 +59,9 @@ export default defineEventHandler(async (event) => {
       return traitHashes.some(((t) => e.itemCategoryHashes?.includes(t)))
     }),
     weaponFrames: Object.values(itemDefs).filter((e) => e.itemTypeDisplayName?.includes("Intrinsic")),
-    weaponMods,
     masterworkItems: Object.values(itemDefs).filter((e) => e.itemCategoryHashes?.includes(268598612)),
     catalysts: Object.values(itemDefs).filter((e) => e.itemCategoryHashes?.includes(59)),
+    weaponMods,
     itemTiers,
     socketTypes,
     statDefs,

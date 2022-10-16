@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useManifestStore } from '~/store/manifest';
+import { buildMasterwork } from '~/utils/masterwork';
 
 const manifestStore = useManifestStore()
 
@@ -36,6 +37,23 @@ const selectedMod = computed(() => manifestStore.mods.find(m => m.hash === selec
 
 const selectedPerkHashes = ref(decodedHashes.perks)
 
+const masterwork = computed(() => {
+  if (!(weapon.value && manifestStore.data)) {
+    return
+  }
+  const { masterwork } = buildMasterwork(weapon.value, manifestStore.data.statGroups, manifestStore.data.plugSets, manifestStore.data.catalysts) ?? {}
+  console.log({masterwork})
+  return masterwork
+})
+
+const masterworkData = computed(() => Object.entries(masterwork.value ?? {})
+  .filter(e => e[1].active)
+  .map(([statistic, data]) => ({
+    statistic,
+    data
+  }))
+)
+
 const selectedMasterworkHash = ref(decodedHashes.masterwork)
 
 const router = useRouter()
@@ -59,6 +77,7 @@ watch([selectedModHash, selectedPerkHashes, selectedMasterworkHash], updateRoute
   <div>
     {{ selectedMod }}
     <WeaponSummary v-if="weapon" :weapon="weapon" :damage-types="damageTypes" :mod="selectedMod" />
+    <WeaponMasterwork v-if="masterworkData" :options="masterworkData" v-model="selectedMasterworkHash" />
     <WeaponMods v-model="selectedModHash" v-if="manifestStore.mods" :mods="manifestStore.mods"
       :can-apply-adept-mods="canApplyAdeptMods" />
   </div>
