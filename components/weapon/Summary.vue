@@ -5,7 +5,7 @@ defineProps<{
   weapon: DestinyInventoryItemDefinition,
   damageTypes: DestinyDamageTypeDefinition[],
   perks: DestinySandboxPerkDefinition[],
-  masterwork: DestinyInventoryItemDefinition,
+  masterwork?: DestinyInventoryItemDefinition,
   mod?: DestinyInventoryItemDefinition
 }>()
 
@@ -34,8 +34,7 @@ defineProps<{
         <WeaponStatsSummary />
       </div>
       <div class="mt-auto flex justify-end">
-      {{ masterwork?.displayProperties.name }}
-        <WeaponUsedPerksAndMasterwork :masterwork="masterwork" />
+        <WeaponPreset :masterwork="masterwork" :mod="mod" />
       </div>
     </div>
     <img class="col-start-1 col-end-3 row-start-1 object-cover" :src="useBungieUrl(weapon.screenshot)" loading="lazy">

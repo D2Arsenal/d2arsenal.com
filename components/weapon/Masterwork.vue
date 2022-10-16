@@ -33,7 +33,8 @@ const updateMasterwork = (hash: number | null) => {
 const updateMasterworkForLevel = (event: InputEvent) => {
   const level = (<HTMLInputElement>event.target).valueAsNumber
   if (!level) {
-    emit('update:modelValue', null)
+    updateMasterwork(null)
+    return
   }
 
   if(!statisticsIndex.value) {
