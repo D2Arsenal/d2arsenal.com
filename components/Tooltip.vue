@@ -7,7 +7,8 @@ defineProps<{
   subheading?: string,
   description?: string,
   subDescription?: string,
-  stats?: Stat[]
+  stats?: Stat[],
+  isDisabled?: boolean
 }>()
 
 const signForStatValue = (value: number) =>
@@ -32,12 +33,12 @@ const abs = Math.abs
   <Tippy :delay="0" :duration="[0, 0]" placement="left-end" :arrow="false">
     <slot />
     <template #content>
-      <div class="w-96 max-w-96 border-t-8 bg-black text-white rounded-sm px-4 pt-1 pb-4 border-t-white -mt-1">
-        <header>
+      <div v-if="!isDisabled" class="w-96 max-w-96 border-t-8 bg-black/75 text-white rounded-sm pt-1 pb-4 border-t-white">
+        <header class="bg-black/90 px-4 -mt-1">
           <p class="uppercase text-xl font-bold">{{heading}}</p>
           <span>{{subheading}}</span>
         </header>
-        <section class="mt-4 text-sm whitespace-pre-wrap">
+        <section class="mt-4 text-sm whitespace-pre-wrap px-4">
           <p>{{description}}</p>
           <p class="mt-1 text-gray-400">{{ subDescription }}</p>
           <div class="border-t mt-4 pt-2 border-t-white" v-if="stats?.length">

@@ -7,27 +7,24 @@ const props = defineProps<{
   masterwork?: DestinyInventoryItemDefinition,
   mod?: DestinyInventoryItemDefinition,
   frame?: DestinyInventoryItemDefinition,
-  perks?: Array<DestinyInventoryItemDefinition|null>
+  perks?: Array<DestinyInventoryItemDefinition | null>
 }>()
+
+const perkColumns = computed(() => Array.from({ length: 4 }, (_, i) => ({
+  item: props.perks?.[i - 1] ?? undefined
+})))
 
 </script>
 <template>
   <div>
-    <div class="flex space-x-8">
+    <div class="flex space-x-6">
       <div class="relative">
-        <WeaponIcon v-if="frame" :icon="frame.displayProperties.icon"/>
+        <WeaponIcon v-if="frame" :icon="frame.displayProperties.icon" />
       </div>
-      <div v-for="i in 4" class="relative rounded-full border-2 h-16 w-16 flex justify-center items-center">
-        <!-- TODO: Nicer please -->
-        <WeaponIcon v-if="perks?.[i-1]" :icon="perks[i-1]?.displayProperties.icon ?? ''"/>
-      </div>
+      <Plug v-for="col in perkColumns" :item="col.item" />
       <!-- TODO: Origin trait! -->
-      <div class="relative">
-        <WeaponIcon v-if="mod" :icon="mod.displayProperties.icon" />
-      </div>
-      <div class="relative">
-        <WeaponIcon v-if="masterwork" :icon="masterwork?.displayProperties.icon" :watermark="masterwork?.iconWatermark" />
-      </div>
+      <Plug :item="mod" is-squared />
+      <Plug :item="masterwork" is-squared />
     </div>
   </div>
 </template>

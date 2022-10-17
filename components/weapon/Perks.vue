@@ -21,18 +21,7 @@ const isSelected = (columnIndex: number, hash?: number) => props.modelValue[colu
   <div ref="test" class="flex justify-center">
     <ul v-for="perkColumn, i in perks">
       <li v-for="perk in perkColumn">
-        <Tooltip 
-        :heading="perk.trait?.displayProperties.name ?? 'None'"
-        :subheading="perk.trait?.itemTypeDisplayName"
-        :description="perk.trait?.displayProperties.description"
-        :sub-description="perk?.subDescription"
-        :stats="perk.stats"
-        >
-          <button :class="isSelected(i, perk.trait?.hash) && 'bg-blue-500'"
-            @click="setPerk(i, perk.trait!.hash)">
-            <WeaponIcon :icon="perk.trait?.displayProperties.icon ?? ''" :watermark="perk.trait?.iconWatermark" />
-          </button>
-        </Tooltip>
+        <Plug :item="perk.trait" :is-selected="isSelected(i, perk.trait?.hash)" @click="setPerk(i, perk.trait!.hash)" />
       </li>
     </ul>
   </div>
