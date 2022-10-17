@@ -1,3 +1,4 @@
+import { perks as perkInfo } from '~/utils/info';
 import type { DestinyInventoryItemDefinition, DestinyItemSocketEntryPlugItemRandomizedDefinition, DestinyPlugSetDefinition, DestinySandboxPerkDefinition, DestinySocketTypeDefinition } from "bungie-api-ts/destiny2"
 import type { DefinitionRecord } from "~/types"
 
@@ -10,25 +11,24 @@ export type Perk = {
   hasEnhanced?: boolean,
   craftingLevel?: number,
   trait?: DestinyInventoryItemDefinition,
-  sandboxDescription?: string,
+  subDescription?: string
 }
 
-const lookupTraitForPerkFactory = (traits: DestinyInventoryItemDefinition[], sandboxMods: DestinySandboxPerkDefinition[]) => (hash: number) => {
+const lookupTraitForPerkFactory = (traits: DestinyInventoryItemDefinition[]) => (hash: number) => {
   const trait = traits.find(((t) => t.hash === hash))
-  const sandboxDescription = sandboxMods.find((e) => e.hash === trait?.perks[0]?.perkHash)?.displayProperties.description
   return {
     trait,
-    sandboxDescription
+    subDescription: perkInfo[trait?.hash ?? -1]?.description
   }
 }
 
 export function buildPerks (weapon: DestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: DestinyInventoryItemDefinition[], sandboxMods: DestinySandboxPerkDefinition[], isCurated: boolean = false) {
-  const columns = resolvePerks(weapon, plugSets, traits, sandboxMods, isCurated)
+  const columns = resolvePerks(weapon, plugSets, traits, isCurated)
   return columns.filter(c => c.length > 0)
 }
 
-function resolvePerks (weapon: DestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: DestinyInventoryItemDefinition[], sandboxMods: DestinySandboxPerkDefinition[], isCurated: boolean = false) {
-  const lookupTraitForPerk = lookupTraitForPerkFactory(traits, sandboxMods)
+function resolvePerks (weapon: DestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: DestinyInventoryItemDefinition[], isCurated: boolean = false) {
+  const lookupTraitForPerk = lookupTraitForPerkFactory(traits)
 
   const n = weapon.sockets?.socketEntries
   const perks: Perk[][] = [[], [], [], [], [], []]

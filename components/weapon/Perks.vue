@@ -25,7 +25,7 @@ const isSelected = (columnIndex: number, hash?: number) => props.modelValue[colu
         :heading="perk.trait?.displayProperties.name ?? 'None'"
         :subheading="perk.trait?.itemTypeDisplayName"
         :description="perk.trait?.displayProperties.description"
-        :sub-description="perk.sandboxDescription"
+        :sub-description="perk?.subDescription"
         >
           <button :class="isSelected(i, perk.trait?.hash) && 'bg-blue-500'"
             @click="setPerk(i, perk.trait!.hash)">

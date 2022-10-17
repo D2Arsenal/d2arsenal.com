@@ -44,7 +44,7 @@ const perks = computed(() => {
     return
   }
 
-  return buildPerks(weapon.value, manifestStore.data.plugSets, manifestStore.data.weaponTraits, manifestStore.data.sandboxMods, false)
+  return buildPerks(weapon.value, manifestStore.data.plugSets, manifestStore.data.weaponTraits, false)
 })
 
 const masterwork = computed(() => {
