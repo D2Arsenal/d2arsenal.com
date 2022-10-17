@@ -6,8 +6,10 @@ type GetSingleStatForItemArgs = {
   statDefinitions: DefinitionRecord<DestinyStatDefinition>
 }
 
+type StatDisplayType = 'bar' | 'none'
+
 const DISALLOWED_FOR_STAT_BAR = [4284893193, 3871231066, 2961396640, 447667954, 1931675084, 2715839340]
-const displayTypeForStatHash = (hash: number) => {
+const displayTypeForStatHash = (hash: number): StatDisplayType => {
   if (!DISALLOWED_FOR_STAT_BAR.includes(hash)) {
     return 'bar'
   }
@@ -17,7 +19,7 @@ const displayTypeForStatHash = (hash: number) => {
 export type Stat = {
   name: string
   hash: number,
-  displayType: 'bar' | 'none',
+  displayType: StatDisplayType,
   value: number
 }
 
@@ -42,7 +44,7 @@ export const getStatsForItem = (stats: DestinyStatDefinition[] | DefinitionRecor
         name: stat.displayProperties.name,
         hash: stat.hash,
         displayType: displayTypeForStatHash(stat.hash),
-        value: interpolations.find(i => i.value === investmentValue)?.weight ?? investmentValue
+        value: interpolations.find(i => i.value === investmentValue)?.weight ?? investmentValue ?? 0
       }
     })
     .filter(x => x.name)

@@ -94,8 +94,8 @@ useHead({
       <WeaponSummary class="col-span-5" v-if="weapon" :weapon="weapon" :damage-types="damageTypes"
         :masterwork="selectedMasterworkItem" :mod="selectedMod" :stat-groups="statGroups" :stats="stats"
         :perks="selectedPerks" />
-      <div class="col-span-2 bg-white">
-        WIP
+      <div class="col-span-2">
+        <WeaponExtras />
       </div>
       <div class="col-span-3 flex flex-col">
         <WeaponMasterwork v-if="masterworkData" :options="masterworkData" v-model="selectedMasterworkHash" />

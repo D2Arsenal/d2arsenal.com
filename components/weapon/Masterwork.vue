@@ -18,12 +18,16 @@ const statisticsIndex = computed(() => {
   return index === -1 ? null : index
 })
 
+const activeTabIndex = computed(() => statisticsIndex.value ? statisticsIndex.value + 1 : 0)
+
 const currentIndex = computed(() => statisticsIndex.value !== null ? props.options[statisticsIndex.value].data.benefits.findIndex(b => b.hash === props.modelValue) : null)
 const currentLevel = computed(() => currentIndex.value !== null ? currentIndex.value + 1 : 0)
 
 const emit = defineEmits<{
   (event: 'update:modelValue', masterwork: number | null): void
 }>()
+
+// TODO: Does not work yet
 
 
 const updateMasterwork = (hash: number | null) => {
@@ -37,7 +41,7 @@ const updateMasterworkForLevel = (event: InputEvent) => {
     return
   }
 
-  if(!statisticsIndex.value) {
+  if (!statisticsIndex.value) {
     return
   }
 
@@ -50,18 +54,34 @@ const updateMasterworkForStatisticIndex = (index: number) => {
   updateMasterwork(masterwork.hash)
 }
 
+const resetMasterwork = () => {
+  updateMasterwork(null)
+}
+
+const onTabChange = (index: number) => {
+  debugger
+  if(!index) {
+    resetMasterwork()
+    return
+  }
+  updateMasterworkForStatisticIndex(index-1)
+}
+
+const tabNames = computed(() => ['None'].concat(props.options.map(o => o.statistic)))
 
 </script>
 <template>
-  <div>
-    <div v-for="(stat, i) in options">
-      isActive: {{i === statisticsIndex ? 'Yes' : 'No'}}
-      {{ stat.statistic }}
-      <button @click="updateMasterworkForStatisticIndex(i)">Choose!</button>
-    </div>
+  <Card heading="Weapon masterwork">
+    <AppTabs :model-value="activeTabIndex" @update:modelValue="onTabChange" :names="tabNames">
+      <template #[0] />
+      <template v-for="(stat, i) in options" #[i+1]>
+        isActive: {{i === statisticsIndex ? 'Yes' : 'No'}}
+        {{ stat.statistic }}
+      </template>
+    </AppTabs>
     <label>
-      Masterwork Level: {{ currentLevel }}
+      <input type="number" min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel">
       <input type="range" min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel">
     </label>
-  </div>
+  </Card>
 </template>

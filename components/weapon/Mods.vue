@@ -25,17 +25,15 @@ const updateMod = (hash: number) => {
 
 </script>
 <template>
-  <div>
+  <Card heading="Weapon mods">
     <div v-if="canApplyAdeptMods">
       <button @click="activeModTabIndex = 0">Normal</button>
       <button @click="activeModTabIndex = 1">Adept</button>
     </div>
-    <ul class="grid grid-cols-6">
+    <ul class="grid grid-cols-6 gap-4">
       <li v-for="mod in activeModTab">
-        <button @click="updateMod(mod.hash)">
-          <img :src="useBungieUrl(mod.displayProperties.icon)" class="w-16 h-16" />
-        </button>
+        <Plug is-squared :item="mod" @click="updateMod(mod.hash)" />
       </li>
     </ul>
-  </div>
+  </Card>
 </template>
