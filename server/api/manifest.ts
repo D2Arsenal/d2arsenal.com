@@ -3,6 +3,7 @@ import type { HttpClientConfig } from "bungie-api-ts/destiny2";
 import type { ManifestData } from "~/types";
 
 import { createStorage } from 'unstorage'
+// @ts-ignore
 import fsDriver from 'unstorage/drivers/fs'
 
 const FILE_NAME = {

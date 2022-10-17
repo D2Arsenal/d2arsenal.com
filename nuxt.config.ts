@@ -1,5 +1,8 @@
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss'],
+  css: [
+    // 'tippy.js/dist/tippy.css'
+  ],
   typescript: {
     strict: true,
   },

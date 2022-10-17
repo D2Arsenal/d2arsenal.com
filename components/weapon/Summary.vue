@@ -25,8 +25,8 @@ defineProps<{
             </div>
           </div>
           <div class="uppercase -mt-2">
-            <h1 class="text-2xl bold">{{ weapon.displayProperties.name }}</h1>
-            <h2 class="text-lg">{{ weapon.itemTypeDisplayName }}</h2>
+            <h1 class="text-3xl font-bold">{{ weapon.displayProperties.name }}</h1>
+            <h2 class="leading-tight">{{ weapon.itemTypeDisplayName }}</h2>
           </div>
         </div>
         <div>
@@ -35,8 +35,8 @@ defineProps<{
           </div>
         </div>
       </div>
-      <div class="mt-8">
-        <WeaponStats class="w-1/2" :weapon="weapon" :damage-types="damageTypes" :masterwork="masterwork" :mod="mod"
+      <div class="mt-4">
+        <WeaponStats class="w-7/12" :weapon="weapon" :damage-types="damageTypes" :masterwork="masterwork" :mod="mod"
           :stat-groups="statGroups" :perks="perks" :stats="stats" />
       </div>
       <div class="mt-auto flex justify-end">

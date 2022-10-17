@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { DestinyInventoryItemDefinition } from 'bungie-api-ts/destiny2';
 
+// TODO: Intrinsic?
+
 const props = defineProps<{
   masterwork?: DestinyInventoryItemDefinition,
   mod?: DestinyInventoryItemDefinition,
