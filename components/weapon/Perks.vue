@@ -18,11 +18,14 @@ const isSelected = (columnIndex: number, hash?: number) => props.modelValue[colu
 
 </script>
 <template>
-  <div ref="test" class="flex justify-center">
-    <ul v-for="perkColumn, i in perks">
+  <div class="bg-gray-900 p-5">
+    <h2 class="uppercase pb-3 border-b border-b-gray-500 text-sm">Weapon perks</h2>
+    <div class="flex mt-8 justify-center space-x-4">
+    <ul class="space-y-4" v-for="perkColumn, i in perks">
       <li v-for="perk in perkColumn">
-        <Plug :item="perk.trait" :is-selected="isSelected(i, perk.trait?.hash)" @click="setPerk(i, perk.trait!.hash)" />
+        <Plug :item="perk.trait" :is-selected="isSelected(i, perk.trait?.hash)" @click="setPerk(i, perk.trait!.hash)" :sub-description="perk.subDescription" :stats="perk.stats" />
       </li>
     </ul>
+  </div>
   </div>
 </template>
