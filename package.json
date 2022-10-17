@@ -1,4 +1,10 @@
 {
+  "name": "d2arsenal.com",
+  "author": {
+    "name": "Alexander Lichter",
+    "email": "npm@lichter.io",
+    "url": "https://lichter.io"
+  },
   "private": true,
   "scripts": {
     "build": "nuxt build",
