@@ -27,6 +27,9 @@ const formattedStats = computed(() => {
   return getStatsForItem(availableStats.value, props.weapon, statGroupEntry.value)
 })
 
+watchEffect(() => {
+  console.log(formattedStats.value)
+})
 
 </script>
 <template>

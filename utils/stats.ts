@@ -88,5 +88,5 @@ export function getStatGroupEntryForItem (item: DestinyInventoryItemDefinition, 
   if (!statHash) {
     return
   }
-  statGroups[statHash]
+  return statGroups[statHash]
 }
