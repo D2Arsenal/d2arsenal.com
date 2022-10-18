@@ -18,7 +18,11 @@ const statisticsIndex = computed(() => {
   return index === -1 ? null : index
 })
 
-const activeTabIndex = computed(() => statisticsIndex.value ? statisticsIndex.value + 1 : 0)
+const activeTabIndex = computed(() => statisticsIndex.value !== null ? (statisticsIndex.value + 1) : 0)
+watchEffect(() => {
+  console.log(activeTabIndex.value, statisticsIndex.value, props.modelValue)
+  debugger
+})
 
 const currentIndex = computed(() => statisticsIndex.value !== null ? props.options[statisticsIndex.value].data.benefits.findIndex(b => b.hash === props.modelValue) : null)
 const currentLevel = computed(() => currentIndex.value !== null ? currentIndex.value + 1 : 0)
@@ -58,8 +62,7 @@ const resetMasterwork = () => {
   updateMasterwork(null)
 }
 
-const onTabChange = (index: number) => {
-  debugger
+const onMasterworkTypeSwitch = (index: number) => {
   if(!index) {
     resetMasterwork()
     return
@@ -67,18 +70,15 @@ const onTabChange = (index: number) => {
   updateMasterworkForStatisticIndex(index-1)
 }
 
-const tabNames = computed(() => ['None'].concat(props.options.map(o => o.statistic)))
+const buttonNames = computed(() => ['None'].concat(props.options.map(o => o.statistic)))
 
 </script>
 <template>
   <Card heading="Weapon masterwork">
-    <AppTabs :model-value="activeTabIndex" @update:modelValue="onTabChange" :names="tabNames">
-      <template #[0] />
-      <template v-for="(stat, i) in options" #[i+1]>
-        isActive: {{i === statisticsIndex ? 'Yes' : 'No'}}
-        {{ stat.statistic }}
-      </template>
-    </AppTabs>
+    <nav class="flex items-center space-x-2">
+      <AppButton v-for="title, i in buttonNames" :key="title"
+        :is-active="activeTabIndex === i" @click="onMasterworkTypeSwitch(i)">{{ title }}</AppButton>
+    </nav>
     <label>
       <input type="number" min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel">
       <input type="range" min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel">

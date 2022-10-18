@@ -28,8 +28,8 @@ const setActive = (index: number) => {
 <template>
   <div>
     <nav class="flex items-center space-x-2">
-      <button v-for="{name, title}, i in slotNamesWithTitle" :key="name" class="border border-white px-2 uppercase text-sm"
-        :class="{'bg-yellow-600/80': modelValue === i}" @click="setActive(i)">{{ title }}</button>
+      <AppButton v-for="{name, title}, i in slotNamesWithTitle" :key="name"
+        :is-active="modelValue === i" @click="setActive(i)">{{ title }}</AppButton>
     </nav>
     <div class="mt-4">
       <slot :name="modelValue" />
