@@ -31,7 +31,7 @@ const updateMasterwork = (hash: number | null) => {
   emit('update:modelValue', hash)
 }
 
-const updateMasterworkForLevel = (event: InputEvent) => {
+const updateMasterworkForLevel = (event: Event) => {
   const level = (<HTMLInputElement>event.target).valueAsNumber
   if (!level) {
     updateMasterwork(null)
