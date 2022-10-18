@@ -1,5 +1,5 @@
 <template>
   <Card heading="Extras">
-    <div>WIP</div>
+    <p>Extras are still work in progress!</p>
   </Card>
 </template>
