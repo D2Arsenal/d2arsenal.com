@@ -65,6 +65,9 @@ const onMasterworkTypeSwitch = (index: number) => {
 
 const buttonNames = computed(() => ['None'].concat(props.options.map(o => o.statistic)))
 
+// TODO: Exotic Catalyst!
+// TODO: Fix inputs
+
 </script>
 <template>
   <Card heading="Weapon masterwork">
