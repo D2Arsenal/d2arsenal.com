@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Perk } from '~/utils/perks';
+import { PERK_NONE } from '~/utils/perks';
+import type { Perk } from '~/utils/perks';
 
 const props = defineProps<{
   perks: Perk[][],
@@ -10,7 +11,7 @@ const emit = defineEmits<{ (event: 'update:modelValue', value: any): void }>()
 
 const setPerk = (columnIndex: number, hash: number) => {
   const newPerks = [...props.modelValue]
-  newPerks[columnIndex] = hash
+  newPerks[columnIndex] = newPerks[columnIndex] === hash ? PERK_NONE : hash
   emit('update:modelValue', newPerks)
 }
 

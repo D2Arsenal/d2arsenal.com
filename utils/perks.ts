@@ -4,6 +4,11 @@ import type { Stat } from '~/utils/stats';
 import type { DestinyInventoryItemDefinition, DestinyItemSocketEntryPlugItemRandomizedDefinition, DestinyPlugSetDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from "bungie-api-ts/destiny2"
 import type { DefinitionRecord } from "~/types"
 
+export const PERK_NONE = 0
+export const PERK_LENGTH = 6
+export const COMMON_PERK_LENGTH = 4
+export const PERK_INTRINSIC_COLUMN = 0
+
 export type Perk = {
   hash: number,
   isCurated: boolean,
@@ -17,7 +22,7 @@ export type Perk = {
   stats: Stat[]
 }
 
-const lookupTraitForPerkFactory = (traits: DestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DestinyStatGroupDefinition[]) => (hash: number) => {
+const lookupTraitForPerkFactory = (traits: DestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>) => (hash: number) => {
   const trait = traits.find(((t) => t.hash === hash));
   if (!trait) {
     return {
@@ -34,18 +39,34 @@ const lookupTraitForPerkFactory = (traits: DestinyInventoryItemDefinition[], sta
   };
 }
 
-export function buildPerks (weapon: DestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: DestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DestinyStatGroupDefinition[], isCurated: boolean = false) {
-  const columns = resolvePerks(weapon, plugSets, traits, stats, statGroups, isCurated)
+export function buildPerks (weapon: DestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: DestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: DestinyInventoryItemDefinition, isCurated: boolean = false) {
+  const columns = resolvePerks(weapon, plugSets, traits, stats, statGroups, frame, isCurated)
   return columns.filter(c => c.length > 0)
 }
 
-function resolvePerks (weapon: DestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: DestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DestinyStatGroupDefinition[], isCurated: boolean = false) {
+function resolvePerks (weapon: DestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: DestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: DestinyInventoryItemDefinition, isCurated: boolean = false) {
   const lookupTraitForPerk = lookupTraitForPerkFactory(traits, stats, statGroups)
+
+  // TODO: Revisit and refactor
 
   const n = weapon.sockets?.socketEntries
   const perks: Perk[][] = [[], [], [], [], [], []]
   const f = weapon.sockets?.socketCategories.find((s) => 3956125808 === s.socketCategoryHash)
   const d = weapon.sockets?.socketCategories.find((s) => 4241085061 === s.socketCategoryHash)
+
+  if (frame) {
+    perks[0].push({
+      hash: frame.hash,
+      isCurated: false,
+      curatedOnly: false,
+      isIntrinsic: true,
+      currentlyCanRoll: true,
+      trait: frame,
+      stats: []
+    })
+  }
+
+  // TODO: Is this line correct?
   const h = n?.find((e) => Boolean(f?.socketIndexes.includes(e.singleInitialItemHash)))
 
   if (h && h.singleInitialItemHash !== 0) {

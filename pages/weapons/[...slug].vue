@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useManifestStore } from '~/store/manifest';
 import { buildMasterwork } from '~/utils/masterwork';
-import { buildPerks } from '~/utils/perks';
+import { buildPerks, PERK_NONE, PERK_LENGTH, PERK_INTRINSIC_COLUMN } from '~/utils/perks';
 
 const manifestStore = useManifestStore()
 
@@ -9,8 +9,8 @@ const [weaponHash, possibleAttributes] = useRoute().params.slug as [string, stri
 
 const decodeHashes = (str?: string) => {
   const [rawPerks, rawMasterwork, rawMod] = str?.split('-') ?? []
-  const transformedPerks = rawPerks?.split(',').map(Number).map(a => a === 0 ? null : a)
-  const perks = transformedPerks.slice().fill(null, transformedPerks.length - 1, 6)
+  const transformedPerks = rawPerks?.split(',').map(Number) ?? []
+  const perks = transformedPerks.slice().fill(PERK_NONE, transformedPerks.length, PERK_LENGTH - 1)
 
   return {
     perks,
@@ -33,25 +33,37 @@ const resetMod = () => {
   selectedModHash.value = null
 }
 
+const frameForWeapon = computed(() => manifestStore.frames.find((f) => f.hash === weapon.value?.sockets?.socketEntries[0]?.singleInitialItemHash))
+
 const perks = computed(() => {
   if (!(weapon.value && manifestStore.data)) {
     return
   }
 
-  return buildPerks(weapon.value, manifestStore.data.plugSets, manifestStore.data.weaponTraits, manifestStore.data.statDefs, manifestStore.data.statGroups, false)
+  return buildPerks(weapon.value, manifestStore.data.plugSets, manifestStore.data.weaponTraits, manifestStore.data.statDefs, manifestStore.data.statGroups, frameForWeapon.value, false)
 })
+// Hides intrinsic perks
+const perksToDisplay = computed(() => perks.value?.slice(1))
 
 const selectedPerkHashes = ref(decodedHashes.perks)
-const selectedPerks = computed(() =>
-  selectedPerkHashes.value.map(hash => {
-    if (hash === 0) {
+const selectedPerks = computed(() => {
+  const intrinsicPerks = (perks.value?.[0] ?? []).map(p => p.hash)
+  
+  const perksToUse = intrinsicPerks.concat(selectedPerkHashes.value)
+  return perksToUse.map((hash, i) => {
+    if (hash === PERK_NONE) {
       return null
     }
+    if(i === PERK_INTRINSIC_COLUMN) {
+      return manifestStore.frames.find(p => p.hash === hash)
+    }
+    
     return manifestStore.data?.weaponTraits.find(t => t.hash === hash) ?? null
   })
-)
+})
+
 const resetPerk = (colIndex: number) => {
-  selectedPerkHashes.value[colIndex] = null
+  selectedPerkHashes.value[colIndex] = PERK_NONE
 }
 
 const masterwork = computed(() => {
@@ -78,7 +90,7 @@ const router = useRouter()
 const updateRouteOnChange = () => {
   const newRoutePrefix = `/weapons/${weaponHash}/`
   const slugValues = [
-    selectedPerkHashes.value.map(h => h ?? 0).join(','),
+    selectedPerkHashes.value.join(','),
     selectedMasterworkHash.value ?? 0,
     selectedModHash.value ?? 0,
   ].join('-')
@@ -101,7 +113,8 @@ useHead({
     <div class="grid gap-4 grid-cols-5 col-span-2">
       <WeaponSummary class="col-span-5" v-if="weapon" :weapon="weapon" :damage-types="damageTypes"
         :masterwork="selectedMasterworkItem" :mod="selectedMod" :stat-groups="statGroups" :stats="stats"
-        :perks="selectedPerks" @reset:masterwork="resetMasterwork" @reset:mod="resetMod"
+        :perks="selectedPerks"
+        @reset:masterwork="resetMasterwork" @reset:mod="resetMod"
         @reset:perk="resetPerk($event)" />
       <div class="col-span-2">
         <WeaponExtras />
@@ -112,6 +125,6 @@ useHead({
           :can-apply-adept-mods="canApplyAdeptMods" />
       </div>
     </div>
-    <WeaponPerks v-if="perks" :perks="perks" v-model="selectedPerkHashes" />
+    <WeaponPerks v-if="perks" :perks="perksToDisplay!" v-model="selectedPerkHashes" />
   </div>
 </template>

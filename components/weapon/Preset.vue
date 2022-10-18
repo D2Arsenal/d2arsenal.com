@@ -1,17 +1,15 @@
 <script setup lang="ts">
 import type { DestinyInventoryItemDefinition } from 'bungie-api-ts/destiny2';
-
-// TODO: Intrinsic?
+import { COMMON_PERK_LENGTH } from '~/utils/perks.js';
 
 const props = defineProps<{
   masterwork?: DestinyInventoryItemDefinition,
   mod?: DestinyInventoryItemDefinition,
-  frame?: DestinyInventoryItemDefinition,
   perks?: Array<DestinyInventoryItemDefinition | null>
 }>()
 
-const perkColumns = computed(() => Array.from({ length: 4 }, (_, i) => ({
-  perk: props.perks?.[i - 1] ?? undefined
+const perkColumns = computed(() => Array.from({ length: COMMON_PERK_LENGTH }, (_, i) => ({
+  perk: props.perks?.[i + 1] ?? undefined
 })))
 
 const emit = defineEmits<{
@@ -36,9 +34,9 @@ const resetMod = () => {
 <template>
   <div>
     <div class="flex space-x-6">
-      <Plug v-if="frame" is-squared :item="frame" />
-      <Plug v-for="(col,i) in perkColumns" :is-disabled="!col.perk" :item="col.perk" @click="resetPerk(i)" />
-      <!-- TODO: Origin trait! -->
+      <Plug v-if="perks?.[0]" :item="perks?.[0]" is-disabled is-squared />
+      <Plug v-for="(col, i) in perkColumns" :is-disabled="!col.perk" :item="col.perk" @click="resetPerk(i)" />
+      <Plug v-if="perks?.[5]" :item="perks?.[5]" @click="resetPerk(4)" />
       <Plug :item="mod" :is-disabled="!mod" is-squared @click="resetMod" />
       <Plug :item="masterwork" :is-disabled="!masterwork" is-squared @click="resetMasterwork" />
     </div>
