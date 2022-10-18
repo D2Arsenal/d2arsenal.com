@@ -2,7 +2,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   names: string[],
-  modelValue: number
+  modelValue?: number
 }>()
 const slots = useSlots()
 const slotNames = Object.keys(slots)

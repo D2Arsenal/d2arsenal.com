@@ -8,7 +8,7 @@
 </script>
 <template>
   <div class="bg-gray-900 p-5">
-  <component :is="headingTag" class="uppercase pb-3 border-b border-b-gray-500 text-sm mb-8">{{ heading }}</component>
+  <component :is="headingTag" class="uppercase pb-3 border-b border-b-gray-500 text-sm mb-4">{{ heading }}</component>
   <slot />
   </div>
 </template>

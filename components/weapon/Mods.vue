@@ -7,13 +7,18 @@ const props = defineProps<{
   modelValue: number | null
 }>()
 
+const isAdeptMod = (mod?: DestinyInventoryItemDefinition) => mod?.displayProperties.name.startsWith('Adept');
+
 const modTabs = computed(() => [
-  props.mods.filter(m => !m.displayProperties.name.startsWith('Adept')),
-  props.mods.filter(m => m.displayProperties.name.startsWith('Adept'))
+  { mods: props.mods.filter(m => !m.displayProperties.name.startsWith('Adept')), name: 'Normal' },
+  { mods: props.mods.filter(m => m.displayProperties.name.startsWith('Adept')), name: 'Adept' },
 ])
 
-const activeModTabIndex = ref(0)
+const selectedMod = computed(() => props.mods.find(m => m.hash === props.modelValue))
+
+const activeModTabIndex = ref(isAdeptMod(selectedMod.value) ? 1 : 0)
 const activeModTab = computed(() => modTabs.value[activeModTabIndex.value])
+
 
 const emit = defineEmits<{
   (event: 'update:modelValue', mod: number | null): void
@@ -26,12 +31,11 @@ const updateMod = (hash: number) => {
 </script>
 <template>
   <Card heading="Weapon mods">
-    <div v-if="canApplyAdeptMods">
-      <button @click="activeModTabIndex = 0">Normal</button>
-      <button @click="activeModTabIndex = 1">Adept</button>
+    <div class="space-x-2" v-if="canApplyAdeptMods">
+      <AppButton v-for="({name}, i) in modTabs" :is-active="i === activeModTabIndex" @click="activeModTabIndex = i">{{name}}</AppButton>
     </div>
-    <ul class="grid grid-cols-6 gap-4">
-      <li v-for="mod in activeModTab">
+    <ul class="grid grid-cols-6 gap-4 mt-4">
+      <li v-for="mod in activeModTab.mods">
         <Plug is-squared :item="mod" @click="updateMod(mod.hash)" />
       </li>
     </ul>

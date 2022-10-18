@@ -10,9 +10,12 @@ const props = defineProps<{
   stats?: Stat[]
 }>()
 
-const computedClasses = computed(() => [{
-  'rounded-full': !props.isSquared
-}, props.isSelected && 'bg-blue-500/75'])
+const computedClasses = computed(() => [
+  {
+    'rounded-full': !props.isSquared
+  },
+  props.isSelected && 'bg-blue-500/75',
+])
 
 const icon = computed(() => props.item?.displayProperties.icon ?? '')
 
@@ -28,7 +31,7 @@ const afterClass = computed(() => `after:absolute after:top-0 after:left-0 after
     <button class="border-2 relative disabled:border-none h-16 w-16 flex justify-center items-center shadow-white"
       :class="[computedClasses, beforeClass, afterClass]">
       <span class="relative">
-        <WeaponIcon :icon="icon" :watermark="item?.iconWatermark" />
+        <WeaponIcon :icon="icon" :size="isSquared ? 'xl' : 'lg'" :watermark="item?.iconWatermark" />
       </span>
     </button>
   </Tooltip>

@@ -19,10 +19,6 @@ const statisticsIndex = computed(() => {
 })
 
 const activeTabIndex = computed(() => statisticsIndex.value !== null ? (statisticsIndex.value + 1) : 0)
-watchEffect(() => {
-  console.log(activeTabIndex.value, statisticsIndex.value, props.modelValue)
-  debugger
-})
 
 const currentIndex = computed(() => statisticsIndex.value !== null ? props.options[statisticsIndex.value].data.benefits.findIndex(b => b.hash === props.modelValue) : null)
 const currentLevel = computed(() => currentIndex.value !== null ? currentIndex.value + 1 : 0)
@@ -30,9 +26,6 @@ const currentLevel = computed(() => currentIndex.value !== null ? currentIndex.v
 const emit = defineEmits<{
   (event: 'update:modelValue', masterwork: number | null): void
 }>()
-
-// TODO: Does not work yet
-
 
 const updateMasterwork = (hash: number | null) => {
   emit('update:modelValue', hash)
