@@ -49,31 +49,15 @@ export const getStatsForItem = (stats: DestinyStatDefinition[] | DefinitionRecor
     })
     .filter(x => x.name)
     .sort((a, b) => {
-      if (b.displayType === 'bar') {
+      if (b.displayType === 'bar' && a.displayType !== 'bar') {
         return 1
       }
-      if (a.displayType === 'bar') {
+      if (a.displayType === 'bar' && b.displayType !== 'bar') {
         return -1
       }
       return 0
     })
 }
-
-/**
- * TODO: Broken/WIP
- * @fixme
- */
-export const getSingleStatForItem = ({ item, statDefinitions }: GetSingleStatForItemArgs) =>
-  item.investmentStats.flatMap((item) => {
-    const stat = statDefinitions[item.statTypeHash];
-    if (!stat.displayProperties.name) {
-      return [];
-    }
-    return {
-      name: stat.displayProperties.name,
-      value: 0
-    }
-  })
 
 const isStatGroup = (x: DestinyStatGroupDefinition | DestinyItemInvestmentStatDefinition[]): x is DestinyStatGroupDefinition => {
   return 'scaledStats' in x
