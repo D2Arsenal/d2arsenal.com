@@ -6,6 +6,7 @@ const props = defineProps<{
   item?: DestinyInventoryItemDefinition,
   isSquared?: boolean,
   isSelected?: boolean,
+  isDisabled?: boolean,
   subDescription?: string,
   stats?: Stat[]
 }>()
@@ -19,8 +20,8 @@ const computedClasses = computed(() => [
 
 const icon = computed(() => props.item?.displayProperties.icon ?? '')
 
-const beforeClass = computed(() => `before:absolute before:top-0 before:left-0 before:w-full before:h-full ${props.isSquared ? '' : 'before:rounded-full '}before:transition-color before:duration-400 hover:before:bg-gray-300/25`)
-const afterClass = computed(() => `after:absolute after:top-0 after:left-0 after:w-full after:h-full ${props.isSquared ? '' : 'after:rounded-full '}after:transform after:transform-gpu after:scale-110 after:ease-in-out after:transition-shadow after:duration-400 hover:after:shadow-[0_0_0_1px]`)
+const beforeClass = computed(() => `enabled:before:absolute enabled:before:top-0 enabled:before:left-0 enabled:before:w-full enabled:before:h-full ${props.isSquared ? '' : 'enabled:before:rounded-full '}enabled:before:transition-color enabled:before:duration-400 enabled:hover:before:bg-gray-300/25`)
+const afterClass = computed(() => `enabled:after:absolute enabled:after:top-0 enabled:after:left-0 enabled:after:w-full enabled:after:h-full ${props.isSquared ? '' : 'enabled:after:rounded-full '}enabled:after:transform enabled:after:transform-gpu enabled:after:scale-110 enabled:after:ease-in-out enabled:after:transition-shadow enabled:after:duration-400 enabled:hover:after:shadow-[0_0_0_1px]`)
 
 </script>
 
@@ -28,10 +29,10 @@ const afterClass = computed(() => `after:absolute after:top-0 after:left-0 after
 <template>
   <Tooltip :is-disabled="!item" :heading="item?.displayProperties.name ?? ''" :subheading="item?.itemTypeDisplayName"
     :description="item?.displayProperties.description" :sub-description="subDescription" :stats="stats">
-    <button class="border-2 relative disabled:border-none h-16 w-16 flex justify-center items-center shadow-white"
-      :class="[computedClasses, beforeClass, afterClass]">
+    <button class="border-2 relative h-12 w-12 flex justify-center items-center shadow-white"
+      :class="[computedClasses, beforeClass, afterClass]" :disabled="isDisabled">
       <span class="relative">
-        <WeaponIcon :icon="icon" :size="isSquared ? 'xl' : 'lg'" :watermark="item?.iconWatermark" />
+        <WeaponIcon :icon="icon" :size="isSquared ? 'lg' : 'sm'" :watermark="item?.iconWatermark" />
       </span>
     </button>
   </Tooltip>

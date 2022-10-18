@@ -34,9 +34,9 @@ const updateMod = (hash: number) => {
     <div class="space-x-2" v-if="canApplyAdeptMods">
       <AppButton v-for="({name}, i) in modTabs" :is-active="i === activeModTabIndex" @click="activeModTabIndex = i">{{name}}</AppButton>
     </div>
-    <ul class="grid grid-cols-6 gap-4 mt-4">
-      <li v-for="mod in activeModTab.mods">
-        <Plug is-squared :item="mod" @click="updateMod(mod.hash)" />
+    <ul class="grid grid-cols-8 gap-4 mt-4">
+      <li v-for="mod in activeModTab.mods" :key="mod.hash">
+        <Plug is-squared :is-selected="mod.hash === modelValue" :item="mod" @click="updateMod(mod.hash)" />
       </li>
     </ul>
   </Card>

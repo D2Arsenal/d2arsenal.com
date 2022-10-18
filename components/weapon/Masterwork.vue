@@ -32,6 +32,7 @@ const updateMasterwork = (hash: number | null) => {
 }
 
 const updateMasterworkForLevel = (event: InputEvent) => {
+  debugger
   const level = (<HTMLInputElement>event.target).valueAsNumber
   if (!level) {
     updateMasterwork(null)
@@ -56,11 +57,11 @@ const resetMasterwork = () => {
 }
 
 const onMasterworkTypeSwitch = (index: number) => {
-  if(!index) {
+  if (!index) {
     resetMasterwork()
     return
   }
-  updateMasterworkForStatisticIndex(index-1)
+  updateMasterworkForStatisticIndex(index - 1)
 }
 
 const buttonNames = computed(() => ['None'].concat(props.options.map(o => o.statistic)))
@@ -69,12 +70,28 @@ const buttonNames = computed(() => ['None'].concat(props.options.map(o => o.stat
 <template>
   <Card heading="Weapon masterwork">
     <nav class="flex items-center space-x-2">
-      <AppButton v-for="title, i in buttonNames" :key="title"
-        :is-active="activeTabIndex === i" @click="onMasterworkTypeSwitch(i)">{{ title }}</AppButton>
+      <AppButton v-for="title, i in buttonNames" :key="title" :is-active="activeTabIndex === i"
+        @click="onMasterworkTypeSwitch(i)">{{ title }}</AppButton>
     </nav>
-    <label>
-      <input type="number" min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel">
-      <input type="range" min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel">
-    </label>
+    <div class="grid grid-cols-5 w-full mt-8" :class="!modelValue && 'invisible'">
+      <label>
+        <span class="sr-only">Masterwork Level</span>
+        <input :disabled="!modelValue" class="appearance-none cursor-pointer bg-transparent w-12 h-12 pl-4 m-0 text-xl border border-white"
+          type="number" min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel">
+      </label>
+          <AppRangeInput :disabled="!modelValue" wrapper-class="col-span-4 w-full" class="w-full h-full" type="range" min="0" max="10" :value="currentLevel"
+        @change="updateMasterworkForLevel" />
+    </div>
   </Card>
 </template>
+
+<style scoped lang="pcss">
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  @apply appearance-none m-0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}</style>

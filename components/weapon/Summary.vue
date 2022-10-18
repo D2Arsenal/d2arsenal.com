@@ -12,6 +12,12 @@ defineProps<{
   stats?: DefinitionRecord<DestinyStatDefinition>
 }>()
 
+const emit = defineEmits<{
+  (e: 'reset:masterwork'): void,
+  (e: 'reset:mod'): void,
+  (e: 'reset:perk', colIndex: number): void
+}>()
+
 </script>
 
 <template>
@@ -40,7 +46,7 @@ defineProps<{
           :stat-groups="statGroups" :perks="perks" :stats="stats" />
       </div>
       <div class="mt-auto flex justify-end">
-        <WeaponPreset :masterwork="masterwork" :perks="perks" :mod="mod" />
+        <WeaponPreset @reset:mod="emit('reset:mod')" @reset:masterwork="emit('reset:masterwork')" @reset:perk="emit('reset:perk', $event)" :masterwork="masterwork" :perks="perks" :mod="mod" />
       </div>
     </div>
     <img class="col-start-1 col-end-3 row-start-1 object-cover" :src="useBungieUrl(weapon.screenshot)" loading="lazy">
