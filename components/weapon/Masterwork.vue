@@ -32,7 +32,6 @@ const updateMasterwork = (hash: number | null) => {
 }
 
 const updateMasterworkForLevel = (event: InputEvent) => {
-  debugger
   const level = (<HTMLInputElement>event.target).valueAsNumber
   if (!level) {
     updateMasterwork(null)
