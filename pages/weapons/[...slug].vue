@@ -40,7 +40,7 @@ const perks = computed(() => {
     return
   }
 
-  return buildPerks(weapon.value, manifestStore.data.plugSets, manifestStore.data.weaponTraits, manifestStore.data.statDefs, manifestStore.data.statGroups, frameForWeapon.value, false)
+  return buildPerks(weapon.value, manifestStore.data.plugSets, manifestStore.weaponTraits!, manifestStore.data.statDefs, manifestStore.data.statGroups, frameForWeapon.value, false)
 })
 // Hides intrinsic perks
 const perksToDisplay = computed(() => perks.value?.slice(1))
@@ -55,10 +55,10 @@ const selectedPerks = computed(() => {
       return null
     }
     if(i === PERK_INTRINSIC_COLUMN) {
-      return manifestStore.frames.find(p => p.hash === hash)
+      return manifestStore.frames.find(p => p.hash === hash) ?? null
     }
     
-    return manifestStore.data?.weaponTraits.find(t => t.hash === hash) ?? null
+    return manifestStore.weaponTraits.find(t => t.hash === hash) ?? null
   })
 })
 
@@ -70,7 +70,7 @@ const masterwork = computed(() => {
   if (!(weapon.value && manifestStore.data)) {
     return
   }
-  const { masterwork } = buildMasterwork(weapon.value, manifestStore.data.statGroups, manifestStore.data.plugSets, manifestStore.data.catalysts) ?? {}
+  const { masterwork } = buildMasterwork(weapon.value, manifestStore.data.statGroups, manifestStore.data.plugSets, manifestStore.catalysts) ?? {}
   return masterwork
 })
 
@@ -83,7 +83,7 @@ const masterworkData = computed(() => Object.entries(masterwork.value ?? {})
 )
 
 const selectedMasterworkHash = ref(decodedHashes.masterwork)
-const selectedMasterworkItem = computed(() => manifestStore.data?.catalysts.find(i => i.hash === selectedMasterworkHash.value))
+const selectedMasterworkItem = computed(() => manifestStore.catalysts?.find(i => i.hash === selectedMasterworkHash.value))
 const resetMasterwork = () => selectedMasterworkHash.value = null
 
 const router = useRouter()

@@ -1,3 +1,4 @@
+import { isUsedItemDefinition } from './../../utils/transforms';
 import { DestinyItemType, getDestinyManifest, getDestinyManifestSlice } from "bungie-api-ts/destiny2";
 import type { HttpClientConfig } from "bungie-api-ts/destiny2";
 import type { ManifestData } from "~/types";
@@ -71,7 +72,7 @@ export default defineEventHandler(async (event) => {
   });
 
   const {
-    DestinyInventoryItemDefinition: itemDefs,
+    DestinyInventoryItemDefinition: rawItemDefs,
     DestinyItemTierTypeDefinition: itemTiers,
     DestinySocketTypeDefinition: socketTypes,
     DestinyStatDefinition: statDefs,
@@ -84,23 +85,9 @@ export default defineEventHandler(async (event) => {
     DestinyCollectibleDefinition: collectibles,
   } = manifestTables
 
-  const weaponMods = Object.values(itemDefs)
-    .filter((e) => e.itemCategoryHashes?.includes(1052191496))
-    .filter((e) => e.plug?.plugCategoryIdentifier.includes("v400"))
 
   const data: ManifestData = {
-    weapons: Object.values(itemDefs).filter(i => i.itemType === DestinyItemType.Weapon).slice(0, 10), // TODO: Remove slice
-    weaponTraits: Object.values(itemDefs).filter(e => {
-      if (["Haft", "Enhanced Trait", "Origin Trait"].includes(e.itemTypeDisplayName)) {
-        return true
-      }
-      const traitHashes = [3708671066, 3085181971, 4184407433, 2411768833, 3866509906, 1334054322, 2076918099, 1709863189, 3072652064, 444756050, 3360831066, 3836367751, 3055157023]
-      return traitHashes.some(((t) => e.itemCategoryHashes?.includes(t)))
-    }),
-    weaponFrames: Object.values(itemDefs).filter((e) => e.itemTypeDisplayName?.includes("Intrinsic")),
-    masterworkItems: Object.values(itemDefs).filter((e) => e.itemCategoryHashes?.includes(268598612)),
-    catalysts: Object.values(itemDefs).filter((e) => e.itemCategoryHashes?.includes(59)),
-    weaponMods,
+    itemDefs: Object.values(rawItemDefs).filter(d => isUsedItemDefinition(d)),
     itemTiers,
     socketTypes,
     statDefs,
@@ -108,7 +95,6 @@ export default defineEventHandler(async (event) => {
     plugSets,
     damageTypes,
     sandboxPerks,
-    sandboxMods: weaponMods.map(e => sandboxPerks[e.perks[0]?.perkHash]).filter(Boolean),
     powerCaps,
     seasonCap: 1580,// TODO Ah, power cap for season currentSeasonRewardPowerCap from uhh, profile call. Can hardcode for now
     energyTypes,

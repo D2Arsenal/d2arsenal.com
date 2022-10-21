@@ -4,12 +4,7 @@ import { DestinyCollectibleDefinition, DestinyEnergyTypeDefinition, DestinyPower
 export type DefinitionRecord<T> = Record<number, T>
 
 export type ManifestData = {
-  weapons: DestinyInventoryItemDefinition[],
-  weaponTraits: DestinyInventoryItemDefinition[],
-  weaponFrames: DestinyInventoryItemDefinition[],
-  masterworkItems: DestinyInventoryItemDefinition[],
-  catalysts: DestinyInventoryItemDefinition[],
-  weaponMods: DestinyInventoryItemDefinition[],
+  itemDefs: DestinyInventoryItemDefinition[],
   itemTiers: DefinitionRecord<DestinyItemTierTypeDefinition>,
   socketTypes: DefinitionRecord<DestinySocketTypeDefinition>,
   statDefs: DefinitionRecord<DestinyStatDefinition>,
@@ -17,7 +12,6 @@ export type ManifestData = {
   plugSets: DefinitionRecord<DestinyPlugSetDefinition>,
   damageTypes: DefinitionRecord<DestinyDamageTypeDefinition>,
   sandboxPerks: DefinitionRecord<DestinySandboxPerkDefinition>,
-  sandboxMods: DestinySandboxPerkDefinition[],
   powerCaps: DefinitionRecord<DestinyPowerCapDefinition>,
   seasonCap: number,
   energyTypes: DefinitionRecord<DestinyEnergyTypeDefinition>,
