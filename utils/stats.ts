@@ -36,23 +36,17 @@ export const getStatsForItem = (stats: DestinyStatDefinition[] | DefinitionRecor
       const investmentValue = item.investmentStats.find(e => e.statTypeHash === stat.hash)?.value
       const interpolations = statGroupEntry?.scaledStats.find(s => s.statHash === stat.hash)?.displayInterpolation ?? []
 
+      const name = stat.displayProperties.name
+      const value = interpolations.find(i => i.value === investmentValue)?.weight ?? investmentValue ?? 0
+
       return {
-        name: stat.displayProperties.name,
+        name,
         hash: stat.hash,
         displayType: displayTypeForStatHash(stat.hash),
-        value: interpolations.find(i => i.value === investmentValue)?.weight ?? investmentValue ?? 0
+        value
       }
     })
     .filter(x => x.name)
-    .sort((a, b) => {
-      if (b.displayType === 'bar' && a.displayType !== 'bar') {
-        return 1
-      }
-      if (a.displayType === 'bar' && b.displayType !== 'bar') {
-        return -1
-      }
-      return 0
-    })
 }
 
 const isStatGroup = (x: DestinyStatGroupDefinition | DestinyItemInvestmentStatDefinition[]): x is DestinyStatGroupDefinition => {

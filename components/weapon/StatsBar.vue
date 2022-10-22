@@ -4,19 +4,21 @@ const props = defineProps<{
   newValue: number,
 }>()
 
+// TODO: max/min value
+
 const difference = computed(() => props.newValue - props.baseValue)
 const didChange = computed(() => difference.value !== 0)
 const isPositive = computed(() => difference.value > 0)
 
 </script>
 <template>
-  <div class="flex border-gray-700 text-base bg-white/25 text-gray-900"
-    :class="didChange && {'text-green-700': isPositive, 'text-red-700': !isPositive}">
+  <div class="flex border-gray-700 text-base bg-white/25"
+    :class="didChange ? {'text-green-700': isPositive, 'text-red-700': !isPositive } : 'text-gray-900'">
     <span class="bg-white flex items-center" :style="{width: `${baseValue}%`}">
       <span class="absolute pl-1">
         {{ newValue }}
         <template v-if="didChange">
-          ({{isPositive ? '+' : '-' }}{{ difference }})
+          ({{ isPositive ? '+' : '' }}{{ difference }})
         </template>
       </span>
     </span>
