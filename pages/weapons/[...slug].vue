@@ -61,6 +61,7 @@ const selectedPerks = computed(() => {
     if (hash === PERK_NONE) {
       return null
     }
+    // TODO: Use perks defined above here to keep descriptions and stats
     if (i === PERK_INTRINSIC_COLUMN) {
       return manifestStore.frames.find(p => p.hash === hash) ?? null
     }
