@@ -2,6 +2,7 @@
 import { useManifestStore } from '~/store/manifest';
 import { buildMasterwork } from '~/utils/masterwork';
 import { buildPerks, PERK_NONE, PERK_LENGTH, PERK_INTRINSIC_COLUMN } from '~/utils/perks';
+import { buildMods } from '~/utils/mods';
 
 // Avoid re-rendering of the page component on hash switch
 definePageMeta({
@@ -31,9 +32,10 @@ const damageTypes = computed(() => weapon.value?.damageTypeHashes.map(hash => ma
 const statGroups = computed(() => manifestStore.data?.statGroups)
 const stats = computed(() => manifestStore.data?.statDefs)
 
+const mods = computed(() => manifestStore.data ? buildMods(manifestStore.mods, stats.value!, statGroups.value!, manifestStore.data!.sandboxPerks) : [])
 const canApplyAdeptMods = computed(() => Boolean(weapon.value?.displayProperties.name.includes('(Adept)')))
 const selectedModHash = ref(decodedHashes.mod)
-const selectedMod = computed(() => manifestStore.mods.find(m => m.hash === selectedModHash.value))
+const selectedMod = computed(() => mods.value.find(m => m.hash === selectedModHash.value))
 const resetMod = () => {
   selectedModHash.value = null
 }
@@ -75,7 +77,7 @@ const masterwork = computed(() => {
   if (!(weapon.value && manifestStore.data)) {
     return
   }
-  const { masterwork } = buildMasterwork(weapon.value, manifestStore.data.statGroups, manifestStore.data.plugSets, manifestStore.catalysts) ?? {}
+  const { masterwork } = buildMasterwork(weapon.value, statGroups.value!, manifestStore.data.plugSets, manifestStore.catalysts) ?? {}
   return masterwork
 })
 
@@ -127,7 +129,7 @@ useHead({
       </div>
       <div class="col-span-3 flex flex-col">
         <WeaponMasterwork v-if="masterworkData" :options="masterworkData" v-model="selectedMasterworkHash" />
-        <WeaponMods class="mt-4" v-model="selectedModHash" v-if="manifestStore.mods" :mods="manifestStore.mods"
+        <WeaponMods class="mt-4" v-model="selectedModHash" v-if="mods" :mods="mods"
           :can-apply-adept-mods="canApplyAdeptMods" />
       </div>
     </div>

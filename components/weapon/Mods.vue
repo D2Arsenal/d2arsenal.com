@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PrunedDestinyInventoryItemDefinition } from '~~/types/destiny.js';
+import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny';
 
 const props = defineProps<{
   mods: PrunedDestinyInventoryItemDefinition[],
@@ -10,8 +10,8 @@ const props = defineProps<{
 const isAdeptMod = (mod?: PrunedDestinyInventoryItemDefinition) => mod?.displayProperties.name.startsWith('Adept');
 
 const modTabs = computed(() => [
-  { mods: props.mods.filter(m => !m.displayProperties.name.startsWith('Adept')), name: 'Normal' },
-  { mods: props.mods.filter(m => m.displayProperties.name.startsWith('Adept')), name: 'Adept' },
+  { mods: props.mods.filter(m => !isAdeptMod(m)), name: 'Normal' },
+  { mods: props.mods.filter(m => isAdeptMod(m)), name: 'Adept' },
 ])
 
 const selectedMod = computed(() => props.mods.find(m => m.hash === props.modelValue))

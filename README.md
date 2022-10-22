@@ -5,10 +5,13 @@
   * Show & selectable Enhanced Perks
 * WeaponSummary
   * Stat Calculation
-    * Perks
     * Modules
     * Masterwork?
+  * Mod/Perks stats in summary
   * Recoil SVG
+  * Reorder stats (bar/non-bar)
+* Mods
+  * Mod stats
 * Masterworks
   * Exotic Catalyst on/off
 * Extras
