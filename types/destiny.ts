@@ -1,4 +1,4 @@
-import type { DestinyInventoryItemDefinition } from 'bungie-api-ts/destiny2';
+import type { DestinyInventoryItemDefinition, TierType } from 'bungie-api-ts/destiny2';
 export type PrunedDestinyInventoryItemDefinition = Omit<
   DestinyInventoryItemDefinition,
   'tooltipNotifications' |
@@ -27,5 +27,14 @@ export type PrunedDestinyInventoryItemDefinition = Omit<
   'isWrapper' |
   'traitIds' |
   'traitHashes' |
-  'index'
->;
+  'index' |
+  'inventory' |
+  'plug'
+> & {
+  inventory?: {
+    tierType: TierType
+  },
+  plug?: {
+    plugCategoryIdentifier: string
+  }
+};
