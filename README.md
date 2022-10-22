@@ -8,6 +8,7 @@
     * Perks
     * Modules
     * Masterwork?
+  * Recoil SVG
 * Masterworks
   * Exotic Catalyst on/off
 * Extras

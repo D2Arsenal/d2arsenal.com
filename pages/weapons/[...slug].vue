@@ -3,6 +3,11 @@ import { useManifestStore } from '~/store/manifest';
 import { buildMasterwork } from '~/utils/masterwork';
 import { buildPerks, PERK_NONE, PERK_LENGTH, PERK_INTRINSIC_COLUMN } from '~/utils/perks';
 
+// Avoid re-rendering of the page component on hash switch
+definePageMeta({
+  key: (route) => (route.params.slug as string[])[0]
+})
+
 const manifestStore = useManifestStore()
 
 const [weaponHash, possibleAttributes] = useRoute().params.slug as [string, string?]
@@ -108,7 +113,6 @@ useHead({
   title: weapon.value?.displayProperties.name,
   link: [{ rel: 'icon', href: favicon }]
 })
-
 </script>
 
 <template>
