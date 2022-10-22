@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { DestinyDamageTypeDefinition, DestinySandboxPerkDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2';
+import type { DestinyDamageTypeDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2';
 import type { DefinitionRecord } from '~/types';
 import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
+import { isExotic } from '~/utils/weapon';
 
-defineProps<{
+const props = defineProps<{
   weapon: PrunedDestinyInventoryItemDefinition,
   damageTypes: DestinyDamageTypeDefinition[],
   perks: Array<PrunedDestinyInventoryItemDefinition | null>,
@@ -12,6 +13,8 @@ defineProps<{
   statGroups?: DefinitionRecord<DestinyStatGroupDefinition>,
   stats?: DefinitionRecord<DestinyStatDefinition>
 }>()
+
+const isExoticWeapon = computed(() => isExotic(props.weapon))
 
 const emit = defineEmits<{
   (e: 'reset:masterwork'): void,
@@ -47,7 +50,7 @@ const emit = defineEmits<{
           :stat-groups="statGroups" :perks="perks" :stats="stats" />
       </div>
       <div class="mt-auto flex justify-end">
-        <WeaponPreset @reset:mod="emit('reset:mod')" @reset:masterwork="emit('reset:masterwork')" @reset:perk="emit('reset:perk', $event)" :masterwork="masterwork" :perks="perks" :mod="mod" />
+        <WeaponPreset @reset:mod="emit('reset:mod')" @reset:masterwork="emit('reset:masterwork')" @reset:perk="emit('reset:perk', $event)" :masterwork="masterwork" :perks="perks" :mod="mod" :is-exotic="isExoticWeapon" />
       </div>
     </div>
     <img class="col-start-1 col-end-3 row-start-1 object-cover" :src="useBungieUrl(weapon.screenshot)" loading="lazy">

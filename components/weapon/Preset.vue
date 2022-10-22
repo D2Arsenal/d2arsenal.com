@@ -5,7 +5,8 @@ import { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
 const props = defineProps<{
   masterwork?: PrunedDestinyInventoryItemDefinition,
   mod?: PrunedDestinyInventoryItemDefinition,
-  perks?: Array<PrunedDestinyInventoryItemDefinition | null>
+  perks?: Array<PrunedDestinyInventoryItemDefinition | null>,
+  isExotic: boolean
 }>()
 
 const perkColumns = computed(() => Array.from({ length: COMMON_PERK_LENGTH }, (_, i) => ({
@@ -34,7 +35,7 @@ const resetMod = () => {
 <template>
   <div>
     <div class="flex space-x-6">
-      <Plug v-if="perks?.[0]" :item="perks?.[0]" is-disabled is-squared />
+      <Plug v-if="perks?.[0]" :item="perks?.[0]" is-disabled :is-squared="!isExotic" />
       <Plug v-for="(col, i) in perkColumns" :is-disabled="!col.perk" :item="col.perk" @click="resetPerk(i)" />
       <Plug v-if="perks?.[5]" :item="perks?.[5]" @click="resetPerk(4)" />
       <Plug :item="mod" :is-disabled="!mod" is-squared @click="resetMod" />
