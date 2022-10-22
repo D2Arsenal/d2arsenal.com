@@ -48,16 +48,16 @@ const perksToDisplay = computed(() => perks.value?.slice(1))
 const selectedPerkHashes = ref(decodedHashes.perks)
 const selectedPerks = computed(() => {
   const intrinsicPerks = (perks.value?.[0] ?? []).map(p => p.hash)
-  
+
   const perksToUse = intrinsicPerks.concat(selectedPerkHashes.value)
   return perksToUse.map((hash, i) => {
     if (hash === PERK_NONE) {
       return null
     }
-    if(i === PERK_INTRINSIC_COLUMN) {
+    if (i === PERK_INTRINSIC_COLUMN) {
       return manifestStore.frames.find(p => p.hash === hash) ?? null
     }
-    
+
     return manifestStore.weaponTraits.find(t => t.hash === hash) ?? null
   })
 })
@@ -101,9 +101,12 @@ const updateRouteOnChange = () => {
 }
 watch([selectedModHash, selectedPerkHashes, selectedMasterworkHash], updateRouteOnChange)
 
+const favicon = computed(() => useBungieUrl(weapon.value?.displayProperties.icon ?? ''))
+
 // TODO: description based on changed values
 useHead({
-  title: weapon.value?.displayProperties.name
+  title: weapon.value?.displayProperties.name,
+  link: [{ rel: 'icon', href: favicon }]
 })
 
 </script>
@@ -113,8 +116,7 @@ useHead({
     <div class="grid gap-4 grid-cols-5 col-span-2">
       <WeaponSummary class="col-span-5" v-if="weapon" :weapon="weapon" :damage-types="damageTypes"
         :masterwork="selectedMasterworkItem" :mod="selectedMod" :stat-groups="statGroups" :stats="stats"
-        :perks="selectedPerks"
-        @reset:masterwork="resetMasterwork" @reset:mod="resetMod"
+        :perks="selectedPerks" @reset:masterwork="resetMasterwork" @reset:mod="resetMod"
         @reset:perk="resetPerk($event)" />
       <div class="col-span-2">
         <WeaponExtras />

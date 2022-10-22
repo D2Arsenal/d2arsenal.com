@@ -18,6 +18,7 @@ export const toPrunedItemDef = (def: DestinyInventoryItemDefinition) => {
     damageTypeHashes: def.damageTypeHashes,
     hash: def.hash,
     redacted: def.redacted,
+    inventory: def.inventory,
     // These are not needed yet but will likely in the future
     classType: def.classType,
     defaultDamageType: def.defaultDamageType
