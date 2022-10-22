@@ -2,6 +2,7 @@
 import type { DestinyDamageTypeDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2';
 import type { DefinitionRecord } from '~/types';
 import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
+import type { Mod } from '~/utils/mods';
 import { isExotic } from '~/utils/weapon';
 
 const props = defineProps<{
@@ -9,7 +10,7 @@ const props = defineProps<{
   damageTypes: DestinyDamageTypeDefinition[],
   perks: Array<PrunedDestinyInventoryItemDefinition | null>,
   masterwork?: PrunedDestinyInventoryItemDefinition,
-  mod?: PrunedDestinyInventoryItemDefinition,
+  mod?: Mod,
   statGroups?: DefinitionRecord<DestinyStatGroupDefinition>,
   stats?: DefinitionRecord<DestinyStatDefinition>
 }>()

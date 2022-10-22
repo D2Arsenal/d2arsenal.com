@@ -35,7 +35,7 @@ const stats = computed(() => manifestStore.data?.statDefs)
 const mods = computed(() => manifestStore.data ? buildMods(manifestStore.mods, stats.value!, statGroups.value!, manifestStore.data!.sandboxPerks) : [])
 const canApplyAdeptMods = computed(() => Boolean(weapon.value?.displayProperties.name.includes('(Adept)')))
 const selectedModHash = ref(decodedHashes.mod)
-const selectedMod = computed(() => mods.value.find(m => m.hash === selectedModHash.value))
+const selectedMod = computed(() => mods.value.find((m) => m.mod?.hash === selectedModHash.value))
 const resetMod = () => {
   selectedModHash.value = null
 }

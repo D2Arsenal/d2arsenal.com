@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { COMMON_PERK_LENGTH } from '~/utils/perks.js';
-import { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
+import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny';
+import type { Mod } from '~/utils/mods';
 
 const props = defineProps<{
   masterwork?: PrunedDestinyInventoryItemDefinition,
-  mod?: PrunedDestinyInventoryItemDefinition,
+  mod?: Mod,
   perks?: Array<PrunedDestinyInventoryItemDefinition | null>,
   isExotic: boolean
 }>()
@@ -38,7 +39,7 @@ const resetMod = () => {
       <Plug v-if="perks?.[0]" :item="perks?.[0]" is-disabled :is-squared="!isExotic" />
       <Plug v-for="(col, i) in perkColumns" :is-disabled="!col.perk" :item="col.perk" @click="resetPerk(i)" />
       <Plug v-if="perks?.[5]" :item="perks?.[5]" @click="resetPerk(4)" />
-      <Plug :item="mod" :is-disabled="!mod" is-squared @click="resetMod" />
+      <Plug :item="mod?.mod" :is-disabled="!mod" :sub-description="mod?.subDescription" is-squared @click="resetMod" />
       <Plug :item="masterwork" :is-disabled="!masterwork" is-squared @click="resetMasterwork" />
     </div>
   </div>

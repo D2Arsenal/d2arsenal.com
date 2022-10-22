@@ -7,7 +7,7 @@
   * Stat Calculation
     * Modules
     * Masterwork?
-  * Mod/Perks stats in summary
+  * Perks stats in summary
   * Recoil SVG
   * Reorder stats (bar/non-bar)
 * Mods
