@@ -1,12 +1,11 @@
-import { DestinyDamageTypeDefinition, DestinyInventoryItemDefinition, DestinyItemTierTypeDefinition, DestinyPlugSetDefinition, DestinySandboxPerkDefinition, DestinySocketTypeDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from "bungie-api-ts/destiny2"
-import { DestinyCollectibleDefinition, DestinyEnergyTypeDefinition, DestinyPowerCapDefinition } from "bungie-api-ts/destiny2/interfaces.js"
+import { PrunedDestinyInventoryItemDefinition } from './types/destiny';
+import type { DestinyEnergyTypeDefinition, DestinyPowerCapDefinition, DestinyDamageTypeDefinition, DestinyInventoryItemDefinition, DestinyItemTierTypeDefinition, DestinyPlugSetDefinition, DestinySandboxPerkDefinition, DestinySocketTypeDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from "bungie-api-ts/destiny2"
 
 export type DefinitionRecord<T> = Record<number, T>
 
 export type ManifestData = {
-  itemDefs: DestinyInventoryItemDefinition[],
+  itemDefs: PrunedDestinyInventoryItemDefinition[],
   itemTiers: DefinitionRecord<DestinyItemTierTypeDefinition>,
-  socketTypes: DefinitionRecord<DestinySocketTypeDefinition>,
   statDefs: DefinitionRecord<DestinyStatDefinition>,
   statGroups: DefinitionRecord<DestinyStatGroupDefinition>,
   plugSets: DefinitionRecord<DestinyPlugSetDefinition>,
@@ -15,5 +14,4 @@ export type ManifestData = {
   powerCaps: DefinitionRecord<DestinyPowerCapDefinition>,
   seasonCap: number,
   energyTypes: DefinitionRecord<DestinyEnergyTypeDefinition>,
-  collectibles: DefinitionRecord<DestinyCollectibleDefinition>
 }

@@ -1,7 +1,8 @@
 import { getStatsForItem } from '~/utils/stats';
 import { perks as perkInfo } from '~/utils/info';
 import type { Stat } from '~/utils/stats';
-import type { DestinyInventoryItemDefinition, DestinyItemSocketEntryPlugItemRandomizedDefinition, DestinyPlugSetDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from "bungie-api-ts/destiny2"
+import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny';
+import type { DestinyItemSocketEntryPlugItemRandomizedDefinition, DestinyPlugSetDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from "bungie-api-ts/destiny2"
 import type { DefinitionRecord } from "~/types"
 
 export const PERK_NONE = 0
@@ -17,12 +18,12 @@ export type Perk = {
   currentlyCanRoll: boolean,
   hasEnhanced?: boolean,
   craftingLevel?: number,
-  trait?: DestinyInventoryItemDefinition,
+  trait?: PrunedDestinyInventoryItemDefinition,
   subDescription?: string,
   stats: Stat[]
 }
 
-const lookupTraitForPerkFactory = (traits: DestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>) => (hash: number) => {
+const lookupTraitForPerkFactory = (traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>) => (hash: number) => {
   const trait = traits.find(((t) => t.hash === hash));
   if (!trait) {
     return {
@@ -39,12 +40,12 @@ const lookupTraitForPerkFactory = (traits: DestinyInventoryItemDefinition[], sta
   };
 }
 
-export function buildPerks (weapon: DestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: DestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: DestinyInventoryItemDefinition, isCurated: boolean = false) {
+export function buildPerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition, isCurated: boolean = false) {
   const columns = resolvePerks(weapon, plugSets, traits, stats, statGroups, frame, isCurated)
   return columns.filter(c => c.length > 0)
 }
 
-function resolvePerks (weapon: DestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: DestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: DestinyInventoryItemDefinition, isCurated: boolean = false) {
+function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition, isCurated: boolean = false) {
   const lookupTraitForPerk = lookupTraitForPerkFactory(traits, stats, statGroups)
 
   // TODO: Revisit and refactor

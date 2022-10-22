@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
-import { isWeapon, isWeaponFrame, isWeaponMod, isWeaponTrait, isMasterwork, isSandboxMod, isCatalyst } from '~/utils/transforms';
+import { isWeapon, isWeaponFrame, isWeaponMod, isWeaponTrait, isMasterwork, isSandboxMod, isCatalyst } from '~~/utils/checks';
 import type { ManifestData } from '~/types'
 
 
 export const useManifestStore = defineStore('manifest', () => {
-  const version = ref<string | null>()
-  const data = ref<ManifestData | null>(null)
+  const version = ref<string>()
+  const data = ref<ManifestData>()
 
   const weapons = computed(() => data.value?.itemDefs.filter(i => isWeapon(i)) ?? [])
   const frames = computed(() => data.value?.itemDefs.filter(i => isWeaponFrame(i)) ?? [])

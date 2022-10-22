@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { DestinyInventoryItemDefinition } from 'bungie-api-ts/destiny2';
 import { COMMON_PERK_LENGTH } from '~/utils/perks.js';
+import { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
 
 const props = defineProps<{
-  masterwork?: DestinyInventoryItemDefinition,
-  mod?: DestinyInventoryItemDefinition,
-  perks?: Array<DestinyInventoryItemDefinition | null>
+  masterwork?: PrunedDestinyInventoryItemDefinition,
+  mod?: PrunedDestinyInventoryItemDefinition,
+  perks?: Array<PrunedDestinyInventoryItemDefinition | null>
 }>()
 
 const perkColumns = computed(() => Array.from({ length: COMMON_PERK_LENGTH }, (_, i) => ({

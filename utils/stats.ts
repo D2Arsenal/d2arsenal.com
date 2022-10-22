@@ -1,10 +1,6 @@
-import type { DestinyInventoryItemDefinition, DestinyItemInvestmentStatDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2';
+import type { DestinyItemInvestmentStatDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2';
 import type { DefinitionRecord } from '~/types';
-
-type GetSingleStatForItemArgs = {
-  item: DestinyInventoryItemDefinition,
-  statDefinitions: DefinitionRecord<DestinyStatDefinition>
-}
+import { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
 
 type StatDisplayType = 'bar' | 'none'
 
@@ -26,7 +22,7 @@ export type Stat = {
 const isDefinition = (x: DestinyStatGroupDefinition | DefinitionRecord<DestinyStatGroupDefinition>): x is DestinyStatGroupDefinition => {
   return 'scaledStats' in x
 }
-export const getStatsForItem = (stats: DestinyStatDefinition[] | DefinitionRecord<DestinyStatDefinition>, item: DestinyInventoryItemDefinition, statGroupEntryOrRecord: DestinyStatGroupDefinition | DefinitionRecord<DestinyStatGroupDefinition>) => {
+export const getStatsForItem = (stats: DestinyStatDefinition[] | DefinitionRecord<DestinyStatDefinition>, item: PrunedDestinyInventoryItemDefinition, statGroupEntryOrRecord: DestinyStatGroupDefinition | DefinitionRecord<DestinyStatGroupDefinition>) => {
   const statGroupEntry = isDefinition(statGroupEntryOrRecord)
     ? statGroupEntryOrRecord
     : getStatGroupEntryForItem(item, statGroupEntryOrRecord)
@@ -69,7 +65,7 @@ export function getStatsForStatGroup (statGroupOrInvestmentStats: DestinyStatGro
   return statGroupOrInvestmentStats.map(s => stats[s.statTypeHash]).filter(u => u)
 }
 
-export function getStatGroupEntryForItem (item: DestinyInventoryItemDefinition, statGroups: DefinitionRecord<DestinyStatGroupDefinition>) {
+export function getStatGroupEntryForItem (item: PrunedDestinyInventoryItemDefinition, statGroups: DefinitionRecord<DestinyStatGroupDefinition>) {
   const statHash = item.stats?.statGroupHash
   if (!statHash) {
     return

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { DestinyInventoryItemDefinition } from 'bungie-api-ts/destiny2';
 import type { Stat } from '~/utils/stats';
+import type { PrunedDestinyInventoryItemDefinition } from '~~/types/destiny.js';
 
 const props = defineProps<{
-  item?: DestinyInventoryItemDefinition,
+  item?: PrunedDestinyInventoryItemDefinition,
   isSquared?: boolean,
   isSelected?: boolean,
   isDisabled?: boolean,

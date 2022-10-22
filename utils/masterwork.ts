@@ -1,9 +1,10 @@
+import { PrunedDestinyInventoryItemDefinition } from './../types/destiny';
 import { TierType, DestinyItemSubType } from "bungie-api-ts/destiny2";
-import type { DestinyInventoryItemDefinition, DestinyPlugSetDefinition, DestinyStatDisplayDefinition, DestinyStatGroupDefinition, } from "bungie-api-ts/destiny2";
+import type { DestinyPlugSetDefinition, DestinyStatDisplayDefinition, DestinyStatGroupDefinition, } from "bungie-api-ts/destiny2";
 import type { DefinitionRecord } from "~/types";
 
 const MASTERWORK_BASE: Record<string, {
-  benefits: DestinyInventoryItemDefinition[],
+  benefits: PrunedDestinyInventoryItemDefinition[],
   hash: number,
   active: boolean
 }> = {
@@ -66,7 +67,7 @@ const MASTERWORK_BASE: Record<string, {
 
 const createDefaultMasterwork = () => MASTERWORK_BASE
 
-export function buildMasterwork(weapon: DestinyInventoryItemDefinition, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, catalysts: DestinyInventoryItemDefinition[]) {
+export function buildMasterwork (weapon: PrunedDestinyInventoryItemDefinition, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, catalysts: PrunedDestinyInventoryItemDefinition[]) {
   const socketEntries = weapon.sockets!.socketEntries
   const plugItems = plugSets[1117738936]?.reusablePlugItems
   const scaledStats = statGroups[weapon.stats!.statGroupHash!].scaledStats
@@ -94,7 +95,7 @@ export function buildMasterwork(weapon: DestinyInventoryItemDefinition, statGrou
     masterwork[r].benefits.push(masterworkItem);
   });
 
-  function d(weapon: DestinyInventoryItemDefinition, hash: number, stats: DestinyStatDisplayDefinition[]) {
+  function d (weapon: PrunedDestinyInventoryItemDefinition, hash: number, stats: DestinyStatDisplayDefinition[]) {
     const firstCondition = hash !== 2961396640 || !weapon.itemCategoryHashes || !weapon.itemCategoryHashes.includes(3317538576);
 
     if (!firstCondition) {

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { DestinyInventoryItemDefinition } from 'bungie-api-ts/destiny2';
+import type { PrunedDestinyInventoryItemDefinition } from '~~/types/destiny.js';
 
 const props = defineProps<{
-  mods: DestinyInventoryItemDefinition[],
+  mods: PrunedDestinyInventoryItemDefinition[],
   canApplyAdeptMods: boolean,
   modelValue: number | null
 }>()
 
-const isAdeptMod = (mod?: DestinyInventoryItemDefinition) => mod?.displayProperties.name.startsWith('Adept');
+const isAdeptMod = (mod?: PrunedDestinyInventoryItemDefinition) => mod?.displayProperties.name.startsWith('Adept');
 
 const modTabs = computed(() => [
   { mods: props.mods.filter(m => !m.displayProperties.name.startsWith('Adept')), name: 'Normal' },

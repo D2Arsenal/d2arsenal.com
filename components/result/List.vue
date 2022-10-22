@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { DestinyInventoryItemDefinition } from 'bungie-api-ts/destiny2';
+import type { PrunedDestinyInventoryItemDefinition } from '~~/types/destiny.js';
 
 defineProps<{
-  weapons: DestinyInventoryItemDefinition[],
+  weapons: PrunedDestinyInventoryItemDefinition[],
 }>()
 </script>
   

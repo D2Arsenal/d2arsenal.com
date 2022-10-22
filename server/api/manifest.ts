@@ -1,5 +1,6 @@
 import { getDestinyManifest, getDestinyManifestSlice } from "bungie-api-ts/destiny2";
-import { isUsedItemDefinition } from '~/utils/transforms';
+import { toPrunedItemDef } from '~/utils/transforms';
+import { isUsedItemDefinition } from '~/utils/checks';
 import type { HttpClientConfig } from "bungie-api-ts/destiny2";
 import type { ManifestData } from "~/types";
 
@@ -74,7 +75,6 @@ export default defineEventHandler(async (event) => {
   const {
     DestinyInventoryItemDefinition: rawItemDefs,
     DestinyItemTierTypeDefinition: itemTiers,
-    DestinySocketTypeDefinition: socketTypes,
     DestinyStatDefinition: statDefs,
     DestinyStatGroupDefinition: statGroups,
     DestinyPlugSetDefinition: plugSets,
@@ -82,14 +82,12 @@ export default defineEventHandler(async (event) => {
     DestinySandboxPerkDefinition: sandboxPerks,
     DestinyPowerCapDefinition: powerCaps,
     DestinyEnergyTypeDefinition: energyTypes,
-    DestinyCollectibleDefinition: collectibles,
   } = manifestTables
 
 
   const data: ManifestData = {
-    itemDefs: Object.values(rawItemDefs).filter(d => isUsedItemDefinition(d)),
+    itemDefs: Object.values(rawItemDefs).filter(d => isUsedItemDefinition(d)).map(d => toPrunedItemDef(d)),
     itemTiers,
-    socketTypes,
     statDefs,
     statGroups,
     plugSets,
@@ -97,8 +95,7 @@ export default defineEventHandler(async (event) => {
     sandboxPerks,
     powerCaps,
     seasonCap: 1580,// TODO Ah, power cap for season currentSeasonRewardPowerCap from uhh, profile call. Can hardcode for now
-    energyTypes,
-    collectibles
+    energyTypes
   }
 
   storage.setItem(cacheKey, data)
