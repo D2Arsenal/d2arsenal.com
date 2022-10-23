@@ -7,6 +7,9 @@ export const useManifestStore = defineStore('manifest', () => {
   const version = ref<string>()
   const data = ref<ManifestData>()
 
+  // TODO: Load minimal weapons data for the weapon list instead of full
+  // TODO: Remove obsolete data
+
   const weapons = computed(() => data.value?.weapons ?? [])
   const frames = computed(() => data.value?.frames ?? [])
   const damageTypes = computed(() => data.value?.damageTypes ?? {})
