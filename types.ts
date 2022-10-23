@@ -4,7 +4,12 @@ import type { DestinyEnergyTypeDefinition, DestinyPowerCapDefinition, DestinyDam
 export type DefinitionRecord<T> = Record<number, T>
 
 export type ManifestData = {
-  itemDefs: PrunedDestinyInventoryItemDefinition[],
+  weapons: PrunedDestinyInventoryItemDefinition[],
+  frames: PrunedDestinyInventoryItemDefinition[],
+  mods: PrunedDestinyInventoryItemDefinition[],
+  catalysts: PrunedDestinyInventoryItemDefinition[],
+  masterworks: PrunedDestinyInventoryItemDefinition[],
+  weaponTraits: PrunedDestinyInventoryItemDefinition[],
   itemTiers: DefinitionRecord<DestinyItemTierTypeDefinition>,
   statDefs: DefinitionRecord<DestinyStatDefinition>,
   statGroups: DefinitionRecord<DestinyStatGroupDefinition>,

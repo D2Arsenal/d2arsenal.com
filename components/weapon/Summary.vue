@@ -4,11 +4,12 @@ import type { DefinitionRecord } from '~/types';
 import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
 import type { Mod } from '~/utils/mods';
 import { isExotic } from '~/utils/weapon';
+import { Perk } from '~~/utils/perks.js';
 
 const props = defineProps<{
   weapon: PrunedDestinyInventoryItemDefinition,
   damageTypes: DestinyDamageTypeDefinition[],
-  perks: Array<PrunedDestinyInventoryItemDefinition | null>,
+  perks: Array<Perk | null>,
   masterwork?: PrunedDestinyInventoryItemDefinition,
   mod?: Mod,
   statGroups?: DefinitionRecord<DestinyStatGroupDefinition>,

@@ -5,11 +5,12 @@ import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
 import type { Mod } from '~/utils/mods';
 
 import { getStatGroupEntryForItem, getStatsForItem, getStatsForStatGroup, Stat } from '~/utils/stats';
+import { Perk } from '~/utils/perks';
 
 
 const props = defineProps<{
   weapon: PrunedDestinyInventoryItemDefinition,
-  perks: Array<PrunedDestinyInventoryItemDefinition | null>,
+  perks: Array<Perk | null>,
   masterwork?: PrunedDestinyInventoryItemDefinition,
   mod?: Mod,
   statGroups?: DefinitionRecord<DestinyStatGroupDefinition>
@@ -33,7 +34,7 @@ const perkStats = computed(() => {
     return {}
   }
   const statsArray = props.perks
-    .flatMap(p => p && getStatsForItem(props.stats!, p, props.statGroups!))
+    .flatMap(p => p && getStatsForItem(props.stats!, p.trait!, props.statGroups!))
     .filter((s): s is Stat => Boolean(s && s?.value !== 0))
 
   return statsArrayToObject(statsArray)

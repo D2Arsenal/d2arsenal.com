@@ -9,9 +9,12 @@ definePageMeta({
   key: (route) => (route.params.slug as string[])[0]
 })
 
+
 const manifestStore = useManifestStore()
 
 const [weaponHash, possibleAttributes] = useRoute().params.slug as [string, string?]
+
+const { data } = await useFetch(`/api/weapons/${weaponHash}`, { key: weaponHash })
 
 const decodeHashes = (str?: string) => {
   const [rawPerks, rawMasterwork, rawMod] = str?.split('-') ?? []
@@ -26,7 +29,7 @@ const decodeHashes = (str?: string) => {
 }
 const decodedHashes = decodeHashes(possibleAttributes)
 
-const weapon = computed(() => manifestStore.weapons.find(w => w.hash === Number(weaponHash)))
+const weapon = computed(() => data.value?.weapon)
 const damageTypes = computed(() => weapon.value?.damageTypeHashes.map(hash => manifestStore.damageTypes[hash]) ?? [])
 
 const statGroups = computed(() => manifestStore.data?.statGroups)
@@ -40,15 +43,7 @@ const resetMod = () => {
   selectedModHash.value = null
 }
 
-const frameForWeapon = computed(() => manifestStore.frames.find((f) => f.hash === weapon.value?.sockets?.socketEntries[0]?.singleInitialItemHash))
-
-const perks = computed(() => {
-  if (!(weapon.value && manifestStore.data)) {
-    return
-  }
-
-  return buildPerks(weapon.value, manifestStore.data.plugSets, manifestStore.weaponTraits!, manifestStore.data.statDefs, manifestStore.data.statGroups, frameForWeapon.value, false)
-})
+const perks = computed(() => data.value?.perks ?? [])
 // Hides intrinsic perks
 const perksToDisplay = computed(() => perks.value?.slice(1))
 
@@ -61,12 +56,8 @@ const selectedPerks = computed(() => {
     if (hash === PERK_NONE) {
       return null
     }
-    // TODO: Use perks defined above here to keep descriptions and stats
-    if (i === PERK_INTRINSIC_COLUMN) {
-      return manifestStore.frames.find(p => p.hash === hash) ?? null
-    }
 
-    return manifestStore.weaponTraits.find(t => t.hash === hash) ?? null
+    return perks.value.flat().find(t => t.hash === hash) ?? null
   })
 })
 
