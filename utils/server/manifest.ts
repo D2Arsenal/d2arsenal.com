@@ -6,7 +6,7 @@ import fsDriver from 'unstorage/drivers/fs'
 import { isWeapon, isWeaponFrame, isWeaponMod, isWeaponTrait, isCatalyst, isMasterwork } from '~/utils/checks';
 
 import type { HttpClientConfig } from "bungie-api-ts/destiny2";
-import type { ManifestData } from "~/types";
+import type { ManifestData, MinimalManifestData } from "~/types";
 import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny';
 
 
@@ -128,4 +128,23 @@ export const loadManifest = async () => {
 
   storage.setItem(cacheKey, data)
   return { data, version }
+}
+
+export const loadMinimalManifest = async () => {
+  const { data, version } = await loadManifest()
+  // TODO: remove mods and masterworks after adding to single endpoint
+  const minimalManifest: MinimalManifestData = {
+    mods: data.mods,
+    catalysts: data.catalysts,
+    itemTiers: data.itemTiers,
+    statDefs: data.statDefs,
+    statGroups: data.statGroups,
+    plugSets: data.plugSets,
+    damageTypes: data.damageTypes,
+    sandboxPerks: data.sandboxPerks,
+    powerCaps: data.powerCaps,
+    seasonCap: data.seasonCap,
+    energyTypes: data.energyTypes
+  }
+  return { minimalManifest, version }
 }

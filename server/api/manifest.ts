@@ -1,7 +1,7 @@
-import { loadManifest } from "~/utils/server/manifest"
+import { loadMinimalManifest } from "~/utils/server/manifest"
 
 export default defineEventHandler(async (event) => {
-  const manifest = await loadManifest()
+  const manifest = await loadMinimalManifest()
 
   // Set ETag to improve caching
   setResponseHeader(event, 'ETag', manifest.version)

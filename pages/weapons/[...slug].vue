@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useManifestStore } from '~/store/manifest';
-import { buildMasterwork } from '~/utils/masterwork';
-import { buildPerks, PERK_NONE, PERK_LENGTH, PERK_INTRINSIC_COLUMN } from '~/utils/perks';
+import { PERK_NONE, PERK_LENGTH } from '~/utils/perks';
 import { buildMods } from '~/utils/mods';
 
 // Avoid re-rendering of the page component on hash switch
@@ -65,21 +64,7 @@ const resetPerk = (colIndex: number) => {
   selectedPerkHashes.value[colIndex] = PERK_NONE
 }
 
-const masterwork = computed(() => {
-  if (!(weapon.value && manifestStore.data)) {
-    return
-  }
-  const { masterwork } = buildMasterwork(weapon.value, statGroups.value!, manifestStore.data.plugSets, manifestStore.catalysts) ?? {}
-  return masterwork
-})
-
-const masterworkData = computed(() => Object.entries(masterwork.value ?? {})
-  .filter(e => e[1].active)
-  .map(([statistic, data]) => ({
-    statistic,
-    data
-  }))
-)
+const masterwork = computed(() => data.value?.masterwork)
 
 const selectedMasterworkHash = ref(decodedHashes.masterwork)
 const selectedMasterworkItem = computed(() => manifestStore.catalysts?.find(i => i.hash === selectedMasterworkHash.value))
@@ -120,7 +105,7 @@ useHead({
         <WeaponExtras />
       </div>
       <div class="col-span-3 flex flex-col">
-        <WeaponMasterwork v-if="masterworkData" :options="masterworkData" v-model="selectedMasterworkHash" />
+        <WeaponMasterwork v-if="masterwork" :options="masterwork" v-model="selectedMasterworkHash" />
         <WeaponMods class="mt-4" v-model="selectedModHash" v-if="mods" :mods="mods"
           :can-apply-adept-mods="canApplyAdeptMods" />
       </div>

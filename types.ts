@@ -20,3 +20,10 @@ export type ManifestData = {
   seasonCap: number,
   energyTypes: DefinitionRecord<DestinyEnergyTypeDefinition>,
 }
+
+export type MinimalManifestData = Omit<ManifestData,
+  'weapons' |
+  'frames' |
+  'weaponTraits' |
+  'masterworks'
+>
