@@ -45,7 +45,7 @@ const statsArrayToObject = (statsArray: Stat[]) => statsArray.reduce((obj, s) =>
     obj[s.hash] = s
     return obj
   }
-  
+
   obj[s.hash].value += s.value
   return obj
 }, {} as Record<string, Stat>)
@@ -68,12 +68,22 @@ const allStats = computed(() =>
   }))
 )
 
+const sortedStats = computed(() => Object.entries(allStats.value).sort(([, a], [, b]) => {
+  if (a.displayType === 'bar' && b.displayType !== 'bar') {
+    return -1
+  }
+  if (a.displayType !== 'bar' && b.displayType === 'bar') {
+    return 1
+  }
+  return 0
+}))
+
 
 </script>
 <template>
   <ul class="flex flex-col text-sm space-y-2">
-    <li class="grid grid-cols-3 break-inside-avoid" v-for="stat, hash in allStats" :key="hash">
-      <span class="text-right pr-4">{{stat.name}}</span>
+    <li class="grid grid-cols-3 break-inside-avoid" v-for="[hash, stat] in sortedStats" :key="hash">
+      <span class="text-right pr-4">{{ stat.name }}</span>
       <WeaponStatsBar class="col-span-2" v-if="stat.value && stat.displayType === 'bar'" :base-value="stat.value"
         :new-value="stat.augmentedValue" />
       <span v-else>{{ stat.augmentedValue }}</span>

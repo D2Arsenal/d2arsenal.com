@@ -9,7 +9,7 @@
     * Masterwork?
   * Perks stats in summary
   * Recoil SVG
-  * Reorder stats (bar/non-bar)
+  * Up/Down arrows for non-bar stats
 * Mods
   * Mod stats
 * Masterworks
