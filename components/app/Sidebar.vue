@@ -89,9 +89,9 @@ const filteredWeapons = computed(() => {
     <!-- Static sidebar for desktop -->
     <div
       class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-96 lg:flex-col lg:border-r lg:border-gray-700 lg:bg-gray-800 lg:pt-5 lg:pb-4">
-      <div class="flex flex-shrink-0 items-center px-6">
+      <NuxtLink to="/" class="flex flex-shrink-0 items-center px-6">
         <p class="text-2xl">D2 Arsenal</p>
-      </div>
+      </NuxtLink>
       <!-- Sidebar component, swap this element with another sidebar if you like -->
       <div class="mt-6 flex h-0 flex-1 flex-col">
         <!-- Sidebar Search -->
