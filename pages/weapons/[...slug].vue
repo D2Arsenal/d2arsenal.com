@@ -2,12 +2,12 @@
 import { useManifestStore } from '~/store/manifest';
 import { PERK_NONE, PERK_LENGTH } from '~/utils/perks';
 import { buildMods } from '~/utils/mods';
+import { isExotic } from '~/utils/weapon';
 
 // Avoid re-rendering of the page component on hash switch
 definePageMeta({
   key: (route) => (route.params.slug as string[])[0]
 })
-
 
 const manifestStore = useManifestStore()
 
@@ -29,6 +29,7 @@ const decodeHashes = (str?: string) => {
 const decodedHashes = decodeHashes(possibleAttributes)
 
 const weapon = computed(() => data.value?.weapon)
+const isExoticWeapon = computed(() => weapon.value && isExotic(weapon.value))
 const damageTypes = computed(() => weapon.value?.damageTypeHashes.map(hash => manifestStore.damageTypes[hash]) ?? [])
 
 const statGroups = computed(() => manifestStore.data?.statGroups)
@@ -105,7 +106,7 @@ useHead({
         <WeaponExtras />
       </div>
       <div class="col-span-3 flex flex-col">
-        <WeaponMasterwork v-if="masterwork" :options="masterwork" v-model="selectedMasterworkHash" />
+        <WeaponMasterwork v-if="masterwork" :options="masterwork" v-model="selectedMasterworkHash" :is-exotic-weapon="isExoticWeapon" />
         <WeaponMods class="mt-4" v-model="selectedModHash" v-if="mods" :mods="mods"
           :can-apply-adept-mods="canApplyAdeptMods" />
       </div>

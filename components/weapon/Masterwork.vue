@@ -10,6 +10,7 @@ const props = defineProps<{
       active: boolean
     }
   }[],
+  isExoticWeapon?: boolean,
   modelValue: number | null
 }>()
 
@@ -70,8 +71,11 @@ const buttonNames = computed(() => ['None'].concat(props.options.map(o => o.stat
 
 </script>
 <template>
-  <Card heading="Weapon masterwork">
-    <nav class="flex items-center space-x-2">
+  <Card :heading="isExoticWeapon ? 'Exotic catalyst is WIP' : 'Weapon masterwork'">
+    <div v-if="isExoticWeapon">
+      <h2>Exotic catalysts are not available in D2 Arsenal yet</h2>
+    </div>
+    <nav v-if="!isExoticWeapon" class="flex items-center space-x-2">
       <AppButton v-for="title, i in buttonNames" :key="title" :is-active="activeTabIndex === i"
         @click="onMasterworkTypeSwitch(i)">{{ title }}</AppButton>
     </nav>
