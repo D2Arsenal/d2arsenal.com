@@ -1,3 +1,4 @@
+import { MinimalWeapon } from './../utils/weapon';
 import { defineStore } from 'pinia'
 import { isSandboxMod } from '~~/utils/checks';
 import type { ManifestData } from '~/types'
@@ -6,11 +7,11 @@ import type { ManifestData } from '~/types'
 export const useManifestStore = defineStore('manifest', () => {
   const version = ref<string>()
   const data = ref<ManifestData>()
+  const weapons = ref<MinimalWeapon[]>([])
 
   // TODO: Load minimal weapons data for the weapon list instead of full
   // TODO: Remove obsolete data
 
-  const weapons = computed(() => data.value?.weapons ?? [])
   const frames = computed(() => data.value?.frames ?? [])
   const damageTypes = computed(() => data.value?.damageTypes ?? {})
   const mods = computed(() => data.value?.mods ?? [])
@@ -26,10 +27,10 @@ export const useManifestStore = defineStore('manifest', () => {
   const masterworks = computed(() => data.value?.masterworks ?? [])
 
   const init = async () => {
-    const res = await $fetch('/api/manifest')
-    const _data: ManifestData = res.data
-    version.value = res.version
-    data.value = _data
+    const [{ data: manifestData, version: _version }, minimalWeaponsData] = await Promise.all([$fetch('/api/manifest'), $fetch('/api/weapons')])
+    version.value = _version
+    data.value = manifestData
+    weapons.value = minimalWeaponsData
   }
 
 

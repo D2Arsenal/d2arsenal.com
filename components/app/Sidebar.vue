@@ -83,7 +83,7 @@ const sidebarOpen = ref(false)
               placeholder="Search" />
           </div>
         </div>
-        <ResultList class="mt-4 overflow-y-auto" :weapons="manifestStore.weapons" />
+        <ResultList class="mt-4 overflow-y-auto" :weapons="manifestStore.weapons.slice(0, 10)" />
       </div>
     </div>
     <!-- Main column -->

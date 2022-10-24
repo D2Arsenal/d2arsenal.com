@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { PrunedDestinyInventoryItemDefinition } from '~~/types/destiny.js';
+import type { MinimalWeapon } from '~~/utils/weapon.js';
 
 defineProps<{
-  weapons: PrunedDestinyInventoryItemDefinition[],
+  weapons: MinimalWeapon[],
 }>()
 </script>
   
@@ -11,9 +11,9 @@ defineProps<{
     <ResultItem 
       v-for="weapon in weapons"
       :hash="weapon.hash" 
-      :icon="weapon.displayProperties.icon"
-      :name="weapon.displayProperties.name"
-      :watermark="weapon.iconWatermark"
+      :icon="weapon.icon"
+      :name="weapon.name"
+      :watermark="weapon.watermark"
     />
   </ul>
 </template>

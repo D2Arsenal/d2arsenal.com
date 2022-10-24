@@ -13,7 +13,7 @@ useHead({
 </script>
 
 <template>
-  <div class="h-full bg-gray-800 text-gray-100">
+  <div class="h-full">
     <AppSidebar />
 
     <div class="flex flex-col lg:pl-96">

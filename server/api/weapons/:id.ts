@@ -1,11 +1,11 @@
 import { loadManifest } from '~/utils/server/manifest';
 import { buildPerks } from '~/utils/perks';
-import { isWeaponTrait, isWeaponFrame } from '~/utils/checks';
 
 
 export default defineEventHandler(async (event) => {
   const id = Number(event.context.params.id)
   const { data } = await loadManifest()
+  // TODO: Rewrite as object for easier lookup?
   const { weapons, weaponTraits, plugSets, statDefs, statGroups, frames } = data
 
   const weapon = weapons.find(i => i.hash === id)
