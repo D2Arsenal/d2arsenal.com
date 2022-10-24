@@ -47,6 +47,15 @@ export const getStatsForItem = (stats: DestinyStatDefinition[] | DefinitionRecor
       }
     })
     .filter(x => x.name)
+    .sort((a, b) => {
+      if (a.displayType === 'bar' && b.displayType !== 'bar') {
+        return -1
+      }
+      if (a.displayType !== 'bar' && b.displayType === 'bar') {
+        return -1
+      }
+      return 0
+    })
 }
 
 const isStatGroup = (x: DestinyStatGroupDefinition | DestinyItemInvestmentStatDefinition[]): x is DestinyStatGroupDefinition => {
