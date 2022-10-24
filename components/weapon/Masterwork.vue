@@ -37,8 +37,9 @@ const updateMasterworkForLevel = (event: Event) => {
     updateMasterwork(null)
     return
   }
+  
 
-  if (!statisticsIndex.value) {
+  if (statisticsIndex.value === null) {
     return
   }
 
@@ -66,7 +67,6 @@ const onMasterworkTypeSwitch = (index: number) => {
 const buttonNames = computed(() => ['None'].concat(props.options.map(o => o.statistic)))
 
 // TODO: Exotic Catalyst!
-// TODO: Fix inputs
 
 </script>
 <template>
