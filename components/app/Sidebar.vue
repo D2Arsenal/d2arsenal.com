@@ -6,12 +6,35 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
-import {Bars3CenterLeftIcon, XMarkIcon} from '@heroicons/vue/24/outline'
-import {MagnifyingGlassIcon} from '@heroicons/vue/20/solid'
+import { Bars3CenterLeftIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 import { useManifestStore } from '~/store/manifest';
+import Fuse from 'fuse.js'
 
 const manifestStore = useManifestStore()
 const sidebarOpen = ref(false)
+
+const query = ref('')
+
+const fuse = computed(() => new Fuse(manifestStore.weapons, {
+  keys: ['name'],
+  threshold: 0.2
+}))
+
+
+const filteredWeaponsWithoutSlice = computed(() => {
+  if (!query.value) {
+    return manifestStore.weapons
+  }
+  return fuse.value.search(query.value, { limit: 51 }).map(({ item }) => item)
+})
+
+const filteredWeapons = computed(() => {
+  const weapons = filteredWeaponsWithoutSlice.value.slice(0, 50)
+  const hasMore = filteredWeaponsWithoutSlice.value.length > 50
+  return { weapons, hasMore }
+})
+
 </script>
 
 <template>
@@ -78,12 +101,13 @@ const sidebarOpen = ref(false)
             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3" aria-hidden="true">
               <MagnifyingGlassIcon class="mr-3 h-4 w-4 text-gray-100" aria-hidden="true" />
             </div>
-            <input type="text" name="search" id="search"
+            <input type="text" name="search" id="search" v-model="query"
               class="block w-full rounded-md border-gray-100 placeholder-gray-100 bg-gray-900 text-gray-100 pl-9 focus:ring-indigo-800 sm:text-sm py-4"
               placeholder="Search" />
           </div>
         </div>
-        <ResultList class="mt-4 overflow-y-auto" :weapons="manifestStore.weapons.slice(0, 10)" />
+        <ResultList class="mt-4 overflow-y-auto" :weapons="filteredWeapons.weapons"
+          :has-more="filteredWeapons.hasMore" />
       </div>
     </div>
     <!-- Main column -->
@@ -104,14 +128,11 @@ const sidebarOpen = ref(false)
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
                   <MagnifyingGlassIcon class="h-5 w-5" aria-hidden="true" />
                 </div>
-                <input id="search-field" name="search-field"
+                <input id="search-field" v-model="query" name="search-field"
                   class="block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm"
                   placeholder="Search" type="search" />
               </div>
             </form>
-          </div>
-          <div class="flex items-center">
-            <!-- Profile dropdown -->
           </div>
         </div>
       </div>

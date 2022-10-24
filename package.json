@@ -19,6 +19,7 @@
     "@nuxtjs/tailwindcss": "^6.1.0",
     "@pinia/nuxt": "^0.4.2",
     "bungie-api-ts": "^4.19.0",
+    "fuse.js": "^6.6.2",
     "nuxt": "^3.0.0-rc.12",
     "unstorage": "0.6.0",
     "vue-tippy": "^6.0.0-alpha.65"
