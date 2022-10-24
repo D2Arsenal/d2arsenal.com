@@ -67,7 +67,7 @@ const resetPerk = (colIndex: number) => {
 const masterwork = computed(() => data.value?.masterwork)
 
 const selectedMasterworkHash = ref(decodedHashes.masterwork)
-const selectedMasterworkItem = computed(() => manifestStore.catalysts?.find(i => i.hash === selectedMasterworkHash.value))
+const selectedMasterworkItem = computed(() => masterwork.value?.flatMap(mw => mw.data.benefits).find(i => i.hash === selectedMasterworkHash.value))
 const resetMasterwork = () => selectedMasterworkHash.value = null
 
 const router = useRouter()

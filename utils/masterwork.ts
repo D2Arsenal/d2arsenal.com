@@ -3,11 +3,19 @@ import { TierType, DestinyItemSubType } from "bungie-api-ts/destiny2";
 import type { DestinyPlugSetDefinition, DestinyStatDisplayDefinition, DestinyStatGroupDefinition, } from "bungie-api-ts/destiny2";
 import type { DefinitionRecord } from "~/types";
 
-const MASTERWORK_BASE: Record<string, {
+type MasterworkData = {
   benefits: PrunedDestinyInventoryItemDefinition[],
   hash: number,
-  active: boolean
-}> = {
+  active: boolean,
+  catalyst?: PrunedDestinyInventoryItemDefinition
+}
+
+export type Masterwork = {
+  statistic: string,
+  data: MasterworkData,
+}
+
+const MASTERWORK_BASE: Record<string, MasterworkData> = {
   stability: {
     benefits: [],
     hash: 155624089,
@@ -74,6 +82,10 @@ export function buildMasterwork (weapon: PrunedDestinyInventoryItemDefinition, s
   const isSuperior = weapon.inventory!.tierType === TierType.Superior
   const w = [4160547565, 4126105782, 3728733956, 2273483223]
   const masterwork = createDefaultMasterwork()
+  Object.values(masterwork).forEach((mw) => {
+    mw.catalyst = catalysts.find(c => c.hash === mw.hash)
+    return mw
+  })
   if (!isSuperior) {
     return
   }

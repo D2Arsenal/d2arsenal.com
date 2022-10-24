@@ -73,7 +73,7 @@ const sortedStats = computed(() => Object.entries(allStats.value).sort(([, a], [
     return -1
   }
   if (a.displayType !== 'bar' && b.displayType === 'bar') {
-    return 1
+    return -1
   }
   return 0
 }))

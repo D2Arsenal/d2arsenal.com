@@ -4,7 +4,7 @@ import type { DefinitionRecord } from '~/types';
 import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
 import type { Mod } from '~/utils/mods';
 import { isExotic } from '~/utils/weapon';
-import { Perk } from '~~/utils/perks.js';
+import { Perk } from '~~/utils/perks';
 
 const props = defineProps<{
   weapon: PrunedDestinyInventoryItemDefinition,

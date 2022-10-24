@@ -135,7 +135,6 @@ export const loadMinimalManifest = async () => {
   // TODO: remove mods and masterworks after adding to single endpoint
   const minimalManifest: MinimalManifestData = {
     mods: data.mods,
-    catalysts: data.catalysts,
     itemTiers: data.itemTiers,
     statDefs: data.statDefs,
     statGroups: data.statGroups,

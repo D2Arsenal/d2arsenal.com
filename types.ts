@@ -25,5 +25,6 @@ export type MinimalManifestData = Omit<ManifestData,
   'weapons' |
   'frames' |
   'weaponTraits' |
-  'masterworks'
+  'masterworks' |
+  'catalysts'
 >
