@@ -4,7 +4,7 @@ overrides:
   '@types/node': 18.8.0
 
 specifiers:
-  '@headlessui/vue': ^0.0.0-insiders.f66f492
+  '@headlessui/vue': 0.0.0-insiders.f66f492
   '@heroicons/vue': ^2.0.12
   '@nuxtjs/tailwindcss': ^6.1.0
   '@pinia/nuxt': ^0.4.2
@@ -15,7 +15,7 @@ specifiers:
   vue-tippy: ^6.0.0-alpha.65
 
 devDependencies:
-  '@headlessui/vue': 0.0.0
+  '@headlessui/vue': 0.0.0-insiders.f66f492
   '@heroicons/vue': 2.0.12
   '@nuxtjs/tailwindcss': 6.1.1
   '@pinia/nuxt': 0.4.3
@@ -368,9 +368,11 @@ packages:
     dev: true
     optional: true
 
-  /@headlessui/vue/0.0.0:
-    resolution: {integrity: sha512-nhnRk7yIcUysoEiHpFE5kAFaqP7hbwVLouNMdMBppfJ9MuYeYvyjSTGnvMhfJWc/qidYQEOYPFelBNTlzHrQKg==}
+  /@headlessui/vue/0.0.0-insiders.f66f492:
+    resolution: {integrity: sha512-iHiS4W/b+l6vPN4RZaLR8nxuYfg99wz7EbyWln54Qbi9Z1CPO7X3Sx1laVbahMyZXe5PH/lZd9+2dw9erIMtfg==}
     engines: {node: '>=10'}
+    peerDependencies:
+      vue: ^3.2.0
     dev: true
 
   /@heroicons/vue/2.0.12:
