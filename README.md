@@ -2,6 +2,7 @@
 
 * Perks
   * Show & selectable Enhanced Perks
+  * Keep "dummy" rows of curated perks if some are empty
 * WeaponSummary
   * Stat Calculation
     * Modules
