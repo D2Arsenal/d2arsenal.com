@@ -19,10 +19,10 @@ const statisticsIndex = computed(() => {
   return index === -1 ? null : index
 })
 
-const activeTabIndex = computed(() => statisticsIndex.value !== null ? (statisticsIndex.value + 1) : 0)
+const activeTabIndex = computed(() => statisticsIndex.value ?? -1)
 
 const currentIndex = computed(() => statisticsIndex.value !== null ? props.options[statisticsIndex.value].data.benefits.findIndex(b => b.hash === props.modelValue) : null)
-const currentLevel = computed(() => currentIndex.value !== null ? currentIndex.value + 1 : 0)
+const currentLevel = computed(() => currentIndex.value !== null ? currentIndex.value + 1 : 1)
 
 const emit = defineEmits<{
   (event: 'update:modelValue', masterwork: number | null): void
@@ -58,14 +58,14 @@ const resetMasterwork = () => {
 }
 
 const onMasterworkTypeSwitch = (index: number) => {
-  if (!index) {
+  if (index === statisticsIndex.value) {
     resetMasterwork()
     return
   }
-  updateMasterworkForStatisticIndex(index - 1)
+  updateMasterworkForStatisticIndex(index)
 }
 
-const buttonNames = computed(() => ['None'].concat(props.options.map(o => o.statistic)))
+const buttonNames = computed(() => props.options.map(o => o.statistic.replaceAll('_', ' ')))
 
 // TODO: Exotic Catalyst!
 
