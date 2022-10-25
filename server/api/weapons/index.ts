@@ -1,7 +1,8 @@
 import { loadManifest } from '~/utils/server/manifest';
+import pkg from '~/package.json'
 
 export default defineEventHandler(async (event) => {
-  const { data } = await loadManifest()
+  const { data, version } = await loadManifest()
   const { weapons } = data
 
   const minimalWeapons = weapons.map((weapon) => ({
@@ -10,6 +11,8 @@ export default defineEventHandler(async (event) => {
     icon: weapon.displayProperties.icon,
     watermark: weapon.iconWatermark,
   }))
+
+  setResponseHeader(event, 'ETag', version + pkg.version)
 
   return minimalWeapons
 })

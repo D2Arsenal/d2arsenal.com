@@ -1,12 +1,12 @@
-import { Masterwork } from './../../../utils/masterwork';
 import { loadManifest } from '~/utils/server/manifest';
 import { buildPerks } from '~/utils/perks';
 import { buildMasterwork } from '~/utils/masterwork';
-
+import type { Masterwork } from '~/utils/masterwork';
+import pkg from '~/package.json'
 
 export default defineEventHandler(async (event) => {
   const id = Number(event.context.params.id)
-  const { data } = await loadManifest()
+  const { data, version } = await loadManifest()
   // TODO: Rewrite as object for easier lookup?
   const { weapons, weaponTraits, plugSets, statDefs, statGroups, frames, catalysts } = data
 
@@ -28,6 +28,8 @@ export default defineEventHandler(async (event) => {
       statistic,
       data
     }))
+
+  setResponseHeader(event, 'ETag', version + pkg.version)
 
   return { weapon, perks, masterwork }
 })
