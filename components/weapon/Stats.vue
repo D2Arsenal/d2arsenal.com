@@ -57,22 +57,29 @@ const weaponStats = computed(() => {
   return getStatsForItem(availableStats.value, props.weapon, statGroupEntry.value)
 })
 
-const allStats = computed(() =>
-  Object.fromEntries(weaponStats.value.map((stat) => {
-      const perkStatValue = perkStats.value[stat.hash]?.value ?? 0
-      const res: FormattedStat = {
-        ...stat,
-        augmentedValue: stat.value + perkStatValue
-      }
-      return [stat.hash, res]
-    }))
-)
+const allStats = computed(() => weaponStats.value.slice()
+  .sort((a, b) => {
+    if (a.displayType === 'bar' && b.displayType !== 'bar') {
+      return -1
+    }
+    if (a.displayType !== 'bar' && b.displayType === 'bar') {
+      return 1
+    }
+    return 0
+  }).map((stat) => {
+    const perkStatValue = perkStats.value[stat.hash]?.value ?? 0
+    const res: FormattedStat = {
+      ...stat,
+      augmentedValue: stat.value + perkStatValue
+    }
+    return res
+  }))
 
 
 </script>
 <template>
   <ul class="flex flex-col text-sm space-y-2">
-    <li class="grid grid-cols-3 break-inside-avoid" v-for="stat, hash in allStats" :key="hash">
+    <li class="grid grid-cols-3 break-inside-avoid" v-for="stat in allStats" :key="stat.hash">
       <span class="text-right pr-4">{{ stat.name }}</span>
       <WeaponStatsBar class="col-span-2" v-if="stat.value && stat.displayType === 'bar'" :base-value="stat.value"
         :new-value="stat.augmentedValue" />
