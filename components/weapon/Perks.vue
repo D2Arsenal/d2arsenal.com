@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PERK_NONE } from '~/utils/perks';
+import { CANNOT_ROLL_PERK_WARNING as WARNING, PERK_NONE } from '~/utils/perks';
 import type { Perk } from '~/utils/perks';
 
 const props = defineProps<{
@@ -16,8 +16,6 @@ const setPerk = (columnIndex: number, hash: number) => {
 }
 
 const isSelected = (columnIndex: number, hash?: number) => props.modelValue[columnIndex] === hash
-const WARNING = 'This perk currently cannot roll on this weapon'
-
 </script>
 <template>
   <Card heading="Weapon perks">

@@ -9,6 +9,7 @@ export const PERK_NONE = 0
 export const PERK_LENGTH = 6
 export const COMMON_PERK_LENGTH = 4
 export const PERK_INTRINSIC_COLUMN = 0
+export const CANNOT_ROLL_PERK_WARNING = 'This perk currently cannot roll on this weapon'
 
 export type Perk = {
   hash: number,
