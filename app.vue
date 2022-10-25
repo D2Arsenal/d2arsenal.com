@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Bars3CenterLeftIcon } from '@heroicons/vue/24/outline'
-import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 import { useManifestStore } from '~/store/manifest'
 
 const manifestStore = useManifestStore()

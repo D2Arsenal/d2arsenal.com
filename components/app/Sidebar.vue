@@ -44,7 +44,7 @@ const filteredWeapons = computed(() => {
         <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0"
           enter-to="opacity-100" leave="transition-opacity ease-linear duration-300" leave-from="opacity-100"
           leave-to="opacity-0">
-          <div class="fixed inset-0 bg-gray-600 bg-opacity-75" />
+          <div class="fixed inset-0 bg-slate-600 bg-opacity-75" />
         </TransitionChild>
 
         <div class="fixed inset-0 z-40 flex">
@@ -88,7 +88,7 @@ const filteredWeapons = computed(() => {
 
     <!-- Static sidebar for desktop -->
     <div
-      class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-96 lg:flex-col lg:border-r lg:border-gray-700 lg:bg-gray-800 lg:pt-5 lg:pb-4">
+      class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-96 lg:flex-col lg:border-r lg:border-gray-700 lg:bg-slate-800 lg:pt-5 lg:pb-4">
       <NuxtLink to="/" class="flex flex-shrink-0 items-center px-6">
         <p class="text-2xl">D2 Arsenal</p>
       </NuxtLink>
