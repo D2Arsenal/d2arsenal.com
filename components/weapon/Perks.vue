@@ -7,6 +7,8 @@ const props = defineProps<{
   modelValue: number[],
 }>()
 
+const hasCuratedRoll = computed(() => props.perks.curatedPerks.some(c => c.length))
+
 const emit = defineEmits<{ (event: 'update:modelValue', value: any): void }>()
 
 const setPerk = (columnIndex: number, hash: number) => {
@@ -31,7 +33,7 @@ const isSelected = (columnIndex: number, hash?: number) => props.modelValue[colu
         </ul>
       </div>
     </Card>
-    <Card heading="Curated roll">
+    <Card v-if="hasCuratedRoll" heading="Curated roll">
     <div class="flex mt-8 justify-center divide-x-2 divide-slate-500">
       <ul class="px-4 space-y-4" v-for="perkColumn, i in perks.curatedPerks">
         <li v-for="perk in perkColumn">
