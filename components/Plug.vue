@@ -10,6 +10,7 @@ const props = defineProps<{
   isDemoted?: boolean,
   subDescription?: string,
   warning?: string,
+  placeholder?: string,
   stats?: Stat[]
 }>()
 
@@ -20,7 +21,7 @@ const computedClasses = computed(() => [
   props.isSelected && 'bg-blue-500/75',
 ])
 
-const icon = computed(() => props.item?.displayProperties.icon ?? '')
+const icon = computed(() => props.item?.displayProperties.icon ?? props.placeholder ?? '')
 
 const beforeClass = computed(() => `enabled:before:absolute enabled:before:top-0 enabled:before:left-0 enabled:before:w-full enabled:before:h-full ${props.isSquared ? '' : 'enabled:before:rounded-full '}enabled:before:transition-color enabled:before:duration-400 enabled:hover:before:bg-gray-300/25`)
 const afterClass = computed(() => `enabled:after:absolute enabled:after:top-0 enabled:after:left-0 enabled:after:w-full enabled:after:h-full ${props.isSquared ? '' : 'enabled:after:rounded-full '}enabled:after:transform enabled:after:transform-gpu enabled:after:scale-110 enabled:after:ease-in-out enabled:after:transition-shadow enabled:after:duration-400 enabled:hover:after:shadow-[0_0_0_1px]`)
