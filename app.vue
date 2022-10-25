@@ -14,10 +14,11 @@ useHead({
   <div class="h-full">
     <AppSidebar />
 
-    <div class="flex flex-col lg:pl-96">
-      <main class="flex-1">
+    <div class="flex flex-col justify-center lg:pl-96 min-h-screen">
+      <main class="flex-auto">
         <NuxtPage />
       </main>
+      <AppFooter class="flex-grow-0" />
     </div>
   </div>
 </template>
