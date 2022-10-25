@@ -7,6 +7,7 @@ defineProps<{
   subheading?: string,
   description?: string,
   subDescription?: string,
+  warning?: string,
   stats?: Stat[],
   isDisabled?: boolean
 }>()
@@ -33,18 +34,21 @@ const abs = Math.abs
   <Tippy :delay="0" :duration="[0, 0]" placement="left-end" :arrow="false">
     <slot />
     <template #content>
-      <div v-if="!isDisabled" class="w-96 max-w-96 border-t-8 bg-black/90 text-white rounded-sm pt-1 pb-4 border-t-white">
+      <div v-if="!isDisabled"
+        class="w-96 max-w-96 border-t-8 bg-black/90 text-white rounded-sm pt-1 pb-4 border-t-white">
         <header class="bg-black px-4 -mt-1 pt-1 pb-1">
-          <p class="uppercase text-xl font-bold">{{heading}}</p>
-          <span>{{subheading}}</span>
+          <p class="uppercase text-xl font-bold">{{ heading }}</p>
+          <span>{{ subheading }}</span>
         </header>
+        <p class="px-4 text-xs py-2 mt-4 bg-red-500/50" v-if="warning">
+          {{ warning }}
+        </p>
         <section class="mt-4 text-sm whitespace-pre-wrap px-4">
-          <p>{{description}}</p>
+          <p>{{ description }}</p>
           <p class="mt-1 text-gray-400">{{ subDescription }}</p>
           <div class="border-t mt-4 pt-2 border-t-white" v-if="stats?.length">
             <ul>
-              <li class="grid grid-cols-5 w-2/3" v-for="stat in stats"
-                :key="stat.name">
+              <li class="grid grid-cols-5 w-2/3" v-for="stat in stats" :key="stat.name">
                 <span class="col-span-4">
                   {{ stat.name }}
                 </span>

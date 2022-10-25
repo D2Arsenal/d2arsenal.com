@@ -7,7 +7,9 @@ const props = defineProps<{
   isSquared?: boolean,
   isSelected?: boolean,
   isDisabled?: boolean,
+  isDemoted?: boolean,
   subDescription?: string,
+  warning?: string,
   stats?: Stat[]
 }>()
 
@@ -28,10 +30,10 @@ const afterClass = computed(() => `enabled:after:absolute enabled:after:top-0 en
 
 <template>
   <Tooltip :is-disabled="!item" :heading="item?.displayProperties.name ?? ''" :subheading="item?.itemTypeDisplayName"
-    :description="item?.displayProperties.description" :sub-description="subDescription" :stats="stats">
+    :description="item?.displayProperties.description" :sub-description="subDescription" :warning="warning" :stats="stats">
     <button class="border-2 relative h-12 w-12 flex justify-center items-center shadow-white"
       :class="[computedClasses, beforeClass, afterClass]" :disabled="isDisabled">
-      <span class="relative">
+      <span class="relative" :class="{ 'opacity-50': isDemoted }">
         <WeaponIcon :icon="icon" :size="isSquared ? 'lg' : 'sm'" :watermark="item?.iconWatermark" />
       </span>
     </button>
