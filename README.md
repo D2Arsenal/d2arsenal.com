@@ -23,3 +23,4 @@
 
 
 * Incorporate https://github.com/DestinyItemManager/d2-additional-info
+* i18n with the API

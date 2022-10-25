@@ -73,7 +73,7 @@ const resetMasterwork = () => selectedMasterworkHash.value = null
 
 const router = useRouter()
 const updateRouteOnChange = () => {
-  const newRoutePrefix = `/weapons/${weaponHash}/`
+  const newRoutePrefix = `/en/weapons/${weaponHash}/`
   const slugValues = [
     selectedPerkHashes.value.join(','),
     selectedMasterworkHash.value ?? 0,
