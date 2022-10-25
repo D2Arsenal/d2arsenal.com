@@ -38,7 +38,7 @@ const updateMasterworkForLevel = (event: Event) => {
     updateMasterwork(null)
     return
   }
-  
+
 
   if (statisticsIndex.value === null) {
     return
@@ -65,7 +65,11 @@ const onMasterworkTypeSwitch = (index: number) => {
   updateMasterworkForStatisticIndex(index)
 }
 
-const buttonNames = computed(() => props.options.map(o => o.statistic.replaceAll('_', ' ')))
+const buttonNames = computed(() => props.options.map(o => o.statistic
+  .replaceAll('_', ' ')
+  .replace('damage', 'impact')
+  .replace('projectile speed', 'velocity')
+))
 
 // TODO: Exotic Catalyst!
 
@@ -75,6 +79,9 @@ const buttonNames = computed(() => props.options.map(o => o.statistic.replaceAll
     <div v-if="isExoticWeapon">
       <h2>Exotic catalysts are not available in D2 Arsenal yet</h2>
     </div>
+    <div v-if="!buttonNames.length && !isExoticWeapon">
+      <h2>There are no masterworks for this weapon</h2>
+    </div>
     <nav v-if="!isExoticWeapon" class="flex items-center space-x-2">
       <AppButton v-for="title, i in buttonNames" :key="title" :is-active="activeTabIndex === i"
         @click="onMasterworkTypeSwitch(i)">{{ title }}</AppButton>
@@ -82,11 +89,12 @@ const buttonNames = computed(() => props.options.map(o => o.statistic.replaceAll
     <div class="grid grid-cols-5 w-full mt-8" :class="!modelValue && 'invisible'">
       <label>
         <span class="sr-only">Masterwork Level</span>
-        <input :disabled="!modelValue" class="appearance-none cursor-pointer bg-transparent w-12 h-12 pl-4 m-0 text-xl border border-white"
+        <input :disabled="!modelValue"
+          class="appearance-none cursor-pointer bg-transparent w-12 h-12 pl-4 m-0 text-xl border border-white"
           type="number" min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel">
       </label>
-          <AppRangeInput :disabled="!modelValue" wrapper-class="col-span-4 w-full" class="w-full h-full" type="range" min="0" max="10" :value="currentLevel"
-        @change="updateMasterworkForLevel" />
+      <AppRangeInput :disabled="!modelValue" wrapper-class="col-span-4 w-full" class="w-full h-full" type="range"
+        min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel" />
     </div>
   </Card>
 </template>

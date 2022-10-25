@@ -28,7 +28,7 @@ const emit = defineEmits<{
 
 <template>
   <div class="max-w-full text-white grid grid-cols-1">
-    <div class="relative p-4 flex flex-col col-start-1 row-start-1">
+    <div class="relative z-[2] p-4 flex flex-col col-start-1 row-start-1">
       <div class="flex justify-between">
         <div class="flex items-center">
           <div>
@@ -55,6 +55,7 @@ const emit = defineEmits<{
         <WeaponPreset @reset:mod="emit('reset:mod')" @reset:masterwork="emit('reset:masterwork')" @reset:perk="emit('reset:perk', $event)" :masterwork="masterwork" :perks="perks" :mod="mod" :is-exotic="isExoticWeapon" />
       </div>
     </div>
+    <div class="col-start-1 col-end-3 row-start-1 h-full z-[1] bg-black/10" />
     <img class="col-start-1 col-end-3 row-start-1 object-cover" :src="useBungieUrl(weapon.screenshot)" loading="lazy">
   </div>
 </template>

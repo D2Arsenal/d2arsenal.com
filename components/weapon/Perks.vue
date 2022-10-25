@@ -21,8 +21,8 @@ const WARNING = 'This perk currently cannot roll on this weapon'
 </script>
 <template>
   <Card heading="Weapon perks">
-    <div class="flex justify-center space-x-4">
-      <ul class="space-y-4" v-for="perkColumn, i in perks">
+    <div class="flex mt-8 justify-center divide-x-2 divide-slate-500">
+      <ul class="px-4 space-y-4" v-for="perkColumn, i in perks">
         <li v-for="perk in perkColumn">
           <Plug :item="perk.trait" :is-selected="isSelected(i, perk.trait?.hash)" @click="setPerk(i, perk.trait!.hash)"
             :sub-description="perk.subDescription" :warning="perk.currentlyCanRoll ? undefined : WARNING"
