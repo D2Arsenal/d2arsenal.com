@@ -43,13 +43,13 @@ const resetMod = () => {
   selectedModHash.value = null
 }
 
-const perks = computed(() => data.value?.perks ?? [])
+const perks = computed(() => data.value?.perks ?? { perks: [], curatedPerks: [] })
 // Hides intrinsic perks
-const perksToDisplay = computed(() => perks.value?.slice(1))
+const perksToDisplay = computed(() => ({ perks: perks.value?.perks.slice(1), curatedPerks: perks.value?.curatedPerks }))
 
 const selectedPerkHashes = ref(decodedHashes.perks)
 const selectedPerks = computed(() => {
-  const intrinsicPerks = (perks.value?.[0] ?? []).map(p => p.hash)
+  const intrinsicPerks = (perks.value?.perks[0] ?? []).map(p => p.hash)
 
   const perksToUse = intrinsicPerks.concat(selectedPerkHashes.value)
   return perksToUse.map((hash, i) => {
@@ -57,7 +57,7 @@ const selectedPerks = computed(() => {
       return null
     }
 
-    return perks.value.flat().find(t => t.hash === hash) ?? null
+    return perks.value.perks.flat().find(t => t.hash === hash) ?? null
   })
 })
 
@@ -106,7 +106,8 @@ useHead({
         <WeaponExtras />
       </div>
       <div class="col-span-3 flex flex-col">
-        <WeaponMasterwork v-if="masterwork" :options="masterwork" v-model="selectedMasterworkHash" :is-exotic-weapon="isExoticWeapon" />
+        <WeaponMasterwork v-if="masterwork" :options="masterwork" v-model="selectedMasterworkHash"
+          :is-exotic-weapon="isExoticWeapon" />
         <WeaponMods class="mt-4" v-model="selectedModHash" v-if="mods" :mods="mods"
           :can-apply-adept-mods="canApplyAdeptMods" />
       </div>

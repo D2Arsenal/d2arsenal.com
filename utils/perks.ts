@@ -13,8 +13,6 @@ export const CANNOT_ROLL_PERK_WARNING = 'This perk currently cannot roll on this
 
 export type Perk = {
   hash: number,
-  isCurated: boolean,
-  curatedOnly: boolean,
   isIntrinsic: boolean,
   currentlyCanRoll: boolean,
   hasEnhanced?: boolean,
@@ -41,26 +39,28 @@ const lookupTraitForPerkFactory = (traits: PrunedDestinyInventoryItemDefinition[
   };
 }
 
-export function buildPerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition, isCurated: boolean = false) {
-  const columns = resolvePerks(weapon, plugSets, traits, stats, statGroups, frame, isCurated)
-  return columns.filter(c => c.length > 0)
+export function buildPerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition) {
+  const { curatedPerks, perks } = resolvePerks(weapon, plugSets, traits, stats, statGroups, frame)
+  return {
+    curatedPerks: curatedPerks.filter(c => c.length > 0),
+    perks: perks.filter(c => c.length > 0)
+  }
 }
 
-function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition, isCurated: boolean = false) {
+function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition) {
   const lookupTraitForPerk = lookupTraitForPerkFactory(traits, stats, statGroups)
 
   // TODO: Revisit and refactor
 
   const n = weapon.sockets?.socketEntries
   const perks: Perk[][] = [[], [], [], [], [], []]
+  const curatedPerks: Perk[][] = [[], [], [], [], [], []]
   const f = weapon.sockets?.socketCategories.find((s) => 3956125808 === s.socketCategoryHash)
   const d = weapon.sockets?.socketCategories.find((s) => 4241085061 === s.socketCategoryHash)
 
   if (frame) {
     perks[0].push({
       hash: frame.hash,
-      isCurated: false,
-      curatedOnly: false,
       isIntrinsic: true,
       currentlyCanRoll: true,
       trait: frame,
@@ -74,8 +74,6 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
   if (h && h.singleInitialItemHash !== 0) {
     perks[0].push({
       hash: h.singleInitialItemHash,
-      isCurated: false,
-      curatedOnly: false,
       isIntrinsic: true,
       currentlyCanRoll: true,
       ...lookupTraitForPerk(h.singleInitialItemHash)
@@ -88,8 +86,6 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
         const c = plugSets[hash]?.reusablePlugItems
         perks[5] = c.map((p) => ({
           hash: p.plugItemHash,
-          isCurated: false,
-          curatedOnly: false,
           isIntrinsic: false,
           currentlyCanRoll: p.currentlyCanRoll,
           hasEnhanced: false,
@@ -117,8 +113,6 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
       const c = plugSets[socketEntry.reusablePlugSetHash]
       const r: Perk[] = c.reusablePlugItems.map((e) => ({
         hash: e.plugItemHash,
-        isCurated: false,
-        curatedOnly: false,
         isIntrinsic: false,
         currentlyCanRoll: true,
         ...lookupTraitForPerk(e.plugItemHash)
@@ -126,23 +120,21 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
 
       perks[index + 1].push(...r)
     })
-    return perks
+    return { curatedPerks, perks }
   }
 
-  if (isCurated) {
-    m?.forEach((socketEntry, index) => {
-      const r: Perk[] = socketEntry.reusablePlugItems.map((e) => ({
-        hash: e.plugItemHash,
-        isCurated: false,
-        curatedOnly: false,
-        isIntrinsic: false,
-        currentlyCanRoll: true,
-        ...lookupTraitForPerk(e.plugItemHash)
-      }))
-      perks[index + 1].push(...r)
-    })
-    return perks
-  }
+  // Setup curated perks
+  // TODO: Find a nicer way for this!
+  m?.forEach((socketEntry, index) => {
+    const r: Perk[] = socketEntry.reusablePlugItems.map((e) => ({
+      hash: e.plugItemHash,
+      isIntrinsic: false,
+      currentlyCanRoll: true,
+      ...lookupTraitForPerk(e.plugItemHash)
+    }))
+    curatedPerks[index + 1].push(...r)
+  })
+
   m?.forEach(function (socketEntry, index) {
     const plugSetHash = socketEntry?.randomizedPlugSetHash ?? socketEntry.reusablePlugSetHash ?? -1
     const plug = plugSets[plugSetHash].reusablePlugItems
@@ -160,15 +152,15 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
 
     const e = (p: DestinyItemSocketEntryPlugItemRandomizedDefinition) => f.some((e) => e.plugItemHash === p.plugItemHash)
     const t = (p: DestinyItemSocketEntryPlugItemRandomizedDefinition) => d.some((e) => e.plugItemHash === p.plugItemHash)
-    let m = h.filter((p) => {
-      return !(e(p) && t(p) && !p.currentlyCanRoll) && p
-    }).filter((entry, index, array) => (
-      // Dedupe
-      array.findIndex((t) => (
-        t.plugItemHash === entry.plugItemHash &&
-        t.currentlyCanRoll === entry.currentlyCanRoll
-      )) === index
-    ))
+    let m = h
+      .filter((p) => !(e(p) && t(p) && !p.currentlyCanRoll) && p)
+      .filter((entry, index, array) => (
+        // Dedupe
+        array.findIndex((t) => (
+          t.plugItemHash === entry.plugItemHash &&
+          t.currentlyCanRoll === entry.currentlyCanRoll
+        )) === index
+      ))
 
     const v = m.filter((e) => {
       const trait = traits.find((t) => t.hash === e.plugItemHash)
@@ -201,5 +193,5 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
       })
   })
 
-  return perks
+  return { curatedPerks, perks }
 }

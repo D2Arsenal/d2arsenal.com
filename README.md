@@ -1,7 +1,6 @@
 # TODO
 
 * Perks
-  * Display Curated roll
   * Show & selectable Enhanced Perks
 * WeaponSummary
   * Stat Calculation
@@ -20,3 +19,6 @@
   * Damage Falloff
   * TTK
   * Reload
+
+
+* Incorporate https://github.com/DestinyItemManager/d2-additional-info
