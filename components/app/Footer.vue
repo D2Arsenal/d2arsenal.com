@@ -12,6 +12,8 @@ const { version } = pkg
       Discord
       &bull;
       Twitter
+      &bull;
+      Donate
     </div>
     <div>Destiny 2 & all related media © Bungie</div>
   </footer>
