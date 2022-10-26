@@ -8,8 +8,10 @@ import {
 } from '@headlessui/vue'
 import { Bars3CenterLeftIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
-import { useManifestStore } from '~/store/manifest';
 import Fuse from 'fuse.js'
+import { useManifestStore } from '~/store/manifest';
+
+import LogoWithFontSvg from '~/assets/img/d2a-logo-with-font.svg'
 
 const manifestStore = useManifestStore()
 const sidebarOpen = ref(false)
@@ -90,10 +92,10 @@ const filteredWeapons = computed(() => {
     <div
       class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-96 lg:flex-col lg:border-r lg:border-gray-700 lg:bg-slate-800 lg:pt-5 lg:pb-4">
       <NuxtLink to="/" class="flex flex-shrink-0 items-center px-6">
-        <p class="text-2xl">D2 Arsenal</p>
+          <LogoWithFontSvg title="D2 Arsenal" alt="D2 Arsenal" class="text-gray-200"/>
       </NuxtLink>
       <!-- Sidebar component, swap this element with another sidebar if you like -->
-      <div class="mt-6 flex h-0 flex-1 flex-col">
+      <div class="mt-2 flex h-0 flex-1 flex-col">
         <!-- Sidebar Search -->
         <div class="mt-4 px-3">
           <label for="search" class="sr-only">Search</label>

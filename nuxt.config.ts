@@ -1,3 +1,5 @@
+import svgLoader from 'vite-svg-loader'
+
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss'],
   app: {
@@ -13,5 +15,11 @@ export default defineNuxtConfig({
   },
   build: {
     transpile: ["@heroicons/vue", "@headlessui/vue"]
+  },
+  vite: {
+    plugins: [svgLoader()]
+  },
+  routeRules: {
+    '/en/weapons/**': { static: true }
   }
 })

@@ -12,6 +12,7 @@ specifiers:
   fuse.js: ^6.6.2
   nuxt: ^3.0.0-rc.12
   unstorage: 0.6.0
+  vite-svg-loader: ^3.6.0
   vue-tippy: ^6.0.0-alpha.65
 
 devDependencies:
@@ -23,6 +24,7 @@ devDependencies:
   fuse.js: 6.6.2
   nuxt: 3.0.0-rc.12
   unstorage: 0.6.0
+  vite-svg-loader: 3.6.0
   vue-tippy: 6.0.0-alpha.65
 
 packages:
@@ -5162,6 +5164,13 @@ packages:
       vscode-languageserver: 7.0.0
       vscode-languageserver-textdocument: 1.0.7
       vscode-uri: 3.0.6
+    dev: true
+
+  /vite-svg-loader/3.6.0:
+    resolution: {integrity: sha512-bZJffcgCREW57kNkgMhuNqeDznWXyQwJ3wKrRhHLMMzwDnP5jr3vXW3cqsmquRR7VTP5mLdKj1/zzPPooGUuPw==}
+    dependencies:
+      '@vue/compiler-sfc': 3.2.41
+      svgo: 2.8.0
     dev: true
 
   /vite/3.1.8:

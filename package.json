@@ -23,6 +23,7 @@
     "fuse.js": "^6.6.2",
     "nuxt": "^3.0.0-rc.12",
     "unstorage": "0.6.0",
+    "vite-svg-loader": "^3.6.0",
     "vue-tippy": "^6.0.0-alpha.65"
   },
   "resolutions": {

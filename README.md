@@ -18,7 +18,7 @@
     * Paypal
 * Layout
   * Mobile and tablet
-  * Icon
+* PWA + favicons
 
 ## Post-launch
 
