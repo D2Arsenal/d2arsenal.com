@@ -91,7 +91,9 @@ const favicon = computed(() => useBungieUrl(weapon.value?.displayProperties.icon
 // TODO: description based on changed values
 useHead({
   title: weapon.value?.displayProperties.name,
-  link: [{ rel: 'icon', href: favicon }]
+  // TODO: Wrong type here
+  // @ts-ignore
+  link: [{ rel: 'shortcut icon', href: favicon, key: 'favicon' }]
 })
 </script>
 

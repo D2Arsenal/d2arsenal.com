@@ -4,9 +4,14 @@ import { useManifestStore } from '~/store/manifest'
 const manifestStore = useManifestStore()
 await manifestStore.init()
 
+// TODO: 
 // TODO: Meta tags and so on
 useHead({
-  titleTemplate: t => t ? `${t} - D2 Arsenal` : 'D2 Arsenal - Craft your favorite weapon'
+  titleTemplate: t => t ? `${t} - D2 Arsenal` : 'D2 Arsenal - Craft your favorite weapon',
+  // TODO: How to "delete" tag?
+  // TODO: Wrong type here
+  // @ts-ignore
+  link: [{ key: 'favicon' }]
 })
 </script>
 

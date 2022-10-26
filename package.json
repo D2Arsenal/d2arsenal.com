@@ -17,6 +17,7 @@
   "devDependencies": {
     "@headlessui/vue": "0.0.0-insiders.f66f492",
     "@heroicons/vue": "^2.0.12",
+    "@kevinmarrec/nuxt-pwa": "^0.9.1",
     "@nuxtjs/tailwindcss": "^6.1.0",
     "@pinia/nuxt": "^0.4.2",
     "bungie-api-ts": "^4.19.0",
