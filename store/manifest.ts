@@ -21,7 +21,6 @@ export const useManifestStore = defineStore('manifest', () => {
     }
     return mods.value?.filter(w => isSandboxMod(w))
   })
-  const catalysts = computed(() => data.value?.catalysts ?? [])
 
   const init = async () => {
     const [{ minimalManifest, version: _version }, minimalWeaponsData] = await Promise.all([$fetch('/api/manifest'), $fetch('/api/weapons')])
@@ -31,5 +30,5 @@ export const useManifestStore = defineStore('manifest', () => {
   }
 
 
-  return { init, version, data, weapons, damageTypes, mods, sandboxMods, catalysts }
+  return { init, version, data, weapons, damageTypes, mods, sandboxMods }
 })

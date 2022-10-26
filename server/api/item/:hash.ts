@@ -20,6 +20,7 @@ export default defineEventHandler(async (event) => {
       }
     }
   }) ?? 'NOT FOUND'
-  // @ts-ignore - Why is that?!?
+  // TODO: Why is that?!?
+  // @ts-ignore
   return res[hash] ?? res
 })
