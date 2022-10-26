@@ -5,13 +5,10 @@
 
 * Perks
   * Show & selectable Enhanced Perks
-  * Keep "dummy" rows of curated perks if some are empty
 * WeaponSummary
   * Stat Calculation
     * Modules
     * Masterwork?
-* Masterworks
-  * Exotic Catalyst on/off
 * Intro page
   * Text
 * Footer
@@ -25,12 +22,18 @@
 
 ## Post-launch
 
+* Perks
+  * Keep "dummy" rows of curated perks if some are empty
 * WeaponSummary
   * Perks stats in summary
   * Recoil SVG
   * Up/Down arrows for non-bar stats
 * Mods
   * Mod stats
+* Masterworks
+  * Exotic Catalyst on/off
+* Search
+  * Filters
 * Extras
   * DIM Wishlist
   * Hide retired perks
