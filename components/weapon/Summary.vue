@@ -37,8 +37,8 @@ const emit = defineEmits<{
             </div>
           </div>
           <div class="uppercase -mt-2">
-            <h1 class="text-3xl font-bold">{{ weapon.displayProperties.name }}</h1>
-            <h2 class="leading-tight">{{ weapon.itemTypeDisplayName }}</h2>
+            <h1 class="text-lg sm:text-3xl font-bold">{{ weapon.displayProperties.name }}</h1>
+            <h2 class="text-sm sm:text-base leading-tight">{{ weapon.itemTypeDisplayName }}</h2>
           </div>
         </div>
         <div>
@@ -47,15 +47,15 @@ const emit = defineEmits<{
           </div>
         </div>
       </div>
-      <div class="mt-4">
-        <WeaponStats class="w-7/12" :weapon="weapon" :damage-types="damageTypes" :masterwork="masterwork" :mod="mod"
+      <div class="sm:mt-4">
+        <WeaponStats class="md:w-7/12" :weapon="weapon" :damage-types="damageTypes" :masterwork="masterwork" :mod="mod"
           :stat-groups="statGroups" :perks="perks" :stats="stats" />
       </div>
-      <div class="mt-auto flex justify-end">
+      <div class="flex justify-center sm:justify-end mt-8 md:mt-auto">
         <WeaponPreset @reset:mod="emit('reset:mod')" @reset:masterwork="emit('reset:masterwork')" @reset:perk="emit('reset:perk', $event)" :masterwork="masterwork" :perks="perks" :mod="mod" :is-exotic="isExoticWeapon" />
       </div>
     </div>
     <div class="col-start-1 col-end-3 row-start-1 h-full z-[1] bg-black/10" />
-    <img class="col-start-1 col-end-3 row-start-1 object-cover" :src="useBungieUrl(weapon.screenshot)" loading="lazy">
+    <img class="col-start-1 col-end-3 row-start-1 h-full object-center object-cover" :src="useBungieUrl(weapon.screenshot)" loading="lazy">
   </div>
 </template>

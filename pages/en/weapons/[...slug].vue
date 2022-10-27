@@ -93,27 +93,28 @@ useHead({
   title: weapon.value?.displayProperties.name,
   // TODO: Wrong type here
   // @ts-ignore
-  link: [{ rel: 'shortcut icon', href: favicon, key: 'favicon' }]
+  link: [{ rel: 'icon', href: favicon, key: 'favicon' }]
 })
 </script>
 
 <template>
-  <div class="grid p-5 gap-4 grid-cols-3">
-    <div class="grid gap-4 grid-cols-5 col-span-2">
-      <WeaponSummary class="col-span-5" v-if="weapon" :weapon="weapon" :damage-types="damageTypes"
+  <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-3 md:p-5">
+    <div class="grid gap-4 grid-cols-1 sm:grid-cols-5 sm:col-span-2">
+      <WeaponSummary class="sm:col-span-5" v-if="weapon" :weapon="weapon" :damage-types="damageTypes"
         :masterwork="selectedMasterworkItem" :mod="selectedMod" :stat-groups="statGroups" :stats="stats"
         :perks="selectedPerks" @reset:masterwork="resetMasterwork" @reset:mod="resetMod"
         @reset:perk="resetPerk($event)" />
-      <div class="col-span-2">
+      <div class="hidden sm:block sm:col-span-2">
         <WeaponExtras />
       </div>
-      <div class="col-span-3 flex flex-col">
+      <div class="sm:col-span-3 flex flex-col">
         <WeaponMasterwork v-if="masterwork" :options="masterwork" v-model="selectedMasterworkHash"
           :is-exotic-weapon="isExoticWeapon" />
-        <WeaponMods class="mt-4" v-model="selectedModHash" v-if="mods" :mods="mods"
+        <WeaponMods class="sm:mt-4" v-model="selectedModHash" v-if="mods" :mods="mods"
           :can-apply-adept-mods="canApplyAdeptMods" />
       </div>
     </div>
     <WeaponPerks v-if="perks" :perks="perksToDisplay!" v-model="selectedPerkHashes" />
+    <WeaponExtras class="sm:hidden" />
   </div>
 </template>

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-type IconSize = 'sm' | 'lg' | 'xl'
+type IconSize = 'sm' | 'lg' | 'xl' | 'auto'
 const SIZES: Record<IconSize, string> = {
   sm: 'w-8 h-8',
   lg: 'w-12 h-12',
-  xl: 'w-16 h-16'
+  xl: 'w-16 h-16',
+  auto: 'w-auto h-auto'
 }
 const props = withDefaults(defineProps<{ icon: string, watermark?: string, size?: IconSize }>(), {
   size: 'lg'

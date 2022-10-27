@@ -8,10 +8,11 @@ const props = defineProps<{
   isSelected?: boolean,
   isDisabled?: boolean,
   isDemoted?: boolean,
+  canShrink?: boolean,
   subDescription?: string,
   warning?: string,
   placeholder?: string,
-  stats?: Stat[]
+  stats?: Stat[],
 }>()
 
 const computedClasses = computed(() => [
@@ -19,6 +20,7 @@ const computedClasses = computed(() => [
     'rounded-full': !props.isSquared
   },
   props.isSelected && 'bg-blue-500/75',
+  props.canShrink ? 'h-7 w-7 md:h-12 md:w-12' : 'h-12 w-12'
 ])
 
 const icon = computed(() => props.item?.displayProperties.icon ?? props.placeholder ?? '')
@@ -32,10 +34,10 @@ const afterClass = computed(() => `enabled:after:absolute enabled:after:top-0 en
 <template>
   <Tooltip :is-disabled="!item" :heading="item?.displayProperties.name ?? ''" :subheading="item?.itemTypeDisplayName"
     :description="item?.displayProperties.description" :sub-description="subDescription" :warning="warning" :stats="stats">
-    <button class="border-2 relative h-12 w-12 flex justify-center items-center shadow-white"
+    <button class="border-2 relative flex justify-center items-center shadow-white"
       :class="[computedClasses, beforeClass, afterClass]" :disabled="isDisabled">
       <span class="relative" :class="{ 'opacity-50': isDemoted }">
-        <WeaponIcon :icon="icon" :size="isSquared ? 'lg' : 'sm'" :watermark="item?.iconWatermark" />
+        <WeaponIcon :can-shrink="canShrink" :icon="icon" size="auto" :watermark="item?.iconWatermark" />
       </span>
     </button>
   </Tooltip>

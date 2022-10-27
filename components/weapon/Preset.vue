@@ -34,13 +34,13 @@ const resetMod = () => {
 
 </script>
 <template>
-  <div>
-    <div class="flex space-x-6">
-      <Plug v-if="perks?.[0]" :item="perks[0]?.trait" is-disabled :is-squared="!isExotic" />
-      <Plug v-for="(col, i) in perkColumns" :is-disabled="!col.perk" :item="col.perk?.trait" @click="resetPerk(i)" />
-      <Plug v-if="perks?.[5]" :item="perks[5]?.trait" @click="resetPerk(4)" />
-      <Plug :item="mod?.mod" placeholder="/common/destiny2_content/icons/54fa140e3e70ea7e5bd29b623ef75518.png" :is-disabled="!mod" :sub-description="mod?.subDescription" is-squared @click="resetMod" />
-      <Plug :item="masterwork" placeholder="/common/destiny2_content/icons/62890cb9e33bbed6a3587a1064dc860e.png" :is-disabled="!masterwork" is-squared @click="resetMasterwork" />
-    </div>
+  <div class="flex space-x-6">
+    <Plug can-shrink v-if="perks?.[0]" :item="perks[0]?.trait" is-disabled :is-squared="!isExotic" />
+    <Plug can-shrink v-for="(col, i) in perkColumns" :is-disabled="!col.perk" :item="col.perk?.trait" @click="resetPerk(i)" />
+    <Plug can-shrink v-if="perks?.[5]" :item="perks[5]?.trait" @click="resetPerk(4)" />
+    <Plug can-shrink :item="mod?.mod" placeholder="/common/destiny2_content/icons/54fa140e3e70ea7e5bd29b623ef75518.png"
+      :is-disabled="!mod" :sub-description="mod?.subDescription" is-squared @click="resetMod" />
+    <Plug can-shrink :item="masterwork" placeholder="/common/destiny2_content/icons/62890cb9e33bbed6a3587a1064dc860e.png"
+      :is-disabled="!masterwork" is-squared @click="resetMasterwork" />
   </div>
 </template>
