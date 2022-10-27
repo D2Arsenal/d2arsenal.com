@@ -2,7 +2,6 @@
 
 ## Pre-launch
 
-
 * Perks
   * Show & selectable Enhanced Perks
 * WeaponSummary
