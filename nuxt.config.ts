@@ -16,18 +16,10 @@ export default defineNuxtConfig({
     },
     timing: true
   },
-  runtimeConfig: {
-    public: {
-      manifestVersion: 'Version of the Destiny2 Manifest, will be overridden'
-    }
-  },
   hooks: {
-    'nitro:config': async (config) => {
-      const { version } = await loadManifest()
-
-      console.log('Setting manifest to version', { version })
-      // Save manifest version to runtime config
-      config.runtimeConfig!.public.manifestVersion = version
+    'nitro:build:before': async () => {
+      console.log('pre-loading manifest')
+      await loadManifest()
     }
   },
   typescript: {
