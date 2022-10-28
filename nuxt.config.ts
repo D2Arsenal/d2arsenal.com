@@ -1,3 +1,4 @@
+import { $fetch } from 'ohmyfetch'
 import svgLoader from 'vite-svg-loader'
 
 const PROJECT_URL = 'https://d2arsenal.com'
