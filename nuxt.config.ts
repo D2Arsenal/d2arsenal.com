@@ -9,6 +9,12 @@ export default defineNuxtConfig({
     pageTransition: false,
     layoutTransition: false
   },
+  hooks: {
+    async 'build:done' () {
+      // Idea: Save manifest file for warm up
+      await $fetch('/api/manifest')
+    }
+  },
   typescript: {
     strict: true,
   },
