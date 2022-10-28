@@ -1,4 +1,4 @@
-import { $fetch } from 'ohmyfetch'
+import { loadMinimalManifest } from './utils/server/manifest';
 import svgLoader from 'vite-svg-loader'
 
 const PROJECT_URL = 'https://d2arsenal.com'
@@ -12,8 +12,7 @@ export default defineNuxtConfig({
   },
   hooks: {
     async 'build:done' () {
-      // Idea: Save manifest file for warm up
-      await $fetch(`${PROJECT_URL}/api/manifest`)
+      await loadMinimalManifest()
     }
   },
   typescript: {

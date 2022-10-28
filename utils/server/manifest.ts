@@ -1,13 +1,14 @@
 import { getDestinyManifest, getDestinyManifestSlice } from "bungie-api-ts/destiny2";
 import { createStorage } from 'unstorage'
+import { $fetch } from 'ohmyfetch'
 // @ts-ignore
 import fsDriver from 'unstorage/drivers/fs'
 
-import { isWeapon, isWeaponFrame, isWeaponMod, isWeaponTrait, isCatalyst, isMasterwork } from '~/utils/checks';
+import { isWeapon, isWeaponFrame, isWeaponMod, isWeaponTrait, isCatalyst, isMasterwork } from '../checks';
 
 import type { HttpClientConfig } from "bungie-api-ts/destiny2";
-import type { ManifestData, MinimalManifestData } from "~/types";
-import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny';
+import type { ManifestData, MinimalManifestData } from "../../types";
+import type { PrunedDestinyInventoryItemDefinition } from '../../types/destiny';
 
 
 const FILE_NAME = {
@@ -29,18 +30,6 @@ const storage = createStorage({
 
 
 export const loadManifest = async () => {
-  const config = useRuntimeConfig()
-
-  if (config.useCachedManifest) {
-    const possibleCacheItem = await storage.getItem('manifest.json') as ManifestData | null
-    if (possibleCacheItem) {
-      return {
-        data: possibleCacheItem,
-        version: 'OFFLINE'
-      }
-    }
-  }
-
   const { Response: destinyManifest } = await getDestinyManifest($http);
   const { version } = destinyManifest
 

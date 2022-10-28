@@ -1,7 +1,7 @@
 import { DestinyItemType } from 'bungie-api-ts/destiny2';
 import type { DestinyInventoryItemDefinition, DestinySandboxPerkDefinition } from 'bungie-api-ts/destiny2';
-import type { DefinitionRecord } from '~/types';
-import { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
+import type { DefinitionRecord } from '../types';
+import { PrunedDestinyInventoryItemDefinition } from '../types/destiny';
 
 const HASHES = {
   WEAPON_MOD: 1052191496,
