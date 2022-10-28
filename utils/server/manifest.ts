@@ -1,4 +1,4 @@
-import { DestinyManifest, getDestinyManifest, getDestinyManifestSlice } from "bungie-api-ts/destiny2";
+import { getDestinyManifest, getDestinyManifestSlice } from "bungie-api-ts/destiny2";
 import { createStorage } from 'unstorage'
 import { $fetch } from 'ohmyfetch'
 // @ts-ignore
@@ -9,7 +9,8 @@ import { isWeapon, isWeaponFrame, isWeaponMod, isWeaponTrait, isCatalyst, isMast
 import type { HttpClientConfig } from "bungie-api-ts/destiny2";
 import type { ManifestData, MinimalManifestData } from "../../types";
 import type { PrunedDestinyInventoryItemDefinition } from '../../types/destiny';
-
+import { toPrunedItemDef } from '../transforms';
+import { compress, decompress } from "./brotli";
 
 const MANIFEST_CACHE_KEY = 'manifest.json'
 
@@ -27,7 +28,7 @@ const storage = createStorage({
 export const loadManifest = async () => {
   const possibleCacheItem = await storage.getItem(MANIFEST_CACHE_KEY) as { data: ManifestData, version: string } | null
   if (possibleCacheItem) {
-    return possibleCacheItem
+    return JSON.parse(await decompress(JSON.stringify(possibleCacheItem))) as { data: ManifestData, version: string }
   }
   console.log(`No cache hit for manifest`)
 
@@ -85,7 +86,7 @@ export const loadManifest = async () => {
     if (!arr) {
       return
     }
-    arr.push(def)
+    arr.push(toPrunedItemDef(def))
   })
 
 
@@ -107,7 +108,8 @@ export const loadManifest = async () => {
     energyTypes
   }
 
-  storage.setItem(MANIFEST_CACHE_KEY, { data, version })
+  const compressed = await compress(JSON.stringify({ data, version }))
+  storage.setItem(MANIFEST_CACHE_KEY, compressed)
   return { data, version }
 }
 

@@ -1,4 +1,4 @@
-import type { DestinyInventoryItemDefinition, TierType } from 'bungie-api-ts/destiny2';
+import type { DestinyInventoryItemDefinition, DestinyItemSocketCategoryDefinition, DestinyItemSocketEntryDefinition, TierType } from 'bungie-api-ts/destiny2';
 export type PrunedDestinyInventoryItemDefinition = Omit<
   DestinyInventoryItemDefinition,
   'tooltipNotifications' |
@@ -29,12 +29,21 @@ export type PrunedDestinyInventoryItemDefinition = Omit<
   'traitHashes' |
   'index' |
   'inventory' |
-  'plug'
+  'plug' |
+  'sockets'
 > & {
   inventory?: {
     tierType: TierType
   },
   plug?: {
     plugCategoryIdentifier: string
+  },
+  sockets?: {
+    socketEntries: Omit<DestinyItemSocketEntryDefinition,
+      'preventInitializationOnVendorPurchase' |
+      'hidePerksInItemTooltip' |
+      'plugSources' |
+      'defaultVisible'>[],
+    socketCategories: DestinyItemSocketCategoryDefinition[]
   }
 };

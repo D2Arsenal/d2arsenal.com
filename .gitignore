@@ -8,4 +8,4 @@ node_modules
 dist
 tmp
 .netlify
-server/assets/manifest.json
+server/assets/manifest/manifest.json

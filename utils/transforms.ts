@@ -11,7 +11,16 @@ export const toPrunedItemDef = (def: DestinyInventoryItemDefinition) => {
     plug: def.plug && {
       plugCategoryIdentifier: def.plug.plugCategoryIdentifier
     },
-    sockets: def.sockets,
+    sockets: def.sockets && {
+      socketEntries: def.sockets.socketEntries.map(e => ({
+        socketTypeHash: e.socketTypeHash,
+        singleInitialItemHash: e.singleInitialItemHash,
+        reusablePlugItems: e.reusablePlugItems,
+        reusablePlugSetHash: e.reusablePlugSetHash,
+        randomizedPlugSetHash: e.randomizedPlugSetHash,
+      })),
+      socketCategories: def.sockets.socketCategories,
+    },
     investmentStats: def.investmentStats,
     perks: def.perks,
     itemCategoryHashes: def.itemCategoryHashes,
