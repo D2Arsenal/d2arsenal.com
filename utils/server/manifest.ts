@@ -10,6 +10,7 @@ import type { HttpClientConfig } from "bungie-api-ts/destiny2";
 import type { ManifestData, MinimalManifestData } from "../../types";
 import type { PrunedDestinyInventoryItemDefinition } from '../../types/destiny';
 import { toPrunedItemDef } from '../transforms';
+import { compress, decompress } from "./brotli";
 
 const MANIFEST_CACHE_KEY = 'manifest.json'
 const STORAGE_PATH = `assets:server:manifest:${MANIFEST_CACHE_KEY}`
@@ -31,7 +32,7 @@ export const loadManifest = async (fromConfig = false) => {
     : useStorage().getItem(STORAGE_PATH)
   const possibleCacheItem = await item as { data: ManifestData, version: string } | null
   if (possibleCacheItem) {
-    return possibleCacheItem
+    return JSON.parse(await decompress(JSON.stringify(possibleCacheItem))) as { data: ManifestData, version: string }
   }
   console.log(`No cache hit for manifest`)
 
@@ -111,10 +112,10 @@ export const loadManifest = async (fromConfig = false) => {
     energyTypes
   }
 
-  const content = { data, version }
+  const compressed = await compress(JSON.stringify({ data, version }))
   fromConfig
-    ? storage.setItem(MANIFEST_CACHE_KEY, content)
-    : useStorage().getItem(STORAGE_PATH, content)
+    ? storage.setItem(MANIFEST_CACHE_KEY, compressed)
+    : useStorage().getItem(STORAGE_PATH, compressed)
   return { data, version }
 }
 
