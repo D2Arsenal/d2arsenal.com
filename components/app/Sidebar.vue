@@ -3,7 +3,7 @@
 import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 import Fuse from 'fuse.js'
 import { useManifestStore } from '~/store/manifest';
-import LogoWithFontSvg from '~/assets/img/d2a-logo-with-font.svg'
+import LogoWithFontSvg from '~/assets/img/d2a-logo-with-font.svg?component'
 
 const manifestStore = useManifestStore()
 

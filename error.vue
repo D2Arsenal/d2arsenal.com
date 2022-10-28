@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LogoWithFontSvg from '~/assets/img/d2a-logo-with-font.svg'
+import LogoWithFontSvg from '~/assets/img/d2a-logo-with-font.svg?component'
 
 // TODO: Handle 500 errors and more
 const props = defineProps<{
