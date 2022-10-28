@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   hooks: {
     async 'build:done' () {
       // Idea: Save manifest file for warm up
-      await $fetch('/api/manifest')
+      await $fetch(`${PROJECT_URL}/api/manifest`)
     }
   },
   typescript: {
