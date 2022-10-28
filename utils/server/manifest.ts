@@ -13,6 +13,7 @@ import { toPrunedItemDef } from '../transforms';
 import { compress, decompress } from "./brotli";
 
 const MANIFEST_CACHE_KEY = 'manifest.json'
+const STORAGE_PATH = `assets:server:manifest:${MANIFEST_CACHE_KEY}`
 
 const $http = async (config: HttpClientConfig) => $fetch(config.url, {
   method: config.method,
@@ -26,8 +27,10 @@ const storage = createStorage({
 
 
 export const loadManifest = async (fromConfig = false) => {
-  const getFn = fromConfig ? storage.getItem : useStorage().getItem(`assets/server/manifest/${MANIFEST_CACHE_KEY}`)
-  const possibleCacheItem = await storage.getItem(MANIFEST_CACHE_KEY) as { data: ManifestData, version: string } | null
+  const item = fromConfig
+    ? storage.getItem(MANIFEST_CACHE_KEY)
+    : useStorage().getItem(STORAGE_PATH)
+  const possibleCacheItem = await item as { data: ManifestData, version: string } | null
   if (possibleCacheItem) {
     return JSON.parse(await decompress(JSON.stringify(possibleCacheItem))) as { data: ManifestData, version: string }
   }
@@ -110,7 +113,9 @@ export const loadManifest = async (fromConfig = false) => {
   }
 
   const compressed = await compress(JSON.stringify({ data, version }))
-  storage.setItem(MANIFEST_CACHE_KEY, compressed)
+  fromConfig
+    ? storage.setItem(MANIFEST_CACHE_KEY, compressed)
+    : useStorage().getItem(STORAGE_PATH, compressed)
   return { data, version }
 }
 
