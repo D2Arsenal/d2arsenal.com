@@ -4,7 +4,7 @@ import { buildMasterwork } from '~/utils/masterwork';
 import type { Masterwork } from '~/utils/masterwork';
 import pkg from '~/package.json'
 
-export default defineEventHandler(async (event) => {
+export default defineCachedEventHandler(async (event) => {
   const id = Number(event.context.params.id)
   globalThis.__timing__.logStart('loadManifest')
   const { data, version } = await loadManifest()
@@ -44,4 +44,6 @@ export default defineEventHandler(async (event) => {
   setResponseHeader(event, 'ETag', version + pkg.version)
 
   return { weapon, perks, masterwork }
+}, {
+  maxAge: 0
 })
