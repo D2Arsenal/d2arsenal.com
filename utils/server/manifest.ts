@@ -25,7 +25,8 @@ const storage = createStorage({
 })
 
 
-export const loadManifest = async () => {
+export const loadManifest = async (fromConfig = false) => {
+  const getFn = fromConfig ? storage.getItem : useStorage().getItem(`assets/server/manifest/${MANIFEST_CACHE_KEY}`)
   const possibleCacheItem = await storage.getItem(MANIFEST_CACHE_KEY) as { data: ManifestData, version: string } | null
   if (possibleCacheItem) {
     return JSON.parse(await decompress(JSON.stringify(possibleCacheItem))) as { data: ManifestData, version: string }

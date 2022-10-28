@@ -3,7 +3,6 @@ import zlib from 'zlib';
 export const compress = async (data: string) => {
   const brotliOptions = {
     [zlib.constants.BROTLI_PARAM_MODE]: zlib.constants.BROTLI_MODE_TEXT,
-    [zlib.constants.BROTLI_PARAM_QUALITY]: zlib.constants.BROTLI_MAX_QUALITY,
     [zlib.constants.BROTLI_PARAM_SIZE_HINT]: data.length
   }
   const compressedBuff: Buffer = await new Promise((resolve, reject) => {
