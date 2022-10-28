@@ -30,11 +30,9 @@ const storage = createStorage({
 
 
 export const loadManifest = async (version?: string) => {
-  console.log('Loading manifest for given version:', { version })
   let destinyManifest: DestinyManifest | null = null;
 
   if (!version) {
-    console.log('Fetching new manifest')
     const { Response } = await getDestinyManifest($http);
     destinyManifest = Response;
     version = destinyManifest.version
@@ -43,14 +41,14 @@ export const loadManifest = async (version?: string) => {
   const cacheKey = getCacheKeyForVersion(version)
   const possibleCacheItem = await storage.getItem(cacheKey) as ManifestData | null
   if (possibleCacheItem) {
-    console.log('Manifest storage cache hit for version', { version })
+    console.log(`Manifest storage cache hit for version ${version}`)
     return {
       data: possibleCacheItem,
       version
     }
   }
 
-  console.log('No cache hit for manifest version', { version })
+  console.log(`No cache hit for manifest version ${version}`)
 
   const manifestTables = await getDestinyManifestSlice($http, {
     destinyManifest: destinyManifest!,

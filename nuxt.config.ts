@@ -14,7 +14,8 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       routes: []
-    }
+    },
+    timing: true
   },
   runtimeConfig: {
     public: {
