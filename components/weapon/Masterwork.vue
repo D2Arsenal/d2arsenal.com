@@ -82,8 +82,8 @@ const buttonNames = computed(() => props.options.map(o => o.statistic
     <div v-if="!buttonNames.length && !isExoticWeapon">
       <h2>There are no masterworks for this weapon</h2>
     </div>
-    <nav v-if="!isExoticWeapon" class="flex items-center space-x-2">
-      <AppButton v-for="title, i in buttonNames" :key="title" :is-active="activeTabIndex === i"
+    <nav v-if="!isExoticWeapon" class="flex flex-wrap sm:flex-nowrap items-center">
+      <AppButton class="mr-2 mt-2" v-for="title, i in buttonNames" :key="title" :is-active="activeTabIndex === i"
         @click="onMasterworkTypeSwitch(i)">{{ title }}</AppButton>
     </nav>
     <div class="grid grid-cols-5 w-full mt-8" :class="!modelValue && 'invisible'">
