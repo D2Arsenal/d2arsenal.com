@@ -25,7 +25,7 @@ const $http = async (config: HttpClientConfig) => $fetch(config.url, {
 })
 
 const storage = createStorage({
-  driver: fsDriver({ base: './tmp' })
+  driver: fsDriver({ base: './server/assets/manifest' })
 })
 
 
