@@ -1,4 +1,4 @@
-import type { DestinyInventoryItemDefinition, DestinyItemSocketCategoryDefinition, DestinyItemSocketEntryDefinition, TierType } from 'bungie-api-ts/destiny2';
+import type { DestinyInventoryItemDefinition, DestinyItemPerkEntryDefinition, DestinyItemSocketCategoryDefinition, DestinyItemSocketEntryDefinition, TierType } from 'bungie-api-ts/destiny2';
 export type PrunedDestinyInventoryItemDefinition = Omit<
   DestinyInventoryItemDefinition,
   'tooltipNotifications' |
@@ -30,7 +30,11 @@ export type PrunedDestinyInventoryItemDefinition = Omit<
   'index' |
   'inventory' |
   'plug' |
-  'sockets'
+  'sockets' |
+  'perks' |
+  // TODO: These are not needed right now but might be in the future
+  'classType' |
+  'defaultDamageType'
 > & {
   inventory?: {
     tierType: TierType
@@ -38,6 +42,8 @@ export type PrunedDestinyInventoryItemDefinition = Omit<
   plug?: {
     plugCategoryIdentifier: string
   },
+  perks?: Omit<DestinyItemPerkEntryDefinition,
+    'requirementDisplayString' | 'perkVisibility'>[]
   sockets?: {
     socketEntries: Omit<DestinyItemSocketEntryDefinition,
       'preventInitializationOnVendorPurchase' |

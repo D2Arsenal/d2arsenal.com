@@ -22,7 +22,9 @@ export const toPrunedItemDef = (def: DestinyInventoryItemDefinition) => {
       socketCategories: def.sockets.socketCategories,
     },
     investmentStats: def.investmentStats,
-    perks: def.perks,
+    perks: def.perks?.map(p => ({
+      perkHash: p.perkHash
+    })),
     itemCategoryHashes: def.itemCategoryHashes,
     itemType: def.itemType,
     itemSubType: def.itemSubType,
@@ -33,8 +35,8 @@ export const toPrunedItemDef = (def: DestinyInventoryItemDefinition) => {
       tierType: def.inventory.tierType
     },
     // These are not needed yet but will likely in the future
-    classType: def.classType,
-    defaultDamageType: def.defaultDamageType
+    // classType: def.classType,
+    // defaultDamageType: def.defaultDamageType
   }
   return newDef
 }
