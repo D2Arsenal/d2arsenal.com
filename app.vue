@@ -10,7 +10,12 @@ useHead({
   // TODO: How to "delete" tag?
   // TODO: Wrong type here
   // @ts-ignore
-  link: [{ key: 'favicon' }]
+  link: [{ key: 'favicon' }],
+  // TODO: REMOVE BEFORE LAUNCH!
+  meta: [{
+    name: 'robots',
+    content: 'noindex, nofollow'
+  }]
 })
 </script>
 

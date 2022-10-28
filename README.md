@@ -18,6 +18,8 @@
 * Layout
   * Mobile and tablet
 * PWA + favicons
+* REMOVE META ROBOTS TAG
+* fix swr/isr/isg..
 
 ## Post-launch
 

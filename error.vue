@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import LogoWithFontSvg from '~/assets/img/d2a-logo-with-font.svg?component'
 
-// TODO: Handle 500 errors and more
 const props = defineProps<{
   error: {
     url?: string,
@@ -20,7 +19,7 @@ const description = computed(() => props.error.message ||
 const handleError = () => clearError({ redirect: '/' })
 
 useHead({
-  title: '404 - Could not find page - D2 Arsenal',
+  title: `${props.error.statusCode} - ${heading} - D2 Arsenal`
 })
 </script>
 
