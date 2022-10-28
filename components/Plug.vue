@@ -37,7 +37,7 @@ const afterClass = computed(() => `enabled:after:absolute enabled:after:top-0 en
     <button class="border-2 relative flex justify-center items-center shadow-white"
       :class="[computedClasses, beforeClass, afterClass]" :disabled="isDisabled">
       <span class="relative" :class="{ 'opacity-50': isDemoted }">
-        <WeaponIcon :can-shrink="canShrink" :icon="icon" size="auto" :watermark="item?.iconWatermark" />
+        <WeaponIcon :icon="icon" size="auto" :watermark="item?.iconWatermark" />
       </span>
     </button>
   </Tooltip>

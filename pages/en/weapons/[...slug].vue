@@ -13,7 +13,17 @@ const manifestStore = useManifestStore()
 
 const [weaponHash, possibleAttributes] = useRoute().params.slug as [string, string?]
 
-const { data } = await useFetch(`/api/weapons/${weaponHash}`, { key: weaponHash })
+const { data, error } = await useFetch(`/api/weapons/${weaponHash}`, { key: weaponHash })
+
+if(error.value) {
+  throw createError({
+    statusCode: 404,
+    // TODO: Revisit after https://github.com/nuxt/framework/pull/8521
+    // message: error.value.message,
+    message: 'Sorry, the provided weapon hash is invalid and could not be found',
+    fatal: true
+  })
+}
 
 const decodeHashes = (str?: string) => {
   const [rawPerks, rawMasterwork, rawMod] = str?.split('-') ?? []
