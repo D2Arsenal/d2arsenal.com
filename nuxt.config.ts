@@ -24,19 +24,11 @@ export default defineNuxtConfig({
   },
   hooks: {
     'nitro:config': async (config) => {
-      const { data, version } = await loadManifest()
+      const { version } = await loadManifest()
 
       console.log('Setting manifest to version', { version })
       // Save manifest version to runtime config
       config.runtimeConfig!.public.manifestVersion = version
-
-      // Set up prerender routes
-      const { weapons } = data
-
-      const minimalWeapons = getMinimalWeapons(weapons)
-      minimalWeapons.forEach((weapon) => {
-        config.prerender!.routes!.push(`/en/weapons/${weapon.hash}`)
-      })
     }
   },
   typescript: {
