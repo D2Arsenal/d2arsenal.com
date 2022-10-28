@@ -7,8 +7,7 @@ import pkg from '~/package.json'
 export default defineEventHandler(async (event) => {
   const id = Number(event.context.params.id)
   globalThis.__timing__.logStart('loadManifest')
-  const version = useRuntimeConfig().public.manifestVersion
-  const { data } = await loadManifest(version)
+  const { data, version } = await loadManifest()
   globalThis.__timing__.logEnd('loadManifest')
 
   // TODO: Rewrite as object for easier lookup?

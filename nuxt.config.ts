@@ -1,6 +1,5 @@
 import svgLoader from 'vite-svg-loader'
 import { loadManifest } from './utils/server/manifest';
-import { getMinimalWeapons } from './utils/weapon';
 
 const PROJECT_URL = 'https://d2arsenal.com'
 const SITE_NAME = 'D2 Arsenal'

@@ -11,12 +11,7 @@ import type { ManifestData, MinimalManifestData } from "../../types";
 import type { PrunedDestinyInventoryItemDefinition } from '../../types/destiny';
 
 
-const FILE_NAME = {
-  PREFIX: 'manifest-',
-  SUFFIX: '.json'
-}
-
-const getCacheKeyForVersion = (version: string) => FILE_NAME.PREFIX + version + FILE_NAME.SUFFIX
+const MANIFEST_CACHE_KEY = 'manifest.json'
 
 const $http = async (config: HttpClientConfig) => $fetch(config.url, {
   method: config.method,
@@ -29,29 +24,18 @@ const storage = createStorage({
 })
 
 
-export const loadManifest = async (version?: string) => {
-  let destinyManifest: DestinyManifest | null = null;
-
-  if (!version) {
-    const { Response } = await getDestinyManifest($http);
-    destinyManifest = Response;
-    version = destinyManifest.version
-  }
-
-  const cacheKey = getCacheKeyForVersion(version)
-  const possibleCacheItem = await storage.getItem(cacheKey) as ManifestData | null
+export const loadManifest = async () => {
+  const possibleCacheItem = await storage.getItem(MANIFEST_CACHE_KEY) as { data: ManifestData, version: string } | null
   if (possibleCacheItem) {
-    console.log(`Manifest storage cache hit for version ${version}`)
-    return {
-      data: possibleCacheItem,
-      version
-    }
+    return possibleCacheItem
   }
+  console.log(`No cache hit for manifest`)
 
-  console.log(`No cache hit for manifest version ${version}`)
+  const { Response: destinyManifest } = await getDestinyManifest($http);
+  const version = destinyManifest.version
 
   const manifestTables = await getDestinyManifestSlice($http, {
-    destinyManifest: destinyManifest!,
+    destinyManifest: destinyManifest,
     tableNames: [
       'DestinyInventoryItemDefinition',
       'DestinyItemTierTypeDefinition',
@@ -123,13 +107,12 @@ export const loadManifest = async (version?: string) => {
     energyTypes
   }
 
-  storage.setItem(cacheKey, data)
+  storage.setItem(MANIFEST_CACHE_KEY, { data, version })
   return { data, version }
 }
 
 export const loadMinimalManifest = async () => {
-  const version = useRuntimeConfig().public.manifestVersion
-  const { data } = await loadManifest(version)
+  const { data, version } = await loadManifest()
   // TODO: remove mods and masterworks after adding to single endpoint
   const minimalManifest: MinimalManifestData = {
     mods: data.mods,
