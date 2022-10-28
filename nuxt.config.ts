@@ -1,5 +1,6 @@
-import { loadMinimalManifest } from './utils/server/manifest';
 import svgLoader from 'vite-svg-loader'
+import { loadManifest } from './utils/server/manifest';
+import { getMinimalWeapons } from './utils/weapon';
 
 const PROJECT_URL = 'https://d2arsenal.com'
 const SITE_NAME = 'D2 Arsenal'
@@ -10,17 +11,35 @@ export default defineNuxtConfig({
     pageTransition: false,
     layoutTransition: false
   },
+  nitro: {
+    prerender: {
+      routes: []
+    }
+  },
+  runtimeConfig: {
+    public: {
+      manifestVersion: 'Version of the Destiny2 Manifest, will be overridden'
+    }
+  },
   hooks: {
-    async 'build:done' () {
-      await loadMinimalManifest()
+    'nitro:config': async (config) => {
+      const { data, version } = await loadManifest()
+
+      console.log('Setting manifest to version', { version })
+      // Save manifest version to runtime config
+      config.runtimeConfig!.public.manifestVersion = version
+
+      // Set up prerender routes
+      const { weapons } = data
+
+      const minimalWeapons = getMinimalWeapons(weapons)
+      minimalWeapons.forEach((weapon) => {
+        config.prerender!.routes!.push(`/en/weapons/${weapon.hash}`)
+      })
     }
   },
   typescript: {
     strict: true,
-  },
-  runtimeConfig: {
-    // Ideal for offline-work. Needs a manifest.json in /tmp
-    useCachedManifest: false
   },
   build: {
     transpile: ["@heroicons/vue", "@headlessui/vue"]
@@ -36,11 +55,8 @@ export default defineNuxtConfig({
       ogHost: PROJECT_URL,
       ogSiteName: SITE_NAME
     },
-    icon: {
-
-    }
   },
   routeRules: {
-    '/en/weapons/**': { static: true }
+    '/en/weapons/*': { static: true }
   }
 })

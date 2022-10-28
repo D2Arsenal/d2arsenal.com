@@ -6,7 +6,9 @@ import pkg from '~/package.json'
 
 export default defineEventHandler(async (event) => {
   const id = Number(event.context.params.id)
-  const { data, version } = await loadManifest()
+
+  const version = useRuntimeConfig().public.manifestVersion
+  const { data } = await loadManifest(version)
   // TODO: Rewrite as object for easier lookup?
   const { weapons, weaponTraits, plugSets, statDefs, statGroups, frames, catalysts } = data
 

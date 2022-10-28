@@ -1,16 +1,13 @@
 import { loadManifest } from '~/utils/server/manifest';
 import pkg from '~/package.json'
+import { getMinimalWeapons } from '~/utils/weapon';
 
 export default defineEventHandler(async (event) => {
-  const { data, version } = await loadManifest()
+  const version = useRuntimeConfig().public.manifestVersion
+  const { data } = await loadManifest(version)
   const { weapons } = data
 
-  const minimalWeapons = weapons.map((weapon) => ({
-    hash: weapon.hash,
-    name: weapon.displayProperties.name,
-    icon: weapon.displayProperties.icon,
-    watermark: weapon.iconWatermark,
-  }))
+  const minimalWeapons = getMinimalWeapons(weapons)
 
   setResponseHeader(event, 'ETag', version + pkg.version)
 

@@ -1,4 +1,4 @@
-import { getDestinyManifest, getDestinyManifestSlice } from "bungie-api-ts/destiny2";
+import { DestinyManifest, getDestinyManifest, getDestinyManifestSlice } from "bungie-api-ts/destiny2";
 import { createStorage } from 'unstorage'
 import { $fetch } from 'ohmyfetch'
 // @ts-ignore
@@ -29,21 +29,31 @@ const storage = createStorage({
 })
 
 
-export const loadManifest = async () => {
-  const { Response: destinyManifest } = await getDestinyManifest($http);
-  const { version } = destinyManifest
+export const loadManifest = async (version?: string) => {
+  console.log('Loading manifest for given version:', { version })
+  let destinyManifest: DestinyManifest | null = null;
+
+  if (!version) {
+    console.log('Fetching new manifest')
+    const { Response } = await getDestinyManifest($http);
+    destinyManifest = Response;
+    version = destinyManifest.version
+  }
 
   const cacheKey = getCacheKeyForVersion(version)
   const possibleCacheItem = await storage.getItem(cacheKey) as ManifestData | null
   if (possibleCacheItem) {
+    console.log('Manifest storage cache hit for version', { version })
     return {
       data: possibleCacheItem,
       version
     }
   }
 
+  console.log('No cache hit for manifest version', { version })
+
   const manifestTables = await getDestinyManifestSlice($http, {
-    destinyManifest,
+    destinyManifest: destinyManifest!,
     tableNames: [
       'DestinyInventoryItemDefinition',
       'DestinyItemTierTypeDefinition',
@@ -120,7 +130,8 @@ export const loadManifest = async () => {
 }
 
 export const loadMinimalManifest = async () => {
-  const { data, version } = await loadManifest()
+  const version = useRuntimeConfig().public.manifestVersion
+  const { data } = await loadManifest(version)
   // TODO: remove mods and masterworks after adding to single endpoint
   const minimalManifest: MinimalManifestData = {
     mods: data.mods,

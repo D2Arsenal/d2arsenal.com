@@ -2,7 +2,6 @@ import { MinimalManifestData } from './../types';
 import { MinimalWeapon } from './../utils/weapon';
 import { defineStore } from 'pinia'
 import { isSandboxMod } from '~~/utils/checks';
-import type { ManifestData } from '~/types'
 
 
 export const useManifestStore = defineStore('manifest', () => {

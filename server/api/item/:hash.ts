@@ -3,7 +3,8 @@ import { loadManifest } from "~/utils/server/manifest"
 export default defineEventHandler(async (event) => {
   const hash = event.context.params.hash as number
 
-  const { data } = await loadManifest()
+  const version = useRuntimeConfig().public.manifestVersion
+  const { data } = await loadManifest(version)
 
   const res = Object.values(data).find((defArrOrObj) => {
     if (Array.isArray(defArrOrObj)) {
