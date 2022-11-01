@@ -20,15 +20,15 @@
           </NuxtLink> for updates and news.
         </p>
         <ul>
-          <li>Have an idea for a feature or function? Please head over to our <NuxtLink class="inline-block"
+          <li>Have an idea for a feature or function? Please head over to our <NuxtLink class="inline-block my-0"
               href="/discord/" target="_blank">
               Discord
             </NuxtLink> to share them and discuss with the community!</li>
           <li>Is something off? If you see a bug or problem with the site, please report it on our
-            <NuxtLink class="inline-block" href="/discord/" target="_blank">Discord</NuxtLink> too so it can be fixed as
+            <NuxtLink class="inline-block my-0" href="/discord/" target="_blank">Discord</NuxtLink> too so it can be fixed as
             soon as possible
           </li>
-          <li>If you like the site, please consider <NuxtLink class="inline-block" to="/donate/">
+          <li>If you like the site, please consider <NuxtLink class="inline-block my-0" to="/donate/">
               donating
             </NuxtLink> to help us keep it running</li>
         </ul>
