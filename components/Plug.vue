@@ -20,6 +20,7 @@ const computedClasses = computed(() => [
     'rounded-full': !props.isSquared
   },
   props.isSelected && 'bg-blue-500/75',
+  // TODO: Move to weapon icon!
   props.canShrink ? 'h-7 w-7 md:h-12 md:w-12' : 'h-12 w-12'
 ])
 
@@ -35,7 +36,7 @@ const afterClass = computed(() => `enabled:after:absolute enabled:after:top-0 en
   <Tooltip :is-disabled="!item" :heading="item?.displayProperties.name ?? ''" :subheading="item?.itemTypeDisplayName"
     :description="item?.displayProperties.description" :sub-description="subDescription" :warning="warning" :stats="stats">
     <button class="border-2 relative flex justify-center items-center shadow-white"
-      :class="[computedClasses, beforeClass, afterClass]" :disabled="isDisabled">
+      :class="[computedClasses, beforeClass, afterClass]" :title="item?.displayProperties.name ?? ''" :disabled="isDisabled">
       <span class="relative" :class="{ 'opacity-50': isDemoted }">
         <WeaponIcon :icon="icon" size="auto" :watermark="item?.iconWatermark" />
       </span>
