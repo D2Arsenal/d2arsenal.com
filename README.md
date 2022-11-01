@@ -19,7 +19,6 @@
   * Mobile and tablet
 * PWA + favicons
 * REMOVE META ROBOTS TAG
-* fix swr/isr/isg..
 
 ## Post-launch
 
@@ -35,6 +34,8 @@
   * Exotic Catalyst on/off
 * Search
   * Filters
+  * Shortcut (CMD/CTR + K)
+  * Pressing ENTER navigates to first search result
 * Extras
   * DIM Wishlist
   * Hide retired perks
