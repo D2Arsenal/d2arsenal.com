@@ -45,7 +45,6 @@ export function buildPerks (weapon: PrunedDestinyInventoryItemDefinition, plugSe
   // https://www.light.gg/db/items/46524085/osteo-striga/
   // https://d2gunsmith.com/w/46524085?s=0,0,4015745376,990298390,0,0
   const filteredPerks = perks.map(col => col.filter(p => p.hash && p.trait)).filter(c => c.length > 0)
-  console.log('HUH!?!', filteredPerks)
   return {
     curatedPerks: curatedPerks.filter(c => c.length > 0),
     perks: filteredPerks
