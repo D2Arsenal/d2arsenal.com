@@ -43,7 +43,7 @@ export default defineNuxtConfig({
     meta: {
       name: `${SITE_NAME} - Craft your favorite weapon`,
       author: 'D2 Arsenal Team',
-      description: `D2 Arsenal allows you to create your favorite weapon rolls for Destiny 2 with all mods available`,
+      description: `D2 Arsenal allows you to create your favorite weapon rolls for Destiny 2 and share them along with the community.`,
       ogHost: PROJECT_URL,
       ogSiteName: SITE_NAME
     },
