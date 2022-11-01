@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
+import { masterworkStatisticToTerm } from '~/utils/masterwork.js';
 
 const props = defineProps<{
   options: {
@@ -65,11 +66,7 @@ const onMasterworkTypeSwitch = (index: number) => {
   updateMasterworkForStatisticIndex(index)
 }
 
-const buttonNames = computed(() => props.options.map(o => o.statistic
-  .replaceAll('_', ' ')
-  .replace('damage', 'impact')
-  .replace('projectile speed', 'velocity')
-))
+const buttonNames = computed(() => props.options.map(o => masterworkStatisticToTerm(o.statistic)))
 
 // TODO: Exotic Catalyst!
 

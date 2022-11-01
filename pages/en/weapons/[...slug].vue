@@ -3,6 +3,7 @@ import { useManifestStore } from '~/store/manifest';
 import { PERK_NONE, PERK_LENGTH } from '~/utils/perks';
 import { buildMods } from '~/utils/mods';
 import { isExotic } from '~/utils/weapon';
+import { masterworkStatisticToTerm } from '~~/utils/masterwork.js';
 
 // Avoid re-rendering of the page component on hash switch
 definePageMeta({
@@ -15,7 +16,7 @@ const [weaponHash, possibleAttributes] = useRoute().params.slug as [string, stri
 
 const { data, error } = await useFetch(`/api/weapons/${weaponHash}`, { key: weaponHash })
 
-if(error.value) {
+if (error.value) {
   throw createError({
     statusCode: 404,
     // TODO: Revisit after https://github.com/nuxt/framework/pull/8521
@@ -38,15 +39,16 @@ const decodeHashes = (str?: string) => {
 }
 const decodedHashes = decodeHashes(possibleAttributes)
 
-const weapon = computed(() => data.value?.weapon)
-const isExoticWeapon = computed(() => weapon.value && isExotic(weapon.value))
-const damageTypes = computed(() => weapon.value?.damageTypeHashes.map(hash => manifestStore.damageTypes[hash]) ?? [])
+const weapon = computed(() => data.value!.weapon)
+const weaponName = computed(() => weapon.value.displayProperties.name)
+const isExoticWeapon = computed(() => isExotic(weapon.value))
+const damageTypes = computed(() => weapon.value.damageTypeHashes.map(hash => manifestStore.damageTypes[hash]) ?? [])
 
 const statGroups = computed(() => manifestStore.data?.statGroups)
 const stats = computed(() => manifestStore.data?.statDefs)
 
 const mods = computed(() => manifestStore.data ? buildMods(manifestStore.mods, stats.value!, statGroups.value!, manifestStore.data!.sandboxPerks) : [])
-const canApplyAdeptMods = computed(() => Boolean(weapon.value?.displayProperties.name.includes('(Adept)')))
+const canApplyAdeptMods = computed(() => weaponName.value.includes('(Adept)'))
 const selectedModHash = ref(decodedHashes.mod)
 const selectedMod = computed(() => mods.value.find((m) => m.mod?.hash === selectedModHash.value))
 const resetMod = () => {
@@ -78,7 +80,8 @@ const resetPerk = (colIndex: number) => {
 const masterwork = computed(() => data.value?.masterwork)
 
 const selectedMasterworkHash = ref(decodedHashes.masterwork)
-const selectedMasterworkItem = computed(() => masterwork.value?.flatMap(mw => mw.data.benefits).find(i => i.hash === selectedMasterworkHash.value))
+const selectedMasterworkArrayEntry = computed(() => masterwork.value?.find(mw => mw.data.benefits.find(i => i.hash === selectedMasterworkHash.value)))
+const selectedMasterworkItem = computed(() => selectedMasterworkArrayEntry.value?.data.benefits.find(i => i.hash === selectedMasterworkHash.value))
 const resetMasterwork = () => selectedMasterworkHash.value = null
 
 const router = useRouter()
@@ -96,11 +99,44 @@ const updateRouteOnChange = () => {
 }
 watch([selectedModHash, selectedPerkHashes, selectedMasterworkHash], updateRouteOnChange)
 
-const favicon = computed(() => useBungieUrl(weapon.value?.displayProperties.icon ?? ''))
+const favicon = computed(() => useBungieUrl(weapon.value.displayProperties.icon ?? ''))
+const description = computed(() => {
+  const perks = selectedPerks.value
+    .map(p => p?.trait?.displayProperties.name)
+    .filter(a => a).join(', ')
+  const hasPerks = perks.length > 0
 
-// TODO: description based on changed values
+  const mod = selectedMod.value?.mod?.displayProperties.name
+  const rawMasterworkTier = selectedMasterworkItem.value?.displayProperties.name.toLowerCase()
+  const masterworkTier = rawMasterworkTier === 'masterwork' ? 'max tier' : rawMasterworkTier
+  const rawMasterworkStatistic = selectedMasterworkArrayEntry.value?.statistic
+  const masterworkStatistic = rawMasterworkStatistic && masterworkStatisticToTerm(rawMasterworkStatistic)
+
+  const prefix = `${weaponName.value} (${weapon.value.itemTypeDisplayName}) `
+  const description = [prefix,
+    hasPerks ? `with ${perks}` : '',
+    mod ? `${hasPerks ? ', ' : 'with '} ${mod} mod` : '',
+    masterworkStatistic ? `${hasPerks || mod ? ' and' : 'with '} ${masterworkTier} ${masterworkStatistic} masterwork` : '',
+  ].join('')
+  return description
+})
+
 useHead({
-  title: weapon.value?.displayProperties.name,
+  title: weaponName,
+  meta: [
+    {
+      property: 'og:title',
+      content: weaponName
+    },
+    {
+      property: 'og:description',
+      content: description
+    },
+    {
+      property: 'description',
+      content: description
+    }
+  ],
   // TODO: Wrong type here
   // @ts-ignore
   link: [{ rel: 'icon', href: favicon, key: 'favicon' }]

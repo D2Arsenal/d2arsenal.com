@@ -162,3 +162,8 @@ export function buildMasterwork (weapon: PrunedDestinyInventoryItemDefinition, s
     masterwork,
   };
 }
+
+export const masterworkStatisticToTerm = (statistic: string) => statistic
+  .replaceAll('_', ' ')
+  .replace('damage', 'impact')
+  .replace('projectile speed', 'velocity')

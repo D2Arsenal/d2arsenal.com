@@ -51,7 +51,9 @@ export default defineNuxtConfig({
       author: 'D2 Arsenal Team',
       description: `D2 Arsenal allows you to create your favorite weapon rolls for Destiny 2 and share them along with the community.`,
       ogHost: PROJECT_URL,
-      ogSiteName: SITE_NAME
+      ogSiteName: SITE_NAME,
+      twitterCreator: '@D2Arsenal',
+      twitterCard: 'summary_large_image',
     },
   },
   routeRules: {
