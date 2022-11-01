@@ -8,18 +8,6 @@
   * Stat Calculation
     * Modules
     * Masterwork?
-* Intro page
-  * Text
-* Footer
-  * Donation Links
-    * Ko-fi
-    * Patreon
-    * Paypal
-* Layout
-  * Mobile and tablet
-* PWA + favicons
-* REMOVE META ROBOTS TAG
-
 ## Post-launch
 
 * Perks
