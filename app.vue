@@ -11,11 +11,6 @@ useHead({
   // TODO: Wrong type here
   // @ts-ignore
   link: [{ key: 'favicon' }],
-  // TODO: REMOVE BEFORE LAUNCH!
-  meta: [{
-    name: 'robots',
-    content: 'noindex, nofollow'
-  }]
 })
 </script>
 
