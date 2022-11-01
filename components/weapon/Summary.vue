@@ -56,6 +56,6 @@ const emit = defineEmits<{
       </div>
     </div>
     <div class="col-start-1 col-end-3 row-start-1 h-full z-[1] bg-black/10" />
-    <img class="col-start-1 col-end-3 row-start-1 h-full object-center object-cover" :src="useBungieUrl(weapon.screenshot)" loading="lazy">
+    <img class="col-start-1 col-end-3 row-start-1 h-full object-center object-cover" :src="useBungieUrl(weapon.screenshot)">
   </div>
 </template>
