@@ -19,7 +19,7 @@ const description = computed(() => props.error.message ||
 const handleError = () => clearError({ redirect: '/' })
 
 useHead({
-  title: `${props.error.statusCode} - ${heading} - D2 Arsenal`
+  title: `${props.error.statusCode} - ${heading.value} - D2 Arsenal`
 })
 </script>
 
