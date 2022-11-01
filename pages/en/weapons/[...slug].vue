@@ -99,7 +99,7 @@ const updateRouteOnChange = () => {
 }
 watch([selectedModHash, selectedPerkHashes, selectedMasterworkHash], updateRouteOnChange)
 
-const favicon = computed(() => useBungieUrl(weapon.value.displayProperties.icon ?? ''))
+const favicon = computed(() => useBungieUrl(weapon.value.displayProperties.highResIcon ?? weapon.value.displayProperties.icon ?? ''))
 const description = computed(() => {
   const perks = selectedPerks.value
     .map(p => p?.trait?.displayProperties.name)
@@ -135,7 +135,10 @@ useHead({
     {
       property: 'description',
       content: description
-    }
+    },
+    {
+      property: 'og:image', content: favicon
+    },
   ],
   // TODO: Wrong type here
   // @ts-ignore
