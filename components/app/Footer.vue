@@ -13,11 +13,17 @@ const { version } = pkg
         &bull;
       </span>
       <span>
-        Discord
+        <NuxtLink href="/discord/" target="_blank">
+          Discord
+        </NuxtLink>
         &bull;
-        Twitter
+        <NuxtLink href="/twitter/" target="_blank">
+          Twitter
+        </NuxtLink>
         &bull;
-        Donate
+        <NuxtLink to="/donate/">
+          Donate
+        </NuxtLink>
       </span>
       </span>
     </div>

@@ -42,6 +42,8 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    '/en/weapons/*': { static: true }
+    '/en/weapons/*': { static: true },
+    '/discord/': { redirect: { to: 'https://discord.gg/vagYTbGHud', statusCode: 301 } },
+    '/twitter/': { redirect: { to: 'https://twitter.com/D2Arsenal', statusCode: 301 } }
   }
 })
