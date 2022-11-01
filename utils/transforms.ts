@@ -18,6 +18,7 @@ export const toPrunedItemDef = (def: DestinyInventoryItemDefinition) => {
         reusablePlugItems: e.reusablePlugItems,
         reusablePlugSetHash: e.reusablePlugSetHash,
         randomizedPlugSetHash: e.randomizedPlugSetHash,
+        preventInitializationOnVendorPurchase: e.preventInitializationOnVendorPurchase
       })),
       socketCategories: def.sockets.socketCategories,
     },

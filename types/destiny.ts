@@ -46,7 +46,6 @@ export type PrunedDestinyInventoryItemDefinition = Omit<
     'requirementDisplayString' | 'perkVisibility'>[]
   sockets?: {
     socketEntries: Omit<DestinyItemSocketEntryDefinition,
-      'preventInitializationOnVendorPurchase' |
       'hidePerksInItemTooltip' |
       'plugSources' |
       'defaultVisible'>[],
