@@ -1,4 +1,5 @@
 import svgLoader from 'vite-svg-loader'
+import tailwindTypography from '@tailwindcss/typography'
 import { loadManifest } from './utils/server/manifest';
 
 const PROJECT_URL = 'https://d2arsenal.com'
@@ -31,6 +32,12 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [svgLoader()]
+  },
+  tailwindcss: {
+    // @ts-ignore
+    config: {
+      plugins: [tailwindTypography]
+    }
   },
   pwa: {
     meta: {
