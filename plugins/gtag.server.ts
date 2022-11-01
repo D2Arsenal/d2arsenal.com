@@ -13,13 +13,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       href: 'https://www.google-analytics.com/',
     },
   ]
-  if (process.env.NODE_ENV === 'production') {
-    if (nuxtApp.app.head) {
-      nuxtApp.app.head.link = [...(nuxtApp.app.head.link || []), ...preloadLinks]
-    } else {
-      nuxtApp.app.head = {
-        link: preloadLinks,
-      }
-    }
-  }
+  nuxtApp._useHead({
+    link: preloadLinks
+  })
 })
