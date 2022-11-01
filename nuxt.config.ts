@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     prerender: {
-      routes: ['/', '/donate/', '/404.html']
+      routes: ['/', '/donate/']
     },
     timing: true
   },
