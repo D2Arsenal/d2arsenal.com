@@ -4,9 +4,15 @@ import { loadManifest } from './utils/server/manifest';
 
 const PROJECT_URL = 'https://d2arsenal.com'
 const SITE_NAME = 'D2 Arsenal'
+const GTAG_ID = 'G-SF9MC2HVRE'
 
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', '@kevinmarrec/nuxt-pwa'],
+  runtimeConfig: {
+    public: {
+      gtagId: GTAG_ID,
+    }
+  },
   app: {
     pageTransition: false,
     layoutTransition: false
