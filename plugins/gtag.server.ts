@@ -1,4 +1,4 @@
-export default defineNuxtPlugin(({ app }) => {
+export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
   const id = config.gtagId
 
@@ -14,10 +14,10 @@ export default defineNuxtPlugin(({ app }) => {
     },
   ]
   if (process.env.NODE_ENV === 'production') {
-    if (app.head) {
-      app.head.link = [...(app.head.link || []), ...preloadLinks]
+    if (nuxtApp.app.head) {
+      nuxtApp.app.head.link = [...(nuxtApp.app.head.link || []), ...preloadLinks]
     } else {
-      app.head = {
+      nuxtApp.app.head = {
         link: preloadLinks,
       }
     }
