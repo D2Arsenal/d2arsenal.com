@@ -6,16 +6,16 @@ const props = defineProps<{
 
 // TODO: max/min value
 
-const difference = computed(() => props.newValue - props.baseValue)
-const didChange = computed(() => difference.value !== 0)
-const isPositive = computed(() => difference.value > 0)
+const difference = $computed(() => props.newValue - props.baseValue)
+const didChange = $computed(() => difference !== 0)
+const isPositive = $computed(() => difference > 0)
 
-const whiteBarWidth = computed(() => isPositive.value
+const whiteBarWidth = computed(() => isPositive
   ? props.baseValue
-  : props.baseValue + difference.value
+  : props.baseValue + difference
 )
 
-const extraBarWidth = computed(() => Math.abs(difference.value))
+const extraBarWidth = computed(() => Math.abs(difference))
 
 </script>
 <template>

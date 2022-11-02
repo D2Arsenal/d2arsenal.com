@@ -2,7 +2,7 @@
 import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
 import { masterworkStatisticToTerm } from '~/utils/masterwork.js';
 
-const props = defineProps<{
+const { options, modelValue } = defineProps<{
   options: {
     statistic: string,
     data: {
@@ -15,15 +15,15 @@ const props = defineProps<{
   modelValue: number | null
 }>()
 
-const statisticsIndex = computed(() => {
-  const index = props.options.findIndex(({ data }) => data.benefits.some(b => b.hash === props.modelValue))
+const statisticsIndex = $computed(() => {
+  const index = options.findIndex(({ data }) => data.benefits.some(b => b.hash === modelValue))
   return index === -1 ? null : index
 })
 
-const activeTabIndex = computed(() => statisticsIndex.value ?? -1)
+const activeTabIndex = computed(() => statisticsIndex ?? -1)
 
-const currentIndex = computed(() => statisticsIndex.value !== null ? props.options[statisticsIndex.value].data.benefits.findIndex(b => b.hash === props.modelValue) : null)
-const currentLevel = computed(() => currentIndex.value !== null ? currentIndex.value + 1 : 1)
+const currentIndex = $computed(() => statisticsIndex !== null ? options[statisticsIndex].data.benefits.findIndex(b => b.hash === modelValue) : null)
+const currentLevel = computed(() => currentIndex !== null ? currentIndex + 1 : 1)
 
 const emit = defineEmits<{
   (event: 'update:modelValue', masterwork: number | null): void
@@ -41,16 +41,16 @@ const updateMasterworkForLevel = (event: Event) => {
   }
 
 
-  if (statisticsIndex.value === null) {
+  if (statisticsIndex === null) {
     return
   }
 
-  const masterwork = props.options[statisticsIndex.value].data.benefits[level - 1]
+  const masterwork = options[statisticsIndex].data.benefits[level - 1]
   updateMasterwork(masterwork.hash)
 }
 
 const updateMasterworkForStatisticIndex = (index: number) => {
-  const masterwork = props.options[index].data.benefits[currentIndex.value ?? 0]
+  const masterwork = options[index].data.benefits[currentIndex ?? 0]
   updateMasterwork(masterwork.hash)
 }
 
@@ -59,14 +59,14 @@ const resetMasterwork = () => {
 }
 
 const onMasterworkTypeSwitch = (index: number) => {
-  if (index === statisticsIndex.value) {
+  if (index === statisticsIndex) {
     resetMasterwork()
     return
   }
   updateMasterworkForStatisticIndex(index)
 }
 
-const buttonNames = computed(() => props.options.map(o => masterworkStatisticToTerm(o.statistic)))
+const buttonNames = computed(() => options.map(o => masterworkStatisticToTerm(o.statistic)))
 
 // TODO: Exotic Catalyst!
 

@@ -2,22 +2,22 @@
 import { CANNOT_ROLL_PERK_WARNING as WARNING, PERK_NONE } from '~/utils/perks';
 import type { Perk } from '~/utils/perks';
 
-const props = defineProps<{
+const { perks, modelValue } = defineProps<{
   perks: { perks: Perk[][], curatedPerks: Perk[][]},
   modelValue: number[],
 }>()
 
-const hasCuratedRoll = computed(() => props.perks.curatedPerks.some(c => c.length))
+const hasCuratedRoll = computed(() => perks.curatedPerks.some(c => c.length))
 
 const emit = defineEmits<{ (event: 'update:modelValue', value: any): void }>()
 
 const setPerk = (columnIndex: number, hash: number) => {
-  const newPerks = [...props.modelValue]
+  const newPerks = [...modelValue]
   newPerks[columnIndex] = newPerks[columnIndex] === hash ? PERK_NONE : hash
   emit('update:modelValue', newPerks)
 }
 
-const isSelected = (columnIndex: number, hash?: number) => props.modelValue[columnIndex] === hash
+const isSelected = (columnIndex: number, hash?: number) => modelValue[columnIndex] === hash
 </script>
 <template>
   <div>

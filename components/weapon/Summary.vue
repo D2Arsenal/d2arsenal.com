@@ -6,7 +6,7 @@ import type { Mod } from '~/utils/mods';
 import { isExotic } from '~/utils/weapon';
 import { Perk } from '~~/utils/perks';
 
-const props = defineProps<{
+const { weapon } = defineProps<{
   weapon: PrunedDestinyInventoryItemDefinition,
   damageTypes: DestinyDamageTypeDefinition[],
   perks: Array<Perk | null>,
@@ -16,7 +16,7 @@ const props = defineProps<{
   stats?: DefinitionRecord<DestinyStatDefinition>
 }>()
 
-const isExoticWeapon = computed(() => isExotic(props.weapon))
+const isExoticWeapon = computed(() => isExotic(weapon))
 
 const emit = defineEmits<{
   (e: 'reset:masterwork'): void,

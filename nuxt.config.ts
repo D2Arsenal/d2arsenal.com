@@ -37,7 +37,10 @@ export default defineNuxtConfig({
     transpile: ["@heroicons/vue", "@headlessui/vue"]
   },
   vite: {
-    plugins: [svgLoader()]
+    plugins: [svgLoader()],
+    vue: {
+      reactivityTransform: true
+    }
   },
   tailwindcss: {
     // @ts-ignore

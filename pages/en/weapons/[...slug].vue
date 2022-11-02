@@ -39,58 +39,58 @@ const decodeHashes = (str?: string) => {
 }
 const decodedHashes = decodeHashes(possibleAttributes)
 
-const weapon = computed(() => data.value!.weapon)
-const weaponName = computed(() => weapon.value.displayProperties.name)
-const isExoticWeapon = computed(() => isExotic(weapon.value))
-const damageTypes = computed(() => weapon.value.damageTypeHashes.map(hash => manifestStore.damageTypes[hash]) ?? [])
+const weapon = $computed(() => data.value!.weapon)
+const weaponName = $computed(() => weapon.displayProperties.name)
+const isExoticWeapon = computed(() => isExotic(weapon))
+const damageTypes = computed(() => weapon.damageTypeHashes.map(hash => manifestStore.damageTypes[hash]) ?? [])
 
-const statGroups = computed(() => manifestStore.data?.statGroups)
-const stats = computed(() => manifestStore.data?.statDefs)
+const statGroups = $computed(() => manifestStore.data?.statGroups)
+const stats = $computed(() => manifestStore.data?.statDefs)
 
-const mods = computed(() => manifestStore.data ? buildMods(manifestStore.mods, stats.value!, statGroups.value!, manifestStore.data!.sandboxPerks) : [])
-const canApplyAdeptMods = computed(() => weaponName.value.includes('(Adept)'))
-const selectedModHash = ref(decodedHashes.mod)
-const selectedMod = computed(() => mods.value.find((m) => m.mod?.hash === selectedModHash.value))
+const mods = $computed(() => manifestStore.data ? buildMods(manifestStore.mods, stats!, statGroups!, manifestStore.data!.sandboxPerks) : [])
+const canApplyAdeptMods = computed(() => weaponName.includes('(Adept)'))
+let selectedModHash = $ref(decodedHashes.mod)
+let selectedMod = $computed(() => mods.find((m) => m.mod?.hash === selectedModHash))
 const resetMod = () => {
-  selectedModHash.value = null
+  selectedModHash = null
 }
 
-const perks = computed(() => data.value?.perks ?? { perks: [], curatedPerks: [] })
+const perks = $computed(() => data.value?.perks ?? { perks: [], curatedPerks: [] })
 // Hides intrinsic perks
-const perksToDisplay = computed(() => ({ perks: perks.value?.perks.slice(1), curatedPerks: perks.value?.curatedPerks }))
+const perksToDisplay = $computed(() => ({ perks: perks?.perks.slice(1), curatedPerks: perks?.curatedPerks }))
 
-const selectedPerkHashes = ref(decodedHashes.perks)
-const selectedPerks = computed(() => {
-  const intrinsicPerks = (perks.value?.perks[0] ?? []).map(p => p.hash)
+let selectedPerkHashes = $ref(decodedHashes.perks)
+const selectedPerks = $computed(() => {
+  const intrinsicPerks = (perks?.perks[0] ?? []).map(p => p.hash)
 
-  const perksToUse = intrinsicPerks.concat(selectedPerkHashes.value)
+  const perksToUse = intrinsicPerks.concat(selectedPerkHashes)
   return perksToUse.map((hash, i) => {
     if (hash === PERK_NONE) {
       return null
     }
 
-    return perks.value.perks.flat().find(t => t.hash === hash) ?? null
+    return perks.perks.flat().find(t => t.hash === hash) ?? null
   })
 })
 
 const resetPerk = (colIndex: number) => {
-  selectedPerkHashes.value[colIndex] = PERK_NONE
+  selectedPerkHashes[colIndex] = PERK_NONE
 }
 
-const masterwork = computed(() => data.value?.masterwork)
+const masterwork = $computed(() => data.value?.masterwork)
 
-const selectedMasterworkHash = ref(decodedHashes.masterwork)
-const selectedMasterworkArrayEntry = computed(() => masterwork.value?.find(mw => mw.data.benefits.find(i => i.hash === selectedMasterworkHash.value)))
-const selectedMasterworkItem = computed(() => selectedMasterworkArrayEntry.value?.data.benefits.find(i => i.hash === selectedMasterworkHash.value))
-const resetMasterwork = () => selectedMasterworkHash.value = null
+let selectedMasterworkHash = $ref(decodedHashes.masterwork)
+const selectedMasterworkArrayEntry = $computed(() => masterwork?.find(mw => mw.data.benefits.find(i => i.hash === selectedMasterworkHash)))
+const selectedMasterworkItem = computed(() => selectedMasterworkArrayEntry?.data.benefits.find(i => i.hash === selectedMasterworkHash))
+const resetMasterwork = () => { selectedMasterworkHash = null }
 
 const router = useRouter()
 const updateRouteOnChange = () => {
   const newRoutePrefix = `/en/weapons/${weaponHash}/`
   const slugValues = [
-    selectedPerkHashes.value.join(','),
-    selectedMasterworkHash.value ?? 0,
-    selectedModHash.value ?? 0,
+    selectedPerkHashes.join(','),
+    selectedMasterworkHash ?? 0,
+    selectedModHash ?? 0,
   ].join('-')
 
   const route = newRoutePrefix + slugValues
@@ -99,24 +99,26 @@ const updateRouteOnChange = () => {
 }
 watch([selectedModHash, selectedPerkHashes, selectedMasterworkHash], updateRouteOnChange)
 
-const favicon = computed(() => useBungieUrl(weapon.value.displayProperties.highResIcon ?? weapon.value.displayProperties.icon ?? ''))
+const favicon = computed(() => useBungieUrl(weapon.displayProperties.highResIcon ?? weapon.displayProperties.icon ?? ''))
 const description = computed(() => {
-  const perks = selectedPerks.value
+  const perkList = selectedPerks
     .map(p => p?.trait?.displayProperties.name)
     .filter(a => a).join(', ')
-  const hasPerks = perks.length > 0
+  const hasPerks = Boolean(perkList)
 
-  const mod = selectedMod.value?.mod?.displayProperties.name
+  const mod = selectedMod?.mod?.displayProperties.name
+  const hasMod = Boolean(mod)
+
   const rawMasterworkTier = selectedMasterworkItem.value?.displayProperties.name.toLowerCase()
   const masterworkTier = rawMasterworkTier === 'masterwork' ? 'max tier' : rawMasterworkTier
-  const rawMasterworkStatistic = selectedMasterworkArrayEntry.value?.statistic
+  const rawMasterworkStatistic = selectedMasterworkArrayEntry?.statistic
   const masterworkStatistic = rawMasterworkStatistic && masterworkStatisticToTerm(rawMasterworkStatistic)
 
-  const prefix = `${weaponName.value} (${weapon.value.itemTypeDisplayName}) `
+  const prefix = `${weaponName} (${weapon.itemTypeDisplayName}) `
   const description = [prefix,
-    hasPerks ? `with ${perks}` : '',
+    hasPerks ? `with ${perkList}` : '',
     mod ? `${hasPerks ? ', ' : 'with '} ${mod} mod` : '',
-    masterworkStatistic ? `${hasPerks || mod ? ' and' : 'with '} ${masterworkTier} ${masterworkStatistic} masterwork` : '',
+    masterworkStatistic ? `${hasPerks || hasMod ? ' and' : 'with '} ${masterworkTier} ${masterworkStatistic} masterwork` : '',
   ].join('')
   return description
 })

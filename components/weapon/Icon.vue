@@ -6,11 +6,9 @@ const SIZES: Record<IconSize, string> = {
   xl: 'w-16 h-16',
   auto: 'w-auto h-auto'
 }
-const props = withDefaults(defineProps<{ icon: string, watermark?: string, size?: IconSize }>(), {
-  size: 'lg'
-})
+const { size = 'lg' } = defineProps<{ icon: string, watermark?: string, size?: IconSize }>()
 
-const sizeClass = computed(() => SIZES[props.size])
+const sizeClass = computed(() => SIZES[size])
 
 </script> 
 

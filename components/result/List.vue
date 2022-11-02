@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { MinimalWeapon } from '~~/utils/weapon.js';
+import type { MinimalWeapon } from '~/utils/weapon';
 
 defineProps<{
   weapons: MinimalWeapon[],
+  hasMore: boolean,
 }>()
 </script>
   
