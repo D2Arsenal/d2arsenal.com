@@ -13,7 +13,10 @@ import { toPrunedItemDef } from '../transforms';
 import { compress, decompress } from "./brotli";
 
 const MANIFEST_CACHE_KEY = 'manifest.json'
+const NODE_MODULES_CACHE_PATH = './node_modules/.cache/manifest'
 const STORAGE_PATH = `assets:server:manifest:${MANIFEST_CACHE_KEY}`
+
+const nodeModulesCacheKeyForVersion = (version: string) => `manifest-${version}.json`
 
 const $http = async (config: HttpClientConfig) => $fetch(config.url, {
   method: config.method,
@@ -25,19 +28,18 @@ const storage = createStorage({
   driver: fsDriver({ base: './server/assets/manifest' })
 })
 
+const nodeModulesCacheStorage = createStorage({
+  driver: fsDriver({ base: NODE_MODULES_CACHE_PATH })
+})
 
-export const loadManifest = async (fromConfig = false) => {
-  const item = fromConfig
-    ? storage.getItem(MANIFEST_CACHE_KEY)
-    : useStorage().getItem(STORAGE_PATH)
-  const possibleCacheItem = await item as { data: ManifestData, version: string } | null
-  if (possibleCacheItem) {
-    return JSON.parse(await decompress(JSON.stringify(possibleCacheItem))) as { data: ManifestData, version: string }
-  }
-  console.log(`No cache hit for manifest`)
-
+export const fetchBaseManifest = async () => {
   const { Response: destinyManifest } = await getDestinyManifest($http);
   const version = destinyManifest.version
+  return { destinyManifest, version }
+}
+
+export const fetchManifest = async () => {
+  const { destinyManifest, version } = await fetchBaseManifest()
 
   const manifestTables = await getDestinyManifestSlice($http, {
     destinyManifest: destinyManifest,
@@ -112,11 +114,45 @@ export const loadManifest = async (fromConfig = false) => {
     energyTypes
   }
 
-  const compressed = await compress(JSON.stringify({ data, version }))
-  fromConfig
-    ? storage.setItem(MANIFEST_CACHE_KEY, compressed)
-    : useStorage().getItem(STORAGE_PATH, compressed)
   return { data, version }
+}
+
+export const loadManifestFromNodeModulesCache = async () => {
+  // TODO: What if endpoint is not available?
+  const { version } = await fetchBaseManifest()
+
+  const possibleManifest = await nodeModulesCacheStorage.getItem(nodeModulesCacheKeyForVersion(version)) as { data: ManifestData, version: string } | null
+  return possibleManifest
+}
+
+export const copyManifestFromNodeModulesCacheIfAvailable = async () => {
+  console.log('Try loading manifest from node_modules cache')
+  const possibleManifest = await loadManifestFromNodeModulesCache()
+  if (possibleManifest) {
+    console.log('Found manifest in node_modules cache, copying over')
+    return storage.setItem(MANIFEST_CACHE_KEY, possibleManifest)
+  }
+  console.log('Did not find manifest in node_modules cache, fetching new')
+
+  const { data, version } = await fetchManifest()
+  const compressed = await compress(JSON.stringify({ data, version }))
+
+  // TODO: Clean .cache/manifest folder?
+  const nodeModulesCacheKey = nodeModulesCacheKeyForVersion(version)
+  console.log(`Saved manifest to node modules cache - ${nodeModulesCacheKey}`)
+  await Promise.all([
+    storage.setItem(MANIFEST_CACHE_KEY, compressed),
+    nodeModulesCacheStorage.setItem(nodeModulesCacheKey, compressed)
+  ])
+}
+
+export const loadManifest = async (fromConfig = false) => {
+  const getItemPromise = fromConfig
+    ? storage.getItem(MANIFEST_CACHE_KEY)
+    : useStorage().getItem(STORAGE_PATH)
+
+  const possibleCacheItem = await getItemPromise as { data: ManifestData, version: string }
+  return JSON.parse(await decompress(JSON.stringify(possibleCacheItem))) as { data: ManifestData, version: string }
 }
 
 export const loadMinimalManifest = async () => {

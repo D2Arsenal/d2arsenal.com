@@ -1,6 +1,6 @@
 import svgLoader from 'vite-svg-loader'
 import tailwindTypography from '@tailwindcss/typography'
-import { loadManifest } from './utils/server/manifest';
+import { loadManifest, copyManifestFromNodeModulesCacheIfAvailable } from './utils/server/manifest';
 
 const PROJECT_URL = 'https://d2arsenal.com'
 const SITE_NAME = 'D2 Arsenal'
@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   },
   hooks: {
     'nitro:build:before': async () => {
+      await copyManifestFromNodeModulesCacheIfAvailable()
       console.log('preloading manifest')
       await loadManifest(true)
       console.log('Successfully preloaded manifest')
