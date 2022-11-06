@@ -48,7 +48,7 @@ const perkStats = computed(() => {
 })
 
 const masterworkStats = computed(() => {
-  if (!props.masterwork) {
+  if (!props.masterwork || !props.stats || !props.statGroups) {
     return {}
   }
   return statsArrayToObject(getStatsForItem(props.stats, props.masterwork, props.statGroups))
