@@ -1,30 +1,31 @@
 import { mods as modInfo } from '~/utils/info';
+import { getStatsForItem } from '~/utils/stats';
 
-import type { PrunedDestinyInventoryItemDefinition } from "~/types/destiny";
-import type { DefinitionRecord } from "~/types";
 import type { DestinySandboxPerkDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from "bungie-api-ts/destiny2";
+import type { PrunedDestinyInventoryItemDefinition } from "~/types/destiny";
+import type { Stat } from '~/utils/stats';
+import type { DefinitionRecord } from "~/types";
 
 export type Mod = {
   mod: PrunedDestinyInventoryItemDefinition,
-  subDescription?: string
+  subDescription?: string,
+  stats: Stat[]
 }
 
 export const buildMods = (mods: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, sandboxPerks: DefinitionRecord<DestinySandboxPerkDefinition>) => {
   return mods.map(mod => {
-    const perk = sandboxPerks[mod.perks[0]?.perkHash ?? -1];
-    if (!perk) {
-      return { mod }
-    }
+    const perk = sandboxPerks[mod.perks?.[0]?.perkHash ?? -1];
 
     return {
       mod: {
         ...mod,
         displayProperties: {
           ...mod.displayProperties,
-          description: perk.displayProperties.description
+          description: perk?.displayProperties.description ?? mod.displayProperties.description
         }
       },
       subDescription: modInfo[mod.hash]?.description,
+      stats: getStatsForItem(stats, mod, statGroups) ?? []
     } as Mod;
   })
 }

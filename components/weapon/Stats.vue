@@ -29,6 +29,14 @@ const availableStats = computed(() => {
   return getStatsForStatGroup(statGroupEntry.value, props.stats)
 })
 
+const modStats = computed(() => {
+  if (!props.mod) {
+    return {}
+  }
+  return statsArrayToObject(props.mod.stats)
+})
+
+// TODO: Check why this is not directly provided in the perks obj
 const perkStats = computed(() => {
   if (!props.stats || !props.statGroups) {
     return {}
@@ -66,11 +74,13 @@ const allStats = computed(() => weaponStats.value.slice()
       return 1
     }
     return 0
-  }).map((stat) => {
+  })
+  .map((stat) => {
     const perkStatValue = perkStats.value[stat.hash]?.value ?? 0
+    const modStatValue = modStats.value[stat.hash]?.value ?? 0
     const res: FormattedStat = {
       ...stat,
-      augmentedValue: stat.value + perkStatValue
+      augmentedValue: stat.value + perkStatValue + modStatValue
     }
     return res
   }))

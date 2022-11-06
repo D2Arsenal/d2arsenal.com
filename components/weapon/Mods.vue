@@ -36,9 +36,9 @@ const updateMod = (hash: number) => {
         {{ name }}</AppButton>
     </div>
     <ul class="grid grid-cols-7 sm:grid-cols-8 gap-4 mt-4">
-      <li v-for="{ mod, subDescription } in activeModTab.mods" :key="mod.hash">
+      <li v-for="{ mod, subDescription, stats } in activeModTab.mods" :key="mod.hash">
         <Plug is-squared :is-selected="mod.hash === modelValue" :item="mod" @click="updateMod(mod.hash)"
-          :sub-description="subDescription" />
+          :sub-description="subDescription" :stats="stats" />
       </li>
     </ul>
   </Card>
