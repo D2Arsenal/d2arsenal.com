@@ -36,7 +36,6 @@ const modStats = computed(() => {
   return statsArrayToObject(props.mod.stats)
 })
 
-// TODO: Check why this is not directly provided in the perks obj
 const perkStats = computed(() => {
   if (!props.stats || !props.statGroups) {
     return {}
@@ -46,6 +45,13 @@ const perkStats = computed(() => {
     .filter((s): s is Stat => Boolean(s && s?.value !== 0))
 
   return statsArrayToObject(statsArray)
+})
+
+const masterworkStats = computed(() => {
+  if (!props.masterwork) {
+    return {}
+  }
+  return statsArrayToObject(getStatsForItem(props.stats, props.masterwork, props.statGroups))
 })
 
 const statsArrayToObject = (statsArray: Stat[]) => statsArray.reduce((obj, s) => {
@@ -78,9 +84,10 @@ const allStats = computed(() => weaponStats.value.slice()
   .map((stat) => {
     const perkStatValue = perkStats.value[stat.hash]?.value ?? 0
     const modStatValue = modStats.value[stat.hash]?.value ?? 0
+    const masterworkStatValue = masterworkStats.value[stat.hash]?.value ?? 0
     const res: FormattedStat = {
       ...stat,
-      augmentedValue: stat.value + perkStatValue + modStatValue
+      augmentedValue: stat.value + perkStatValue + modStatValue + masterworkStatValue
     }
     return res
   }))
