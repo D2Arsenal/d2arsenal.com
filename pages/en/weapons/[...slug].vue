@@ -97,7 +97,7 @@ const updateRouteOnChange = () => {
 
   router.push(route)
 }
-watch([selectedModHash, selectedPerkHashes, selectedMasterworkHash], updateRouteOnChange)
+watch([$$(selectedModHash), $$(selectedPerkHashes), $$(selectedMasterworkHash)], updateRouteOnChange)
 
 const favicon = computed(() => useBungieUrl(weapon.displayProperties.highResIcon ?? weapon.displayProperties.icon ?? ''))
 const description = computed(() => {
