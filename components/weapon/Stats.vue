@@ -42,7 +42,7 @@ const perkStats = computed(() => {
     return {}
   }
   const statsArray = props.perks
-    .flatMap(p => p && getStatsForItem(props.stats!, p.trait!, props.statGroups!))
+    .flatMap(p => p?.stats)
     .filter((s): s is Stat => Boolean(s && s?.value !== 0))
 
   return statsArrayToObject(statsArray)
