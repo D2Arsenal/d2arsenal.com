@@ -103,7 +103,7 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
       return false
     }
 
-    const m = d?.socketIndexes.includes(n)
+    const m = d?.socketIndexes?.includes(n)
     const v = e.preventInitializationOnVendorPurchase || e.singleInitialItemHash === 2285418970
     return m && !v
   })
