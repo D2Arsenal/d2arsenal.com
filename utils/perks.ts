@@ -128,6 +128,7 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
   }
 
   // Setup curated perks
+  // TODO: Always add origin traits
   // TODO: Find a nicer way for this!
   m?.forEach((socketEntry, index) => {
     const r: Perk[] = socketEntry.reusablePlugItems.map((e) => ({
