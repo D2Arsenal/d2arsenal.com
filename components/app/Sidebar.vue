@@ -105,7 +105,7 @@ const handleMobileSearchInput = (e: Event) => {
       <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-800 bg-black lg:hidden">
         <div class="flex flex-1 justify-between sm:px-6 lg:px-8">
           <div class="flex flex-1">
-            <form class="flex w-full md:ml-0" action="#" method="GET">
+            <div>
               <label for="search-field" class="sr-only">Search</label>
               <div class="relative w-full text-gray-400 focus-within:text-gray-600">
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
@@ -119,7 +119,7 @@ const handleMobileSearchInput = (e: Event) => {
                     :has-more="filteredWeapons.hasMore" />
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
