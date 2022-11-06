@@ -4,19 +4,20 @@ import { $fetch } from 'ohmyfetch'
 // @ts-ignore
 import fsDriver from 'unstorage/drivers/fs'
 
+import pkg from '../../package.json'
 import { isWeapon, isWeaponFrame, isWeaponMod, isWeaponTrait, isCatalyst, isMasterwork } from '../checks';
+import { toPrunedItemDef } from '../transforms';
+import { compress, decompress } from "./brotli";
 
 import type { HttpClientConfig } from "bungie-api-ts/destiny2";
 import type { ManifestData, MinimalManifestData } from "../../types";
 import type { PrunedDestinyInventoryItemDefinition } from '../../types/destiny';
-import { toPrunedItemDef } from '../transforms';
-import { compress, decompress } from "./brotli";
 
 const MANIFEST_CACHE_KEY = 'manifest.json'
 const NODE_MODULES_CACHE_PATH = './node_modules/.cache/manifest'
 const STORAGE_PATH = `assets:server:manifest:${MANIFEST_CACHE_KEY}`
 
-const nodeModulesCacheKeyForVersion = (version: string) => `manifest-${version}.json`
+const nodeModulesCacheKeyForVersion = (version: string) => `manifest-${version}-${pkg.version}.json`
 
 const $http = async (config: HttpClientConfig) => $fetch(config.url, {
   method: config.method,
