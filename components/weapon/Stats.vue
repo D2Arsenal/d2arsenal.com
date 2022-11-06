@@ -90,7 +90,8 @@ const allStats = computed(() => weaponStats.value.slice()
       augmentedValue: stat.value + perkStatValue + modStatValue + masterworkStatValue
     }
     return res
-  }))
+  })
+)
 
 
 </script>
@@ -100,8 +101,8 @@ const allStats = computed(() => weaponStats.value.slice()
       <div class="col-span-3 sm:col-span-1 overflow-hidden pr-8 sm:pr-4">
         <span :title="stat.name" class="text-right whitespace-nowrap">{{ stat.name }}</span>
       </div>
-      <WeaponStatsBar class="col-span-3 sm:col-span-2" v-if="stat.value && stat.displayType === 'bar'" :base-value="stat.value"
-        :new-value="stat.augmentedValue" />
+      <WeaponStatsBar class="col-span-3 sm:col-span-2" v-if="stat.value && stat.displayType === 'bar'"
+        :base-value="stat.value" :new-value="stat.augmentedValue" />
       <span v-else>{{ stat.augmentedValue }}</span>
     </li>
   </ul>
