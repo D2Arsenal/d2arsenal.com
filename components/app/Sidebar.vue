@@ -9,38 +9,66 @@ const manifestStore = useManifestStore()
 
 const query = ref('')
 
-const fuse = computed(() => new Fuse(manifestStore.weapons, {
+const fuse = $computed(() => new Fuse(manifestStore.weapons, {
   keys: ['name'],
   threshold: 0.2
 }))
 
+const SUGGESTED_WEAPON_HASHES = [
+  2221264583,
+  1937552980,
+  431721920,
+  3969066556,
+  3228096719,
+  1321506184,
+  2218569744,
+  1509167284,
+  2531963421,
+  1184309824,
+  1298815317,
+  820890091,
+  616582330,
+  2671639706,
+  2988121501,
+  1141927949,
+  711889599,
+  2307365,
+  912150785,
+  2378101424,
+  1532276803,
+  4009352833
+]
+const suggestedWeapon = $computed(() => manifestStore.weapons
+  .filter(w => SUGGESTED_WEAPON_HASHES.includes(w.hash))
+  .sort((a, b) => SUGGESTED_WEAPON_HASHES.indexOf(a.hash) - SUGGESTED_WEAPON_HASHES.indexOf(b.hash)))
+
 // TODO: Debounce?
-const filteredWeaponsWithoutSlice = computed(() => {
+const filteredWeaponsWithoutSlice = $computed(() => {
   if (query.value.length < 2) {
-    return manifestStore.weapons
+    return suggestedWeapon
   }
-  return fuse.value.search(query.value, { limit: 26 }).map(({ item }) => item)
+  return fuse.search(query.value, { limit: 26 }).map(({ item }) => item)
 })
 
 const filteredWeapons = computed(() => {
-  const weapons = filteredWeaponsWithoutSlice.value.slice(0, 25)
-  const hasMore = filteredWeaponsWithoutSlice.value.length > 25
+  const weapons = filteredWeaponsWithoutSlice.slice(0, 25)
+  const hasMore = filteredWeaponsWithoutSlice.length > 25
   return { weapons, hasMore }
 })
 
 const route = useRoute()
-const isMobileSearchOpen = ref(false)
+let isMobileSearchOpen = $ref(false)
 watch(() => route.path, () => {
-  isMobileSearchOpen.value = false
+  isMobileSearchOpen = false
 })
 
 const handleMobileSearchInput = (e: Event) => {
   const target = e.target as HTMLInputElement
   if (!target.value) {
-    isMobileSearchOpen.value = false
+    isMobileSearchOpen = false
     return
   }
-  isMobileSearchOpen.value = true
+  isMobileSearchOpen = true
 }
 
 
