@@ -30,7 +30,8 @@ const isEnhanced = (columnIndex: number, perk: Perk) => isEnhancedPerk(perk, mod
           <li v-for="perk in perkColumn">
             <Plug :item="perk.trait" :is-selected="isSelected(i, perk)" @click="setPerk(i, perk)"
               :sub-description="perk.subDescription" :warning="perk.currentlyCanRoll ? undefined : WARNING"
-              :is-demoted="!perk.currentlyCanRoll" :has-enhanced="!!perk.enhancedTrait" :is-enhanced="isEnhanced(i, perk)" :stats="perk.stats" />
+              :is-demoted="!perk.currentlyCanRoll" :has-enhanced="!!perk.enhancedTrait" :is-enhanced="isEnhanced(i, perk)" :stats="perk.stats"
+              :enhanced-item="perk?.enhancedTrait" :enhanced-stats="perk?.enhancedStats" :enhanced-sub-description="perk?.enhancedSubDescription" />  
           </li>
         </ul>
       </div>
@@ -41,7 +42,8 @@ const isEnhanced = (columnIndex: number, perk: Perk) => isEnhancedPerk(perk, mod
           <li v-for="perk in perkColumn">
             <Plug :item="perk.trait" :is-selected="isSelected(i, perk)" @click="setPerk(i, perk)"
               :sub-description="perk.subDescription" :warning="perk.currentlyCanRoll ? undefined : WARNING"
-              :is-demoted="!perk.currentlyCanRoll" :has-enhanced="!!perk.enhancedTrait" :is-enhanced="isEnhanced(i, perk)" :stats="perk.stats" />
+              :is-demoted="!perk.currentlyCanRoll" :has-enhanced="!!perk.enhancedTrait" :is-enhanced="isEnhanced(i, perk)" :stats="perk.stats"
+              :enhanced-item="perk?.enhancedTrait" :enhanced-stats="perk?.enhancedStats" :enhanced-sub-description="perk?.enhancedSubDescription" />
           </li>
         </ul>
       </div>

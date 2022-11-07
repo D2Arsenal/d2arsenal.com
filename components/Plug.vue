@@ -5,6 +5,16 @@ import type { PrunedDestinyInventoryItemDefinition } from '~~/types/destiny.js';
 
 const props = defineProps<{
   item?: PrunedDestinyInventoryItemDefinition,
+  subDescription?: string,
+  stats?: Stat[],
+  // Enhanced info
+  enhancedItem?: PrunedDestinyInventoryItemDefinition,
+  enhancedSubDescription?: string,
+  enhancedStats?: Stat[],
+  // Misc
+  warning?: string,
+  // Visual info
+  placeholder?: string,
   isSquared?: boolean,
   isSelected?: boolean,
   isDisabled?: boolean,
@@ -12,10 +22,6 @@ const props = defineProps<{
   hasEnhanced?: boolean,
   isEnhanced?: boolean,
   canShrink?: boolean,
-  subDescription?: string,
-  warning?: string,
-  placeholder?: string,
-  stats?: Stat[],
 }>()
 
 const computedClasses = computed(() => [
@@ -37,7 +43,8 @@ const afterClass = computed(() => `enabled:after:absolute enabled:after:top-0 en
 
 <template>
   <Tooltip :is-disabled="!item" :heading="item?.displayProperties.name ?? ''" :subheading="item?.itemTypeDisplayName"
-    :description="item?.displayProperties.description" :sub-description="subDescription" :warning="warning" :stats="stats">
+    :description="item?.displayProperties.description" :sub-description="subDescription" :warning="warning" :stats="stats"
+    :enhanced-description="enhancedItem?.displayProperties.description" :enhanced-sub-description="enhancedSubDescription" :enhanced-stats="enhancedStats">
     <button class="border-2 relative flex justify-center items-center shadow-white"
       :class="[computedClasses, beforeClass, afterClass]" :title="item?.displayProperties.name ?? ''" :disabled="isDisabled">
       <span class="relative" :class="{ 'opacity-50': isDemoted }">

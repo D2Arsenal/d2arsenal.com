@@ -36,13 +36,15 @@ const resetMod = () => {
 </script>
 <template>
   <div class="flex space-x-6">
-    <Plug can-shrink v-if="transformedPerks?.[0]" :item="transformedPerks[0]?.trait" :stats="transformedPerks[0]?.stats" is-disabled
-      :is-squared="!isExotic" />
+    <Plug can-shrink v-if="transformedPerks?.[0]" :item="transformedPerks[0]?.trait" :stats="transformedPerks[0]?.stats"
+      is-disabled :is-squared="!isExotic" />
     <Plug can-shrink v-for="(perk, i) in perkColumns" :is-disabled="!perk" :item="perk?.trait"
-      :stats="perk?.stats" :has-enhanced="!!perk?.hasEnhanced" :is-enhanced="perk?.isEnhanced"
-      @click="resetPerk(i)" />
+      :stats="perk?.isEnhanced ? perk?.enhancedStats : perk?.stats"
+      :sub-description="perk?.isEnhanced ? perk?.enhancedSubDescription : perk?.subDescription"
+      :has-enhanced="perk?.hasEnhanced" :is-enhanced="perk?.isEnhanced" @click="resetPerk(i)" />
     <Plug can-shrink v-if="transformedPerks?.[5]" :item="transformedPerks[5]?.trait" :stats="transformedPerks[5]?.stats"
-      :has-enhanced="!!transformedPerks[5]?.hasEnhanced" :is-enhanced="transformedPerks[5]?.isEnhanced" @click="resetPerk(4)" />
+      :has-enhanced="transformedPerks[5]?.hasEnhanced" :is-enhanced="transformedPerks[5]?.isEnhanced"
+      @click="resetPerk(4)" />
     <Plug can-shrink :item="mod?.mod" :stats="mod?.stats"
       placeholder="/common/destiny2_content/icons/54fa140e3e70ea7e5bd29b623ef75518.png" :is-disabled="!mod"
       :sub-description="mod?.subDescription" is-squared @click="resetMod" />

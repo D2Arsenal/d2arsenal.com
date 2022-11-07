@@ -7,8 +7,13 @@ defineProps<{
   subheading?: string,
   description?: string,
   subDescription?: string,
+  craftingLevel?: number,
   warning?: string,
   stats?: Stat[],
+  enhancedDescription?: string,
+  enhancedSubDescription?: string,
+  enhancedCraftingLevel?: number,
+  enhancedStats?: Stat[],
   isDisabled?: boolean
 }>()
 
@@ -46,19 +51,18 @@ const abs = Math.abs
         <section class="mt-4 text-sm whitespace-pre-wrap px-4">
           <p>{{ description }}</p>
           <p class="mt-1 text-gray-400">{{ subDescription }}</p>
-          <div class="border-t mt-4 pt-2 border-t-white" v-if="stats?.length">
-            <ul>
-              <li class="grid grid-cols-5 w-2/3" v-for="stat in stats" :key="stat.name">
-                <span class="col-span-4">
-                  {{ stat.name }}
-                </span>
-                <span class="tabular-nums" :class="classForStatValue(stat.value)">
-                  {{ signForStatValue(stat.value) }} {{ abs(stat.value) }}
-                </span>
-              </li>
-            </ul>
-          </div>
+          <TooltipStats :stats="stats" v-if="stats?.length" />
         </section>
+        <template v-if="enhancedDescription">
+          <header class="bg-black px-4 -mt-1 pt-1 pb-1">
+            <p class="uppercase text-xl font-bold">Enhanced Benefits</p>
+          </header>
+          <section class="mt-4 text-sm whitespace-pre-wrap px-4">
+            <p>{{ enhancedDescription }}</p>
+            <p class="mt-1 text-gray-400">{{ enhancedSubDescription }}</p>
+            <TooltipStats :stats="enhancedStats" v-if="enhancedStats?.length" />
+          </section>
+        </template>
       </div>
     </template>
   </Tippy>
