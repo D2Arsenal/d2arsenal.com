@@ -244,7 +244,7 @@ export const isPerkSelected = (perk: Perk, valueToCheck: unknown) => {
 
 export const isEnhancedPerk = (perk: Perk, valueToCheck: unknown) => {
   const { enhancedHash } = getHashesFromPerk(perk)
-  return enhancedHash && valueToCheck === enhancedHash
+  return Boolean(enhancedHash && valueToCheck === enhancedHash)
 }
 
 export const changePerkStatus = (perk: Perk, valueToCheck: unknown) => {
