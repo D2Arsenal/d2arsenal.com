@@ -26,7 +26,8 @@ const props = defineProps<{
 
 const computedClasses = computed(() => [
   {
-    'rounded-full': !props.isSquared
+    'rounded-full': !props.isSquared,
+    'bg-gradient-radial from-yellow-500/75': props.isEnhanced
   },
   props.isSelected && 'bg-blue-500/75',
   // TODO: Move to weapon icon!

@@ -41,10 +41,10 @@ const resetMod = () => {
     <Plug can-shrink v-for="(perk, i) in perkColumns" :is-disabled="!perk" :item="perk?.trait"
       :stats="perk?.isEnhanced ? perk?.enhancedStats : perk?.stats"
       :sub-description="perk?.isEnhanced ? perk?.enhancedSubDescription : perk?.subDescription"
-      :has-enhanced="perk?.hasEnhanced" :is-enhanced="perk?.isEnhanced" @click="resetPerk(i)" />
+      :has-enhanced="perk?.hasEnhanced" :is-enhanced="perk?.isEnhanced" :is-selected="!!perk" @click="resetPerk(i)" />
     <Plug can-shrink v-if="transformedPerks?.[5]" :item="transformedPerks[5]?.trait" :stats="transformedPerks[5]?.stats"
       :has-enhanced="transformedPerks[5]?.hasEnhanced" :is-enhanced="transformedPerks[5]?.isEnhanced"
-      @click="resetPerk(4)" />
+      :is-selected="!!transformedPerks[5]" @click="resetPerk(4)" />
     <Plug can-shrink :item="mod?.mod" :stats="mod?.stats"
       placeholder="/common/destiny2_content/icons/54fa140e3e70ea7e5bd29b623ef75518.png" :is-disabled="!mod"
       :sub-description="mod?.subDescription" is-squared @click="resetMod" />

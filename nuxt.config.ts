@@ -46,7 +46,14 @@ export default defineNuxtConfig({
   tailwindcss: {
     // @ts-ignore
     config: {
-      plugins: [tailwindTypography]
+      plugins: [tailwindTypography],
+      theme: {
+        extend: {
+          backgroundImage: {
+            'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+          }
+        }
+      }
     }
   },
   pwa: {

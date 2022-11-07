@@ -41,7 +41,7 @@ const abs = Math.abs
     <template #content>
       <div v-if="!isDisabled"
         class="w-96 max-w-96 border-t-8 bg-black/90 text-white rounded-sm pt-1 pb-4 border-t-white">
-        <header class="bg-black px-4 -mt-1 pt-1 pb-1">
+        <header class="bg-black px-4 -mt-1 py-1">
           <p class="uppercase text-xl font-bold">{{ heading }}</p>
           <span>{{ subheading }}</span>
         </header>
@@ -54,10 +54,10 @@ const abs = Math.abs
           <TooltipStats :stats="stats" v-if="stats?.length" />
         </section>
         <template v-if="enhancedDescription">
-          <header class="bg-black px-4 -mt-1 pt-1 pb-1">
-            <p class="uppercase text-xl font-bold">Enhanced Benefits</p>
+          <header class="mt-2 text-sm text-yellow-500 uppercase bg-gradient-to-b from-yellow-500/25 to-transparent px-4 py-1 border-t-yellow-500 border-t">
+            Enhanced Benefits
           </header>
-          <section class="mt-4 text-sm whitespace-pre-wrap px-4">
+          <section class="mt-2 text-sm whitespace-pre-wrap px-4">
             <p>{{ enhancedDescription }}</p>
             <p class="mt-1 text-gray-400">{{ enhancedSubDescription }}</p>
             <TooltipStats :stats="enhancedStats" v-if="enhancedStats?.length" />
