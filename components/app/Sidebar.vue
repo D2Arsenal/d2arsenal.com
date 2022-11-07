@@ -102,25 +102,23 @@ const handleMobileSearchInput = (e: Event) => {
     <!-- Main column -->
     <div class="flex flex-col lg:pl-64">
       <!-- Search header -->
-      <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-800 bg-black lg:hidden">
-        <div class="flex flex-1 justify-between sm:px-6 lg:px-8">
-          <div class="flex flex-1">
-            <div>
-              <label for="search-field" class="sr-only">Search</label>
-              <div class="relative w-full text-gray-400 focus-within:text-gray-600">
-                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
-                  <MagnifyingGlassIcon class="h-5 w-5" aria-hidden="true" />
-                </div>
-                <input id="search-field" v-model="query" name="search-field"
-                  class="block w-full rounded-md border-gray-100 placeholder-gray-100 bg-gray-900 text-gray-100 pl-9 focus:ring-indigo-800 sm:text-sm py-4"
-                  placeholder="Search weapon" type="search" @input="handleMobileSearchInput" />
-                <div v-if="isMobileSearchOpen" class="bg-slate-800">
-                  <ResultList class="overflow-y-auto" :weapons="filteredWeapons.weapons"
-                    :has-more="filteredWeapons.hasMore" />
-                </div>
+      <div class="sticky top-0 z-10 flex h-14 flex-shrink-0 border-b border-gray-800 bg-black lg:hidden">
+        <div class="w-full justify-between sm:px-6 lg:px-8">
+          <div class="w-full">
+            <label for="search-field" class="sr-only">Search</label>
+            <div class="relative w-full text-gray-400 focus-within:text-gray-600">
+              <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
+                <MagnifyingGlassIcon class="h-5 w-5" aria-hidden="true" />
               </div>
+              <input id="search-field" v-model="query" name="search-field"
+                class="block w-full border-gray-100 placeholder-gray-100 bg-gray-900 text-gray-100 pl-9 focus:ring-indigo-800 sm:text-sm py-4"
+                placeholder="Search weapon" type="search" @input="handleMobileSearchInput" />
             </div>
           </div>
+          <div v-if="isMobileSearchOpen" class="bg-slate-800">
+                <ResultList class="overflow-y-auto" :weapons="filteredWeapons.weapons"
+                  :has-more="filteredWeapons.hasMore" />
+              </div>
         </div>
       </div>
     </div>
