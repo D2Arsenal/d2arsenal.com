@@ -20,8 +20,7 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       routes: ['/', '/donate/']
-    },
-    timing: Boolean(process.env.NUXT_TIMING)
+    }
   },
   hooks: {
     'nitro:build:before': async () => {
