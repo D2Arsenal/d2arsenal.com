@@ -5,12 +5,12 @@ import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
 import type { Mod } from '~/utils/mods';
 
 import { getStatGroupEntryForItem, getStatsForItem, getStatsForStatGroup, Stat } from '~/utils/stats';
-import { Perk } from '~/utils/perks';
+import { Perk, toTransformedPerks } from '~/utils/perks';
 
 
 const props = defineProps<{
   weapon: PrunedDestinyInventoryItemDefinition,
-  perks: Array<Perk | null>,
+  perks: Array<{perk: Perk, isEnhanced: boolean} | null>,
   masterwork?: PrunedDestinyInventoryItemDefinition,
   mod?: Mod,
   statGroups?: DefinitionRecord<DestinyStatGroupDefinition>
@@ -36,12 +36,15 @@ const modStats = computed(() => {
   return statsArrayToObject(props.mod.stats)
 })
 
+// TODO: set up enhanced perk stats 
+const transformedPerks = $computed(() => toTransformedPerks(props.perks))
+
 const perkStats = computed(() => {
   if (!props.stats || !props.statGroups) {
     return {}
   }
-  const statsArray = props.perks
-    .flatMap(p => p?.stats)
+    const statsArray = transformedPerks
+    .flatMap(p => p?.isEnhanced ? p?.enhancedStats : p?.stats)
     .filter((s): s is Stat => Boolean(s && s?.value !== 0))
 
   return statsArrayToObject(statsArray)

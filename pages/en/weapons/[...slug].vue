@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useManifestStore } from '~/store/manifest';
-import { PERK_NONE, PERK_LENGTH } from '~/utils/perks';
+import { PERK_NONE, PERK_LENGTH, changePerkStatus } from '~/utils/perks';
 import { buildMods } from '~/utils/mods';
 import { isExotic } from '~/utils/weapon';
 import { masterworkStatisticToTerm } from '~~/utils/masterwork.js';
+
+import type { Perk } from '~/utils/perks';
 
 // Avoid re-rendering of the page component on hash switch
 definePageMeta({
@@ -62,19 +64,31 @@ const perksToDisplay = $computed(() => ({ perks: perks?.perks.slice(1), curatedP
 let selectedPerkHashes = $ref(decodedHashes.perks)
 const selectedPerks = $computed(() => {
   const intrinsicPerks = (perks?.perks[0] ?? []).map(p => p.hash)
+  const allPerks = perks.perks.flat()
 
   const perksToUse = intrinsicPerks.concat(selectedPerkHashes)
-  return perksToUse.map((hash, i) => {
+  return perksToUse.map((hash) => {
     if (hash === PERK_NONE) {
       return null
     }
 
-    return perks.perks.flat().find(t => t.hash === hash) ?? null
+    const isEnhancedPerk = (perk: Perk, hash: number) => perk.enhancedTrait?.hash === hash
+
+    const perk = allPerks.find(t => isEnhancedPerk(t, hash) || (t.hash === hash))
+    if (!perk) {
+      return null
+    }
+    
+    return {
+      perk,
+      isEnhanced: isEnhancedPerk(perk, hash)
+    }
   })
 })
 
+// TODO: Rename, no actual reset but "cycle"
 const resetPerk = (colIndex: number) => {
-  selectedPerkHashes[colIndex] = PERK_NONE
+  selectedPerkHashes[colIndex] = changePerkStatus(selectedPerks[colIndex + 1]!.perk, selectedPerkHashes[colIndex])
 }
 
 const masterwork = $computed(() => data.value?.masterwork)
@@ -102,7 +116,7 @@ watch([$$(selectedModHash), $$(selectedPerkHashes), $$(selectedMasterworkHash)],
 const favicon = computed(() => useBungieUrl(weapon.displayProperties.highResIcon ?? weapon.displayProperties.icon ?? ''))
 const description = computed(() => {
   const perkList = selectedPerks
-    .map(p => p?.trait?.displayProperties.name)
+    .map(p => p?.perk.trait?.displayProperties.name)
     .filter(a => a).join(', ')
   const hasPerks = Boolean(perkList)
 

@@ -9,7 +9,7 @@ import { Perk } from '~~/utils/perks';
 const { weapon } = defineProps<{
   weapon: PrunedDestinyInventoryItemDefinition,
   damageTypes: DestinyDamageTypeDefinition[],
-  perks: Array<Perk | null>,
+  perks: Array<{perk: Perk, isEnhanced: boolean} | null>,
   masterwork?: PrunedDestinyInventoryItemDefinition,
   mod?: Mod,
   statGroups?: DefinitionRecord<DestinyStatGroupDefinition>,

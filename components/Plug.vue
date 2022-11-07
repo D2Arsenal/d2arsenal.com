@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ArrowUpIcon } from '@heroicons/vue/20/solid';
 import type { Stat } from '~/utils/stats';
 import type { PrunedDestinyInventoryItemDefinition } from '~~/types/destiny.js';
 
@@ -8,6 +9,8 @@ const props = defineProps<{
   isSelected?: boolean,
   isDisabled?: boolean,
   isDemoted?: boolean,
+  hasEnhanced?: boolean,
+  isEnhanced?: boolean,
   canShrink?: boolean,
   subDescription?: string,
   warning?: string,
@@ -38,6 +41,7 @@ const afterClass = computed(() => `enabled:after:absolute enabled:after:top-0 en
     <button class="border-2 relative flex justify-center items-center shadow-white"
       :class="[computedClasses, beforeClass, afterClass]" :title="item?.displayProperties.name ?? ''" :disabled="isDisabled">
       <span class="relative" :class="{ 'opacity-50': isDemoted }">
+        <ArrowUpIcon class="absolute h-4 top-0 -left-3" :class="isEnhanced && 'fill-yellow-500'" v-if="hasEnhanced" />
         <WeaponIcon :icon="icon" size="auto" :watermark="item?.iconWatermark" />
       </span>
     </button>
