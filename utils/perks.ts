@@ -244,14 +244,13 @@ export const isPerkSelected = (perk: Perk, valueToCheck: unknown) => {
 
 export const isEnhancedPerk = (perk: Perk, valueToCheck: unknown) => {
   const { enhancedHash } = getHashesFromPerk(perk)
-  return valueToCheck === enhancedHash
+  return enhancedHash && valueToCheck === enhancedHash
 }
 
 export const changePerkStatus = (perk: Perk, valueToCheck: unknown) => {
   const { hash, enhancedHash } = getHashesFromPerk(perk)
   const isHash = valueToCheck === hash
-  const isEnhancedHash = enhancedHash && valueToCheck === enhancedHash
-  if (isEnhancedHash) {
+  if (isEnhancedPerk(perk, valueToCheck)) {
     return PERK_NONE
   }
   if (isHash) {
