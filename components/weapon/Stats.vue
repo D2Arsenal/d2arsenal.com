@@ -10,7 +10,7 @@ import { Perk, toTransformedPerks } from '~/utils/perks';
 
 const props = defineProps<{
   weapon: PrunedDestinyInventoryItemDefinition,
-  perks: Array<{perk: Perk, isEnhanced: boolean} | null>,
+  perks: Array<{ perk: Perk, isEnhanced: boolean } | null>,
   masterwork?: PrunedDestinyInventoryItemDefinition,
   mod?: Mod,
   statGroups?: DefinitionRecord<DestinyStatGroupDefinition>
@@ -43,7 +43,7 @@ const perkStats = computed(() => {
   if (!props.stats || !props.statGroups) {
     return {}
   }
-    const statsArray = transformedPerks
+  const statsArray = transformedPerks
     .flatMap(p => p?.isEnhanced ? p?.enhancedStats : p?.stats)
     .filter((s): s is Stat => Boolean(s && s?.value !== 0))
 
@@ -85,12 +85,19 @@ const allStats = computed(() => weaponStats.value.slice()
     return 0
   })
   .map((stat) => {
+
     const perkStatValue = perkStats.value[stat.hash]?.value ?? 0
     const modStatValue = modStats.value[stat.hash]?.value ?? 0
     const masterworkStatValue = masterworkStats.value[stat.hash]?.value ?? 0
+    const rawValue = stat.value + perkStatValue + modStatValue + masterworkStatValue
+
+    // TODO Use actual boundaries
+    const maxVal = 100 ?? Infinity
+    const minVal = 0 ?? -Infinity
+    const augmentedValue = stat.hasBoundary ? Math.max(minVal, Math.min(maxVal, rawValue)) : rawValue
     const res: FormattedStat = {
       ...stat,
-      augmentedValue: stat.value + perkStatValue + modStatValue + masterworkStatValue
+      augmentedValue
     }
     return res
   })

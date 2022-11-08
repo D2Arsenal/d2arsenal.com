@@ -12,11 +12,24 @@ const displayTypeForStatHash = (hash: number): StatDisplayType => {
   return 'none'
 }
 
+
+const statsWithBoundaries = [
+  'Impact',
+  'Stability',
+  'Reload Speed',
+  'Handling',
+  'Aim Assistance',
+  'Zoom',
+  'Airborne Effectiveness',
+  'Recoil Direction'
+]
+
 export type Stat = {
   name: string
   hash: number,
   displayType: StatDisplayType,
-  value: number
+  value: number,
+  hasBoundary: boolean,
 }
 
 const isDefinition = (x: DestinyStatGroupDefinition | DefinitionRecord<DestinyStatGroupDefinition>): x is DestinyStatGroupDefinition => {
@@ -43,7 +56,8 @@ export const getStatsForItem = (stats: DestinyStatDefinition[] | DefinitionRecor
         name,
         hash: stat.hash,
         displayType: displayTypeForStatHash(stat.hash),
-        value
+        value,
+        hasBoundary: statsWithBoundaries.includes(name)
       }
     })
     .filter(x => x.name)
