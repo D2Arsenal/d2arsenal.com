@@ -10,7 +10,7 @@
         <p>
           Welcome to D2 Arsenal, a tool to help you finding your desired weapon rolls for Destiny 2 and share them
           along.
-          D2 Arsenal is the spiritual successor of D2 Gunsmith<span class="line-through">, which is sadly no longer maintained</span>.
+          D2 Arsenal is the spiritual successor of D2 Gunsmith, which is sadly no longer maintained.
           While being still in early development, feature-parity is planned, as well as new features and UX
           improvements.
           Ensure you follow us on <NuxtLink class="inline-block" href="/twitter/" target="_blank">
