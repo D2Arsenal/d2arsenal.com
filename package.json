@@ -24,6 +24,7 @@
     "bungie-api-ts": "^4.19.0",
     "fuse.js": "^6.6.2",
     "nuxt": "^3.0.0-rc.13",
+    "sitemap": "^7.1.1",
     "unstorage": "0.6.0",
     "vite-svg-loader": "^3.6.0",
     "vue-gtag-next": "^1.14.0",
