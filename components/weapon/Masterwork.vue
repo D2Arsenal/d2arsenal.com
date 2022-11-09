@@ -1,8 +1,8 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { masterworkStatisticToTerm } from '~/utils/masterwork.js'
 import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js'
 
-type Props = {
+interface Props {
   options: {
     statistic: string
     data: {
@@ -16,6 +16,10 @@ type Props = {
 }
 const { options, modelValue } = defineProps<Props>()
 
+const emit = defineEmits<{
+  (event: 'update:modelValue', masterwork: number | null): void
+}>()
+
 const statisticsIndex = $computed(() => {
   const index = options.findIndex(({ data }) => data.benefits.some(b => b.hash === modelValue))
   return index === -1 ? null : index
@@ -23,12 +27,12 @@ const statisticsIndex = $computed(() => {
 
 const activeTabIndex = computed(() => statisticsIndex ?? -1)
 
-const currentIndex = $computed(() => statisticsIndex !== null ? options[statisticsIndex].data.benefits.findIndex(b => b.hash === modelValue) : null)
-const currentLevel = computed(() => currentIndex !== null ? currentIndex + 1 : 1)
-
-const emit = defineEmits<{
-  (event: 'update:modelValue', masterwork: number | null): void
-}>()
+const currentIndex = $computed(() => statisticsIndex !== null
+  ? options[statisticsIndex].data.benefits.findIndex(b => b.hash === modelValue)
+  : null)
+const currentLevel = computed(() => currentIndex !== null
+  ? currentIndex + 1
+  : 1)
 
 const updateMasterwork = (hash: number | null) => {
   emit('update:modelValue', hash)
@@ -40,8 +44,8 @@ const updateMasterworkForLevel = (event: Event) => {
   if (statisticsIndex === null) {
     return
   }
-
-  const level = (<HTMLInputElement>event.target).valueAsNumber
+  const target = event.target as HTMLInputElement
+  const level = target.valueAsNumber
   if (!level) {
     updateMasterwork(null)
     return
@@ -80,20 +84,26 @@ const buttonNames = computed(() => options.map(o => masterworkStatisticToTerm(o.
       <h2>There are no masterworks for this weapon</h2>
     </div>
     <nav v-if="!isExoticWeapon" class="flex flex-wrap sm:flex-nowrap items-center">
-      <AppButton v-for="title, i in buttonNames" :key="title" class="mr-2 mt-2" :is-active="activeTabIndex === i"
-        @click="onMasterworkTypeSwitch(i)">
+      <AppButton
+        v-for="title, i in buttonNames" :key="title" class="mr-2 mt-2" :is-active="activeTabIndex === i"
+        @click="onMasterworkTypeSwitch(i)"
+      >
         {{ title }}
       </AppButton>
     </nav>
     <div class="grid grid-cols-5 w-full mt-8" :class="!modelValue && 'invisible'">
       <label>
         <span class="sr-only">Masterwork Level</span>
-        <input :disabled="!modelValue"
+        <input
+          :disabled="!modelValue"
           class="appearance-none cursor-pointer bg-transparent w-12 h-12 pl-4 m-0 text-xl border border-white"
-          type="number" min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel">
+          type="number" min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel"
+        >
       </label>
-      <AppRangeInput :disabled="!modelValue" wrapper-class="col-span-4 w-full" class="w-full h-full" type="range"
-        min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel" />
+      <AppRangeInput
+        :disabled="!modelValue" wrapper-class="col-span-4 w-full" class="w-full h-full" type="range"
+        min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel"
+      />
     </div>
   </Card>
 </template>
