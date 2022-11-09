@@ -88,8 +88,8 @@ const selectedPerks = $computed(() => {
 
 // TODO: Rename, no actual reset but "cycle"
 const resetPerk = (colIndex: number) => {
-  const indexWithIntrisics = colIndex + 1
-  selectedPerkHashes[colIndex] = changePerkStatus(selectedPerks[indexWithIntrisics]!.perk, selectedPerkHashes[colIndex])
+  const indexWithIntrinsics = colIndex + 1
+  selectedPerkHashes[colIndex] = changePerkStatus(selectedPerks[indexWithIntrinsics]!.perk, selectedPerkHashes[colIndex])
 }
 
 const masterwork = $computed(() => data.value?.masterwork)
