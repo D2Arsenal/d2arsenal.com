@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import type { MinimalManifestData } from '../types'
-import type { MinimalWeapon } from '../utils/weapon'
-import { isSandboxMod } from '../utils/checks'
+import type { MinimalManifestData } from '~/types'
+import type { MinimalWeapon } from '~/utils/weapon'
+import { isSandboxMod } from '~/utils/checks'
 
 export const useManifestStore = defineStore('manifest', () => {
   const version = ref<string>()
