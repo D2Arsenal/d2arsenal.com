@@ -18,8 +18,8 @@ const extraBarWidth = computed(() => Math.abs(difference))
 
 <template>
   <div
-    class="flex border-gray-700 text-xs sm:text-base bg-white/25"
-    :class="didChange ? { 'text-green-800': isPositive, 'text-red-700': !isPositive } : 'text-gray-900'"
+    class="flex border-gray-700 text-xs sm:text-base bg-white/50"
+    :class="didChange ? { 'text-green-900': isPositive, 'text-red-900': !isPositive } : 'text-gray-900'"
   >
     <span class="bg-white flex items-center transition-[width] duration-300" :style="{ width: `${whiteBarWidth}%` }">
       <span class="absolute pl-1">
@@ -29,6 +29,6 @@ const extraBarWidth = computed(() => Math.abs(difference))
         </template>
       </span>
     </span>
-    <span class="transition-[width] duration-300" :class="[isPositive ? 'bg-green-600' : 'bg-red-700']" :style="{ width: `${extraBarWidth}%` }" />
+    <span class="transition-[width] duration-300" :class="[isPositive ? 'bg-green-500' : 'bg-red-600']" :style="{ width: `${extraBarWidth}%` }" />
   </div>
 </template>
