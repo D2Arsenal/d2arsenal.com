@@ -5,7 +5,7 @@ import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js'
 import type { Mod } from '~/utils/mods'
 
 import type { Stat } from '~/utils/stats'
-import { STAT_HASH_ORDER, getStatGroupEntryForItem, getStatsForItem, getStatsForStatGroup } from '~/utils/stats'
+import { STAT_ORDER, getStatGroupEntryForItem, getStatsForItem } from '~/utils/stats'
 import type { Perk } from '~/utils/perks'
 import { toTransformedPerks } from '~/utils/perks'
 
@@ -33,11 +33,6 @@ const statsArrayToObject = (statsArray: Stat[]) => statsArray.reduce((obj, s) =>
 }, {} as Record<string, Stat>)
 
 const statGroupEntry = computed(() => props.statGroups && getStatGroupEntryForItem(props.weapon, props.statGroups))
-const availableStats = computed(() => {
-  if (!props.stats || !statGroupEntry.value) { return [] }
-
-  return getStatsForStatGroup(statGroupEntry.value, props.stats)
-})
 
 const modStats = computed(() => {
   if (!props.mod) { return {} }
@@ -59,19 +54,21 @@ const perkStats = computed(() => {
 })
 
 const masterworkStats = computed(() => {
-  if (!props.masterwork || !props.stats || !props.statGroups) { return {} }
-
-  return statsArrayToObject(getStatsForItem(props.stats, props.masterwork, props.statGroups))
+  if (!props.masterwork || !props.stats || !statGroupEntry.value) { return {} }
+  const stats = getStatsForItem(props.stats, props.masterwork, statGroupEntry.value)
+  return statsArrayToObject(stats)
 })
 
 const weaponStats = computed(() => {
-  if (!availableStats.value || !statGroupEntry.value) { return [] }
+  if (!props.stats || !statGroupEntry.value) {
+    return []
+  }
 
-  return getStatsForItem(availableStats.value, props.weapon, statGroupEntry.value)
+  return getStatsForItem(props.stats, props.weapon, statGroupEntry.value)
 })
 
 const allStats = computed(() => weaponStats.value.slice()
-  .sort((a, b) => STAT_HASH_ORDER.indexOf(a.hash) - STAT_HASH_ORDER.indexOf(b.hash))
+  .sort((a, b) => STAT_ORDER.indexOf(a.hash) - STAT_ORDER.indexOf(b.hash))
   .map((stat) => {
     const perkStatValue = perkStats.value[stat.hash]?.value ?? 0
     const modStatValue = modStats.value[stat.hash]?.value ?? 0
@@ -98,7 +95,7 @@ const allStats = computed(() => weaponStats.value.slice()
         v-if="stat.value && stat.displayType === 'bar'" class="col-span-3 sm:col-span-2"
         :base-value="stat.value" :new-value="stat.augmentedValue"
       />
-      <span v-else>{{ stat.augmentedValue }}</span>
+      <span v-else>{{ stat.augmentedValue }}{{ stat.displayType === 'ms' ? 'ms' : '' }}</span>
     </li>
   </ul>
 </template>
