@@ -1,16 +1,20 @@
 import { loadManifest } from '~/utils/server/manifest'
 import pkg from '~/package.json'
-import { getMinimalWeapons } from '~/utils/weapon'
+import { getMinimalWeapons, getSuggestedWeapons } from '~/utils/weapon'
 
 export default defineCachedEventHandler(async (event) => {
   const { data, version } = await loadManifest()
   const { weapons } = data
 
-  const minimalWeapons = getMinimalWeapons(weapons)
+  const { suggested } = useQuery(event)
+  const shouldProvideSuggestedWeapons = suggested === 'true'
+  setResponseHeader(event, 'ETag', version + pkg.version + (shouldProvideSuggestedWeapons ? 's' : ''))
 
-  setResponseHeader(event, 'ETag', version + pkg.version)
+  if (shouldProvideSuggestedWeapons) {
+    return getSuggestedWeapons(weapons)
+  }
 
-  return minimalWeapons
+  return getMinimalWeapons(weapons)
 }, {
   maxAge: 0,
 })

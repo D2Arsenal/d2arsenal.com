@@ -11,6 +11,11 @@ useHead({
   // @ts-expect-error bug in use-head?
   link: [{ key: 'favicon' }],
 })
+
+onBeforeMount(() => {
+  // Load weapons for search only on client-side
+  manifestStore.loadMinimalWeapons()
+})
 </script>
 
 <template>

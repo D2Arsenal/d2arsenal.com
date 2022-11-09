@@ -13,37 +13,9 @@ const fuse = $computed(() => new Fuse(manifestStore.weapons, {
   threshold: 0.2,
 }))
 
-const SUGGESTED_WEAPON_HASHES = [
-  2221264583,
-  1937552980,
-  431721920,
-  3969066556,
-  3228096719,
-  1321506184,
-  2218569744,
-  1509167284,
-  2531963421,
-  1184309824,
-  1298815317,
-  820890091,
-  616582330,
-  2671639706,
-  2988121501,
-  1141927949,
-  711889599,
-  2307365,
-  912150785,
-  2378101424,
-  1532276803,
-  4009352833,
-]
-const suggestedWeapon = $computed(() => manifestStore.weapons
-  .filter(w => SUGGESTED_WEAPON_HASHES.includes(w.hash))
-  .sort((a, b) => SUGGESTED_WEAPON_HASHES.indexOf(a.hash) - SUGGESTED_WEAPON_HASHES.indexOf(b.hash)))
-
 // TODO: Debounce?
 const filteredWeaponsWithoutSlice = $computed(() => {
-  if (query.value.length < 2) { return suggestedWeapon }
+  if (query.value.length < 2) { return manifestStore.suggestedWeapons }
 
   return fuse.search(query.value, { limit: 26 }).map(({ item }) => item)
 })
