@@ -17,24 +17,16 @@ defineProps<{
   isDisabled?: boolean
 }>()
 
-const signForStatValue = (value: number) =>
-  value === 0
-    ? '±'
-    : value > 0
-      ? '+'
-      : '-'
-const classForStatValue = (value: number) =>
-  value === 0
-    ? ''
-    : value > 0
-      ? 'text-green-700'
-      : 'text-red-700'
-
-const abs = Math.abs
+const tooltipPlacement = useState<'bottom-end' | 'left-end'>('bottom-end')
+onMounted(() => {
+  if (window.innerWidth >= 1000) {
+    tooltipPlacement.value = 'left-end'
+  }
+})
 </script>
 
 <template>
-  <Tippy :delay="0" :duration="[0, 0]" placement="left-end" :arrow="false">
+  <Tippy :delay="0" :duration="[0, 0]" :placement="tooltipPlacement" :arrow="false">
     <slot />
     <template #content>
       <div
@@ -58,7 +50,9 @@ const abs = Math.abs
           <TooltipStats v-if="stats?.length" :stats="stats" />
         </section>
         <template v-if="enhancedDescription">
-          <header class="mt-2 text-sm text-yellow-500 uppercase bg-gradient-to-b from-yellow-500/25 to-transparent px-4 py-1 border-t-yellow-500 border-t">
+          <header
+            class="mt-2 text-sm text-yellow-500 uppercase bg-gradient-to-b from-yellow-500/25 to-transparent px-4 py-1 border-t-yellow-500 border-t"
+          >
             Enhanced Benefits
           </header>
           <section class="mt-2 text-sm whitespace-pre-wrap px-4">
