@@ -84,10 +84,7 @@ const allStats = computed(() => weaponStats.value.slice()
     const masterworkStatValue = masterworkStats.value[stat.hash]?.value ?? 0
     const rawValue = stat.value + perkStatValue + modStatValue + masterworkStatValue
 
-    // TODO Use actual boundaries
-    const maxVal = 100 ?? Infinity
-    const minVal = 0 ?? -Infinity
-    const augmentedValue = stat.hasBoundary ? Math.max(minVal, Math.min(maxVal, rawValue)) : rawValue
+    const augmentedValue = Math.max(0, Math.min(stat.maximumValue, rawValue))
     const res: FormattedStat = {
       ...stat,
       augmentedValue,
