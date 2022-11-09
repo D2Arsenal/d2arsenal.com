@@ -26,8 +26,10 @@ export default defineNuxtConfig({
   hooks: {
     'nitro:build:before': async () => {
       await copyManifestFromNodeModulesCacheIfAvailable()
+      // eslint-disable-next-line no-console
       console.log('preloading manifest')
       await loadManifest(true)
+      // eslint-disable-next-line no-console
       console.log('Successfully preloaded manifest')
     },
   },
@@ -44,7 +46,7 @@ export default defineNuxtConfig({
     },
   },
   tailwindcss: {
-    // @ts-expect-error
+    // @ts-expect-error no content necessary I think
     config: {
       plugins: [tailwindTypography],
       theme: {

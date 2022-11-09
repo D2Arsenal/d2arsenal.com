@@ -1,7 +1,7 @@
 import { getDestinyManifest, getDestinyManifestSlice } from 'bungie-api-ts/destiny2'
 import { createStorage } from 'unstorage'
 import { $fetch } from 'ohmyfetch'
-// @ts-expect-error
+// @ts-expect-error can't import correctly, maybe in new TS version?
 import fsDriver from 'unstorage/drivers/fs'
 
 import type { HttpClientConfig } from 'bungie-api-ts/destiny2'
@@ -125,12 +125,15 @@ export const loadManifestFromNodeModulesCache = async () => {
 }
 
 export const copyManifestFromNodeModulesCacheIfAvailable = async () => {
+  // eslint-disable-next-line no-console
   console.log('Try loading manifest from node_modules cache')
   const possibleManifest = await loadManifestFromNodeModulesCache()
   if (possibleManifest) {
+    // eslint-disable-next-line no-console
     console.log('Found manifest in node_modules cache, copying over')
     return storage.setItem(MANIFEST_CACHE_KEY, possibleManifest)
   }
+  // eslint-disable-next-line no-console
   console.log('Did not find manifest in node_modules cache, fetching new')
 
   const { data, version } = await fetchManifest()
@@ -138,6 +141,7 @@ export const copyManifestFromNodeModulesCacheIfAvailable = async () => {
 
   // TODO: Clean .cache/manifest folder?
   const nodeModulesCacheKey = nodeModulesCacheKeyForVersion(version)
+  // eslint-disable-next-line no-console
   console.log(`Saved manifest to node modules cache - ${nodeModulesCacheKey}`)
   await Promise.all([
     storage.setItem(MANIFEST_CACHE_KEY, compressed),
