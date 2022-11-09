@@ -92,7 +92,7 @@ const allStats = computed(() => weaponStats.value.slice()
         <span :title="stat.name" class="text-right whitespace-nowrap">{{ stat.name }}</span>
       </div>
       <WeaponStatsBar
-        v-if="stat.value && stat.displayType === 'bar'" class="col-span-3 sm:col-span-2"
+        v-if="stat.displayType === 'bar'" class="col-span-3 sm:col-span-2"
         :base-value="stat.value" :new-value="stat.augmentedValue"
       />
       <span v-else>{{ stat.augmentedValue }}{{ stat.displayType === 'ms' ? 'ms' : '' }}</span>

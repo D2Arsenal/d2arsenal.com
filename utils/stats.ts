@@ -103,7 +103,8 @@ export const getStatsForItem = (allStats: DefinitionRecord<DestinyStatDefinition
     : getStatGroupEntryForItem(item, statGroupEntryOrRecord)
 
   if (!statGroupEntry) {
-    return []
+    const allDisplayStats = Object.values(statGroupEntryOrRecord).flatMap(s => s.scaledStats)
+    return buildInvestmentStats(item, Object.values(allStats), allDisplayStats) ?? []
   }
 
   const displayStats = statGroupEntry.scaledStats
@@ -112,12 +113,12 @@ export const getStatsForItem = (allStats: DefinitionRecord<DestinyStatDefinition
 
   // We only use the raw "investment" stats to calculate all item stats.
   // Stats will be added to the item in the StatsBar component.
-  const investmentStats = buildInvestmentStats(item, statGroupEntry, stats, displayStats) ?? []
+  const investmentStats = buildInvestmentStats(item, stats, displayStats, statGroupEntry) ?? []
 
   return investmentStats
 }
 
-function buildInvestmentStats(item: PrunedDestinyInventoryItemDefinition, statGroup: DestinyStatGroupDefinition, allStats: DestinyStatDefinition[], displayStats: DestinyStatDisplayDefinition[]) {
+function buildInvestmentStats(item: PrunedDestinyInventoryItemDefinition, allStats: DestinyStatDefinition[], displayStats: DestinyStatDisplayDefinition[], statGroup?: DestinyStatGroupDefinition) {
   const itemStats = item.investmentStats || []
 
   return itemStats.flatMap((itemStat) => {
@@ -128,7 +129,7 @@ function buildInvestmentStats(item: PrunedDestinyInventoryItemDefinition, statGr
       return []
     }
 
-    return buildStat(itemStat, statGroup, statDef, displayStats)
+    return buildStat(itemStat, statDef, displayStats, statGroup)
   }).filter(s => !s.isConditionallyActive)
 }
 
@@ -141,13 +142,13 @@ function buildStat(
   itemStat:
   | DestinyItemInvestmentStatDefinition
   | { statTypeHash: number; value: number; isConditionallyActive: boolean },
-  statGroup: DestinyStatGroupDefinition,
   statDef: DestinyStatDefinition,
   displayStats: DestinyStatDisplayDefinition[],
+  statGroup?: DestinyStatGroupDefinition,
 ): Stat {
   const hash = itemStat.statTypeHash
   let value = itemStat.value ?? 0
-  let maximumValue = statGroup.maximumValue
+  let maximumValue = statGroup?.maximumValue ?? -Infinity
   let bar = !DISALLOWED_FOR_STAT_BAR.includes(hash)
   let smallerIsBetter = false
   const isMs = STATS_IN_MS.includes(hash)
