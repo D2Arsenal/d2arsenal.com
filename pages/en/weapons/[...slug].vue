@@ -31,7 +31,7 @@ if (error.value) {
 const decodeHashes = (str?: string) => {
   const [rawPerks, rawMasterwork, rawMod] = str?.split('-') ?? []
   const transformedPerks = rawPerks?.split(',').map(Number) ?? []
-  const perks = transformedPerks.slice().fill(PERK_NONE, transformedPerks.length, PERK_LENGTH - 1)
+  const perks = transformedPerks.concat(Array.from({ length: PERK_LENGTH - 1 - transformedPerks.length }, () => PERK_NONE))
 
   return {
     perks,
@@ -78,7 +78,7 @@ const selectedPerks = $computed(() => {
     if (!perk) {
       return null
     }
-    
+
     return {
       perk,
       isEnhanced: isEnhancedPerk(perk, hash)
@@ -88,7 +88,8 @@ const selectedPerks = $computed(() => {
 
 // TODO: Rename, no actual reset but "cycle"
 const resetPerk = (colIndex: number) => {
-  selectedPerkHashes[colIndex] = changePerkStatus(selectedPerks[colIndex + 1]!.perk, selectedPerkHashes[colIndex])
+  const indexWithIntrisics = colIndex + 1
+  selectedPerkHashes[colIndex] = changePerkStatus(selectedPerks[indexWithIntrisics]!.perk, selectedPerkHashes[colIndex])
 }
 
 const masterwork = $computed(() => data.value?.masterwork)
