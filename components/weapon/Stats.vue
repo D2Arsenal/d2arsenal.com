@@ -5,7 +5,7 @@ import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js'
 import type { Mod } from '~/utils/mods'
 
 import type { Stat } from '~/utils/stats'
-import { getStatGroupEntryForItem, getStatsForItem, getStatsForStatGroup } from '~/utils/stats'
+import { STAT_HASH_ORDER, getStatGroupEntryForItem, getStatsForItem, getStatsForStatGroup } from '~/utils/stats'
 import type { Perk } from '~/utils/perks'
 import { toTransformedPerks } from '~/utils/perks'
 
@@ -71,13 +71,7 @@ const weaponStats = computed(() => {
 })
 
 const allStats = computed(() => weaponStats.value.slice()
-  .sort((a, b) => {
-    if (a.displayType === 'bar' && b.displayType !== 'bar') { return -1 }
-
-    if (a.displayType !== 'bar' && b.displayType === 'bar') { return 1 }
-
-    return 0
-  })
+  .sort((a, b) => STAT_HASH_ORDER.indexOf(a.hash) - STAT_HASH_ORDER.indexOf(b.hash))
   .map((stat) => {
     const perkStatValue = perkStats.value[stat.hash]?.value ?? 0
     const modStatValue = modStats.value[stat.hash]?.value ?? 0
