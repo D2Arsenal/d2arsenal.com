@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     prerender: {
-      routes: ['/', '/donate/']
+      routes: ['/', '/donate/', '/sitemap.xml']
     }
   },
   hooks: {
