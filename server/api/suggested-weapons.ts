@@ -1,6 +1,6 @@
 import { loadManifest } from '~/utils/server/manifest'
 import pkg from '~/package.json'
-import { getMinimalWeapons } from '~/utils/weapon'
+import { getSuggestedWeapons } from '~/utils/weapon'
 
 export default defineCachedEventHandler(async (event) => {
   const { data, version } = await loadManifest()
@@ -8,7 +8,7 @@ export default defineCachedEventHandler(async (event) => {
 
   setResponseHeader(event, 'ETag', version + pkg.version)
 
-  return getMinimalWeapons(weapons)
+  return getSuggestedWeapons(weapons)
 }, {
   maxAge: 0,
 })

@@ -19,7 +19,7 @@ export const useManifestStore = defineStore('manifest', () => {
   })
 
   const init = async () => {
-    const [{ minimalManifest, version: _version }, suggestedWeaponsData] = await Promise.all([$fetch('/api/manifest'), $fetch('/api/weapons?suggested=true')])
+    const [{ minimalManifest, version: _version }, suggestedWeaponsData] = await Promise.all([$fetch('/api/manifest'), $fetch('/api/suggested-weapons')])
     version.value = _version
     data.value = minimalManifest
     suggestedWeapons.value = suggestedWeaponsData
