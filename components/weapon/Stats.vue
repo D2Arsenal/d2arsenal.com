@@ -22,42 +22,6 @@ type FormattedStat = Stat & {
   augmentedValue: number
 }
 
-const statGroupEntry = computed(() => props.statGroups && getStatGroupEntryForItem(props.weapon, props.statGroups))
-const availableStats = computed(() => {
-  if (!props.stats || !statGroupEntry.value)
-    return []
-
-  return getStatsForStatGroup(statGroupEntry.value, props.stats)
-})
-
-const modStats = computed(() => {
-  if (!props.mod)
-    return {}
-
-  return statsArrayToObject(props.mod.stats)
-})
-
-// TODO: set up enhanced perk stats
-const transformedPerks = $computed(() => toTransformedPerks(props.perks))
-
-const perkStats = computed(() => {
-  if (!props.stats || !props.statGroups)
-    return {}
-
-  const statsArray = transformedPerks
-    .flatMap(p => p?.isEnhanced ? p?.enhancedStats : p?.stats)
-    .filter((s): s is Stat => Boolean(s && s?.value !== 0))
-
-  return statsArrayToObject(statsArray)
-})
-
-const masterworkStats = computed(() => {
-  if (!props.masterwork || !props.stats || !props.statGroups)
-    return {}
-
-  return statsArrayToObject(getStatsForItem(props.stats, props.masterwork, props.statGroups))
-})
-
 const statsArrayToObject = (statsArray: Stat[]) => statsArray.reduce((obj, s) => {
   if (!obj[s.hash]) {
     obj[s.hash] = s
@@ -68,20 +32,49 @@ const statsArrayToObject = (statsArray: Stat[]) => statsArray.reduce((obj, s) =>
   return obj
 }, {} as Record<string, Stat>)
 
+const statGroupEntry = computed(() => props.statGroups && getStatGroupEntryForItem(props.weapon, props.statGroups))
+const availableStats = computed(() => {
+  if (!props.stats || !statGroupEntry.value) { return [] }
+
+  return getStatsForStatGroup(statGroupEntry.value, props.stats)
+})
+
+const modStats = computed(() => {
+  if (!props.mod) { return {} }
+
+  return statsArrayToObject(props.mod.stats)
+})
+
+// TODO: set up enhanced perk stats
+const transformedPerks = $computed(() => toTransformedPerks(props.perks))
+
+const perkStats = computed(() => {
+  if (!props.stats || !props.statGroups) { return {} }
+
+  const statsArray = transformedPerks
+    .flatMap(p => p?.isEnhanced ? p?.enhancedStats : p?.stats)
+    .filter((s): s is Stat => Boolean(s && s?.value !== 0))
+
+  return statsArrayToObject(statsArray)
+})
+
+const masterworkStats = computed(() => {
+  if (!props.masterwork || !props.stats || !props.statGroups) { return {} }
+
+  return statsArrayToObject(getStatsForItem(props.stats, props.masterwork, props.statGroups))
+})
+
 const weaponStats = computed(() => {
-  if (!availableStats.value || !statGroupEntry.value)
-    return []
+  if (!availableStats.value || !statGroupEntry.value) { return [] }
 
   return getStatsForItem(availableStats.value, props.weapon, statGroupEntry.value)
 })
 
 const allStats = computed(() => weaponStats.value.slice()
   .sort((a, b) => {
-    if (a.displayType === 'bar' && b.displayType !== 'bar')
-      return -1
+    if (a.displayType === 'bar' && b.displayType !== 'bar') { return -1 }
 
-    if (a.displayType !== 'bar' && b.displayType === 'bar')
-      return 1
+    if (a.displayType !== 'bar' && b.displayType === 'bar') { return 1 }
 
     return 0
   })

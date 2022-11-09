@@ -68,14 +68,12 @@ const selectedPerks = $computed(() => {
 
   const perksToUse = intrinsicPerks.concat(selectedPerkHashes)
   return perksToUse.map((hash) => {
-    if (hash === PERK_NONE)
-      return null
+    if (hash === PERK_NONE) { return null }
 
     const isEnhancedPerk = (perk: Perk, hash: number) => perk.enhancedTrait?.hash === hash
 
     const perk = allPerks.find(t => isEnhancedPerk(t, hash) || (t.hash === hash))
-    if (!perk)
-      return null
+    if (!perk) { return null }
 
     return {
       perk,
@@ -156,7 +154,7 @@ useHead({
     },
   ],
   // TODO: Wrong type here
-  // @ts-expect-error
+  // @ts-expect-error bug in useHead
   link: [{ rel: 'icon', href: favicon, key: 'favicon' }],
 })
 </script>
@@ -167,8 +165,8 @@ useHead({
       <WeaponSummary
         v-if="weapon" class="sm:col-span-5" :weapon="weapon" :damage-types="damageTypes"
         :masterwork="selectedMasterworkItem" :mod="selectedMod" :stat-groups="statGroups" :stats="stats"
-        :perks="selectedPerks" @reset:masterwork="resetMasterwork" @reset:mod="resetMod"
-        @reset:perk="resetPerk($event)"
+        :perks="selectedPerks" @reset-masterwork="resetMasterwork" @reset-mod="resetMod"
+        @reset-perk="resetPerk($event)"
       />
       <div class="hidden sm:block sm:col-span-2">
         <WeaponExtras />

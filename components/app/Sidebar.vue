@@ -43,8 +43,7 @@ const suggestedWeapon = $computed(() => manifestStore.weapons
 
 // TODO: Debounce?
 const filteredWeaponsWithoutSlice = $computed(() => {
-  if (query.value.length < 2)
-    return suggestedWeapon
+  if (query.value.length < 2) { return suggestedWeapon }
 
   return fuse.search(query.value, { limit: 26 }).map(({ item }) => item)
 })

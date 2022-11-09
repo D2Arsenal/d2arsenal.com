@@ -13,9 +13,9 @@ const { perks } = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'reset:masterwork'): void
-  (e: 'reset:mod'): void
-  (e: 'reset:perk', colIndex: number): void
+  (e: 'resetMasterwork'): void
+  (e: 'resetMod'): void
+  (e: 'resetPerk', colIndex: number): void
 }>()
 
 const transformedPerks = $computed(() => toTransformedPerks(perks))
@@ -23,15 +23,15 @@ const transformedPerks = $computed(() => toTransformedPerks(perks))
 const perkColumns = computed(() => Array.from({ length: COMMON_PERK_LENGTH }, (_, i) => transformedPerks?.[i + 1] ?? undefined))
 
 const resetPerk = (colIndex: number) => {
-  emit('reset:perk', colIndex)
+  emit('resetPerk', colIndex)
 }
 
 const resetMasterwork = () => {
-  emit('reset:masterwork')
+  emit('resetMasterwork')
 }
 
 const resetMod = () => {
-  emit('reset:mod')
+  emit('resetMod')
 }
 </script>
 
@@ -42,10 +42,11 @@ const resetMod = () => {
       is-disabled :is-squared="!isExotic"
     />
     <Plug
-      v-for="(perk, i) in perkColumns" can-shrink :is-disabled="!perk" :item="perk?.trait"
+      v-for="(perk, i) in perkColumns" :key="perk?.hash ?? i" can-shrink :is-disabled="!perk"
+      :item="perk?.trait"
       :stats="perk?.isEnhanced ? perk?.enhancedStats : perk?.stats"
-      :sub-description="perk?.isEnhanced ? perk?.enhancedSubDescription : perk?.subDescription"
-      :has-enhanced="perk?.hasEnhanced" :is-enhanced="perk?.isEnhanced" :is-selected="!!perk" @click="resetPerk(i)"
+      :sub-description="perk?.isEnhanced ? perk?.enhancedSubDescription : perk?.subDescription" :has-enhanced="perk?.hasEnhanced" :is-enhanced="perk?.isEnhanced" :is-selected="!!perk"
+      @click="resetPerk(i)"
     />
     <Plug
       v-if="transformedPerks?.[5]" can-shrink :item="transformedPerks[5]?.trait" :stats="transformedPerks[5]?.stats"

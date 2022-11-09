@@ -86,8 +86,7 @@ export function buildMasterwork(weapon: PrunedDestinyInventoryItemDefinition, st
     mw.catalyst = catalysts.find(c => c.hash === mw.hash)
     return mw
   })
-  if (!isSuperior)
-    return
+  if (!isSuperior) { return }
 
   const socketCategory = weapon?.sockets?.socketCategories.find(e => e.socketCategoryHash === 2685412949)
   const socketIndexes = socketCategory?.socketIndexes ?? []
@@ -97,8 +96,7 @@ export function buildMasterwork(weapon: PrunedDestinyInventoryItemDefinition, st
 
   plugItems.forEach((e) => {
     const masterworkItem = catalysts.find(t => t.hash === e.plugItemHash)
-    if (!masterworkItem)
-      return
+    if (!masterworkItem) { return }
 
     const n = masterworkItem.plug!.plugCategoryIdentifier.split('.')
     const r = n[n.length - 1]
@@ -108,8 +106,7 @@ export function buildMasterwork(weapon: PrunedDestinyInventoryItemDefinition, st
   function d(weapon: PrunedDestinyInventoryItemDefinition, hash: number, stats: DestinyStatDisplayDefinition[]) {
     const firstCondition = hash !== 2961396640 || !weapon.itemCategoryHashes || !weapon.itemCategoryHashes.includes(3317538576)
 
-    if (!firstCondition)
-      return false
+    if (!firstCondition) { return false }
 
     const validForStatHash = [
       3614673599,

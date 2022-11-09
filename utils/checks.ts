@@ -24,8 +24,7 @@ export const isWeaponMod = (itemDef: DestinyInventoryItemDefinition | PrunedDest
 
 export const isWeapon = (itemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => itemDef.itemType === DestinyItemType.Weapon
 export const isWeaponTrait = (itemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => {
-  if (ITEM_TYPE_DISPLAY_NAMES.WEAPON_TRAIT.includes(itemDef.itemTypeDisplayName))
-    return true
+  if (ITEM_TYPE_DISPLAY_NAMES.WEAPON_TRAIT.includes(itemDef.itemTypeDisplayName)) { return true }
 
   return HASHES.WEAPON_TRAIT.some(t => itemDef.itemCategoryHashes?.includes(t))
 }

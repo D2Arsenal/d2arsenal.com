@@ -13,8 +13,7 @@ export default defineCachedEventHandler(async (event) => {
   const { weapons, weaponTraits, plugSets, statDefs, statGroups, frames, catalysts } = data
 
   const weapon = weapons.find(i => i.hash === id)
-  if (!weapon)
-    return createError({ statusCode: 404, message: 'Weapon not found' })
+  if (!weapon) { return createError({ statusCode: 404, message: 'Weapon not found' }) }
 
   const frameForWeapon = frames.find(f => f.hash === weapon?.sockets?.socketEntries[0]?.singleInitialItemHash)
   // TODO: Check if "building" perks (adding stats and so on) makes more sense on the frontend and only selecting perks here

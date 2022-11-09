@@ -17,9 +17,9 @@ const { weapon } = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'reset:masterwork'): void
-  (e: 'reset:mod'): void
-  (e: 'reset:perk', colIndex: number): void
+  (e: 'resetMasterwork'): void
+  (e: 'resetMod'): void
+  (e: 'resetPerk', colIndex: number): void
 }>()
 
 const isExoticWeapon = computed(() => isExotic(weapon))
@@ -57,10 +57,17 @@ const isExoticWeapon = computed(() => isExotic(weapon))
         />
       </div>
       <div class="flex justify-center sm:justify-end mt-8 md:mt-auto">
-        <WeaponPreset :masterwork="masterwork" :perks="perks" :mod="mod" :is-exotic="isExoticWeapon" @reset:mod="emit('reset:mod')" @reset:masterwork="emit('reset:masterwork')" @reset:perk="emit('reset:perk', $event)" />
+        <WeaponPreset
+          :masterwork="masterwork" :perks="perks" :mod="mod" :is-exotic="isExoticWeapon"
+          @reset-mod="emit('resetMod')" @reset-masterwork="emit('resetMasterwork')"
+          @reset-perk="emit('resetPerk', $event)"
+        />
       </div>
     </div>
     <div class="col-start-1 col-end-3 row-start-1 h-full z-[1] bg-black/10" />
-    <img class="col-start-1 col-end-3 row-start-1 h-full object-center object-cover" :src="useBungieUrl(weapon.screenshot)">
+    <img
+      class="col-start-1 col-end-3 row-start-1 h-full object-center object-cover"
+      :src="useBungieUrl(weapon.screenshot)"
+    >
   </div>
 </template>

@@ -26,8 +26,8 @@ const isEnhanced = (columnIndex: number, perk: Perk) => isEnhancedPerk(perk, mod
   <div>
     <Card heading="Weapon perks">
       <div class="flex mt-8 justify-center divide-x-2 divide-slate-500">
-        <ul v-for="perkColumn, i in perks.perks" class="px-4 space-y-4">
-          <li v-for="perk in perkColumn">
+        <ul v-for="perkColumn, i in perks.perks" :key="i" class="px-4 space-y-4">
+          <li v-for="perk, j in perkColumn" :key="perk.hash ?? j">
             <Plug
               :item="perk.trait" :is-selected="isSelected(i, perk)" :sub-description="perk.subDescription"
               :warning="perk.currentlyCanRoll ? undefined : WARNING" :is-demoted="!perk.currentlyCanRoll"
@@ -40,8 +40,8 @@ const isEnhanced = (columnIndex: number, perk: Perk) => isEnhancedPerk(perk, mod
     </Card>
     <Card v-if="hasCuratedRoll" heading="Curated roll">
       <div class="flex mt-8 justify-center divide-x-2 divide-slate-500">
-        <ul v-for="perkColumn, i in perks.curatedPerks" class="px-4 space-y-4">
-          <li v-for="perk in perkColumn">
+        <ul v-for="perkColumn, i in perks.curatedPerks" :key="i" class="px-4 space-y-4">
+          <li v-for="perk, j in perkColumn" :key="perk.hash ?? j">
             <Plug
               :item="perk.trait" :is-selected="isSelected(i, perk)" :sub-description="perk.subDescription"
               :warning="perk.currentlyCanRoll ? undefined : WARNING" :is-demoted="!perk.currentlyCanRoll"

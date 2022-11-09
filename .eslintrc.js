@@ -6,5 +6,6 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-unused-vars': 'off',
     'vue/no-deprecated-slot-attribute': 'off',
+    'curly': ['error', 'all'],
   },
 }

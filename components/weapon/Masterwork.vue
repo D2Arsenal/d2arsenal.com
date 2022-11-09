@@ -1,19 +1,20 @@
-<script setup lang="ts">
-import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js';
-import { masterworkStatisticToTerm } from '~/utils/masterwork.js';
+<script lang="ts" setup>
+import { masterworkStatisticToTerm } from '~/utils/masterwork.js'
+import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js'
 
-const { options, modelValue } = defineProps<{
+type Props = {
   options: {
-    statistic: string,
+    statistic: string
     data: {
-      benefits: PrunedDestinyInventoryItemDefinition[],
-      hash: number,
+      benefits: PrunedDestinyInventoryItemDefinition[]
+      hash: number
       active: boolean
     }
-  }[],
-  isExoticWeapon?: boolean,
+  }[]
+  isExoticWeapon?: boolean
   modelValue: number | null
-}>()
+}
+const { options, modelValue } = defineProps<Props>()
 
 const statisticsIndex = $computed(() => {
   const index = options.findIndex(({ data }) => data.benefits.some(b => b.hash === modelValue))
@@ -33,15 +34,16 @@ const updateMasterwork = (hash: number | null) => {
   emit('update:modelValue', hash)
 }
 
+// TODO: Exotic Catalyst!
+
 const updateMasterworkForLevel = (event: Event) => {
-  const level = (<HTMLInputElement>event.target).valueAsNumber
-  if (!level) {
-    updateMasterwork(null)
+  if (statisticsIndex === null) {
     return
   }
 
-
-  if (statisticsIndex === null) {
+  const level = (<HTMLInputElement>event.target).valueAsNumber
+  if (!level) {
+    updateMasterwork(null)
     return
   }
 
@@ -67,10 +69,8 @@ const onMasterworkTypeSwitch = (index: number) => {
 }
 
 const buttonNames = computed(() => options.map(o => masterworkStatisticToTerm(o.statistic)))
-
-// TODO: Exotic Catalyst!
-
 </script>
+
 <template>
   <Card :heading="isExoticWeapon ? 'Exotic catalyst is WIP' : 'Weapon masterwork'">
     <div v-if="isExoticWeapon">
@@ -80,8 +80,10 @@ const buttonNames = computed(() => options.map(o => masterworkStatisticToTerm(o.
       <h2>There are no masterworks for this weapon</h2>
     </div>
     <nav v-if="!isExoticWeapon" class="flex flex-wrap sm:flex-nowrap items-center">
-      <AppButton class="mr-2 mt-2" v-for="title, i in buttonNames" :key="title" :is-active="activeTabIndex === i"
-        @click="onMasterworkTypeSwitch(i)">{{ title }}</AppButton>
+      <AppButton v-for="title, i in buttonNames" :key="title" class="mr-2 mt-2" :is-active="activeTabIndex === i"
+        @click="onMasterworkTypeSwitch(i)">
+        {{ title }}
+      </AppButton>
     </nav>
     <div class="grid grid-cols-5 w-full mt-8" :class="!modelValue && 'invisible'">
       <label>
@@ -97,7 +99,6 @@ const buttonNames = computed(() => options.map(o => masterworkStatisticToTerm(o.
 </template>
 
 <style scoped lang="pcss">
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   @apply appearance-none m-0;
@@ -105,4 +106,5 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
-}</style>
+}
+</style>

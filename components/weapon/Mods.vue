@@ -31,7 +31,10 @@ const updateMod = (hash: number) => {
 <template>
   <Card heading="Weapon mods">
     <div v-if="canApplyAdeptMods" class="space-x-2">
-      <AppButton v-for="({ name }, i) in modTabs" :is-active="i === activeModTabIndex" @click="activeModTabIndex = i">
+      <AppButton
+        v-for="({ name }, i) in modTabs" :key="name" :is-active="i === activeModTabIndex"
+        @click="activeModTabIndex = i"
+      >
         {{ name }}
       </AppButton>
     </div>

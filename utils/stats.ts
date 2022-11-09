@@ -6,8 +6,7 @@ type StatDisplayType = 'bar' | 'none'
 
 const DISALLOWED_FOR_STAT_BAR = [4284893193, 3871231066, 2961396640, 447667954, 1931675084, 2715839340]
 const displayTypeForStatHash = (hash: number): StatDisplayType => {
-  if (!DISALLOWED_FOR_STAT_BAR.includes(hash))
-    return 'bar'
+  if (!DISALLOWED_FOR_STAT_BAR.includes(hash)) { return 'bar' }
 
   return 'none'
 }
@@ -66,16 +65,14 @@ const isStatGroup = (x: DestinyStatGroupDefinition | DestinyItemInvestmentStatDe
   return 'scaledStats' in x
 }
 export function getStatsForStatGroup(statGroupOrInvestmentStats: DestinyStatGroupDefinition | DestinyItemInvestmentStatDefinition[], stats: DefinitionRecord<DestinyStatDefinition>) {
-  if (isStatGroup(statGroupOrInvestmentStats))
-    return statGroupOrInvestmentStats.scaledStats.map(s => stats[s.statHash]).filter(u => u)
+  if (isStatGroup(statGroupOrInvestmentStats)) { return statGroupOrInvestmentStats.scaledStats.map(s => stats[s.statHash]).filter(u => u) }
 
   return statGroupOrInvestmentStats.map(s => stats[s.statTypeHash]).filter(u => u)
 }
 
 export function getStatGroupEntryForItem(item: PrunedDestinyInventoryItemDefinition, statGroups: DefinitionRecord<DestinyStatGroupDefinition>) {
   const statHash = item.stats?.statGroupHash
-  if (!statHash)
-    return
+  if (!statHash) { return }
 
   return statGroups[statHash]
 }

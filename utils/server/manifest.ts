@@ -90,8 +90,7 @@ export const fetchManifest = async () => {
 
   Object.values(rawItemDefs).forEach((def) => {
     const { arr } = ARR_LOOKUP.find(({ fn }) => fn(def)) ?? {}
-    if (!arr)
-      return
+    if (!arr) { return }
 
     arr.push(toPrunedItemDef(def))
   })

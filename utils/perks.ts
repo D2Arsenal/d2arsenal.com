@@ -48,7 +48,7 @@ const lookupTraitForPerkFactory = (traits: PrunedDestinyInventoryItemDefinition[
   return enrichPerkWithGivenTraitFactory(stats, statGroups)(hash, trait)
 }
 
-export function buildPerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition) {
+export function buildPerks(weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition) {
   const { curatedPerks, perks } = resolvePerks(weapon, plugSets, traits, stats, statGroups, frame)
   // TODO: Get craftable catalysts, see e.g. Ostea Striga
   // https://www.light.gg/db/items/46524085/osteo-striga/
@@ -60,7 +60,7 @@ export function buildPerks (weapon: PrunedDestinyInventoryItemDefinition, plugSe
   }
 }
 
-function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition) {
+function resolvePerks(weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition) {
   const lookupTraitForPerk = lookupTraitForPerkFactory(traits, stats, statGroups)
   const enrichPerkWithGivenTrait = enrichPerkWithGivenTraitFactory(stats, statGroups)
 
@@ -109,8 +109,7 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
       }
     }
 
-    if (weapon.hash === 1744115122)
-      return false
+    if (weapon.hash === 1744115122) { return false }
 
     const m = d?.socketIndexes?.includes(n)
     const v = e.preventInitializationOnVendorPurchase || e.singleInitialItemHash === 2285418970
@@ -120,8 +119,7 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
   // TODO: Refactor!
   if (!v) {
     m?.forEach((socketEntry, index) => {
-      if (!socketEntry?.reusablePlugSetHash)
-        return
+      if (!socketEntry?.reusablePlugSetHash) { return }
 
       const c = plugSets[socketEntry.reusablePlugSetHash]
       const r: Perk[] = c.reusablePlugItems.map(e => ({
@@ -193,8 +191,7 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
         const _possibleEnhancedTrait = traits.find(t => t.hash === enhancedTraitEntry.plugItemHash)
         const rName = normalTrait?.displayProperties.name
         const oName = _possibleEnhancedTrait?.displayProperties.name
-        if (rName === oName?.replace(' Enhanced', ''))
-          possibleEnhancedTrait = _possibleEnhancedTrait
+        if (rName === oName?.replace(' Enhanced', '')) { possibleEnhancedTrait = _possibleEnhancedTrait }
       }
 
       const hash = nonEnhancedTraitEntry.plugItemHash
@@ -228,11 +225,9 @@ export const getHashesFromPerk = (perk: Perk) => {
 
 export const isPerkSelected = (perk: Perk, valueToCheck: unknown) => {
   const { hash, enhancedHash } = getHashesFromPerk(perk)
-  if (valueToCheck === hash)
-    return true
+  if (valueToCheck === hash) { return true }
 
-  if (!enhancedHash)
-    return false
+  if (!enhancedHash) { return false }
 
   return valueToCheck === enhancedHash
 }
@@ -245,18 +240,15 @@ export const isEnhancedPerk = (perk: Perk, valueToCheck: unknown) => {
 export const changePerkStatus = (perk: Perk, valueToCheck: unknown) => {
   const { hash, enhancedHash } = getHashesFromPerk(perk)
   const isHash = valueToCheck === hash
-  if (isEnhancedPerk(perk, valueToCheck))
-    return PERK_NONE
+  if (isEnhancedPerk(perk, valueToCheck)) { return PERK_NONE }
 
-  if (isHash)
-    return enhancedHash ?? PERK_NONE
+  if (isHash) { return enhancedHash ?? PERK_NONE }
 
   return hash!
 }
 
 export const toTransformedPerks = (perks: Array<{ perk: Perk; isEnhanced: boolean } | null>) => perks.map((perkObj) => {
-  if (!perkObj)
-    return null
+  if (!perkObj) { return null }
 
   const clonedObj: { perk: Perk; isEnhanced: boolean } = JSON.parse(JSON.stringify(perkObj))
   const newPerkObj: TransformedPerk = {
@@ -267,8 +259,7 @@ export const toTransformedPerks = (perks: Array<{ perk: Perk; isEnhanced: boolea
   }
 
   // Override trait for enhanced perk
-  if (clonedObj.isEnhanced)
-    newPerkObj.trait = clonedObj.perk.enhancedTrait
+  if (clonedObj.isEnhanced) { newPerkObj.trait = clonedObj.perk.enhancedTrait }
 
   return newPerkObj
 })
