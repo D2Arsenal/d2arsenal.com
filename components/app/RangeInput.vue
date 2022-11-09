@@ -1,6 +1,6 @@
 <script lang="ts">
 export default {
-  inheritAttrs: false
+  inheritAttrs: false,
 }
 </script>
 
@@ -12,7 +12,7 @@ defineProps<{
 
 <template>
   <div class="border border-white px-4 py-2" :class="wrapperClass">
-    <input type="range" v-bind="$attrs" />
+    <input type="range" v-bind="$attrs">
   </div>
 </template>
 

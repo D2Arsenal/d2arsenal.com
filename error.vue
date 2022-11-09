@@ -3,23 +3,23 @@ import LogoWithFontSvg from '~/assets/img/d2a-logo-with-font.svg?component'
 
 const props = defineProps<{
   error: {
-    url?: string,
-    statusCode: string,
-    message?: string,
+    url?: string
+    statusCode: string
+    message?: string
   }
 }>()
 
-const heading = computed(() => props.error.statusCode === "404" ? 'Page not found' : 'Something went wrong')
-const description = computed(() => props.error.message ||
-  (props.error.statusCode === "404"
+const heading = computed(() => props.error.statusCode === '404' ? 'Page not found' : 'Something went wrong')
+const description = computed(() => props.error.message
+  || (props.error.statusCode === '404'
     ? 'Sorry, we couldn\'t find the page you\'re looking for.'
-    : 'An error occurred while trying to load the page.')
+    : 'An error occurred while trying to load the page.'),
 )
 
 const handleError = () => clearError({ redirect: '/' })
 
 useHead({
-  title: `${props.error.statusCode} - ${heading.value} - D2 Arsenal`
+  title: `${props.error.statusCode} - ${heading.value} - D2 Arsenal`,
 })
 </script>
 
@@ -34,12 +34,20 @@ useHead({
       </div>
       <div class="py-16">
         <div class="text-center">
-          <p class="text-base font-semibold text-yellow-600">{{ error.statusCode }}</p>
-          <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-200 sm:text-5xl">{{ heading }}</h1>
-          <p class="mt-2 text-base text-gray-300">{{ description }}</p>
+          <p class="text-base font-semibold text-yellow-600">
+            {{ error.statusCode }}
+          </p>
+          <h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-200 sm:text-5xl">
+            {{ heading }}
+          </h1>
+          <p class="mt-2 text-base text-gray-300">
+            {{ description }}
+          </p>
           <div class="mt-6">
-            <a href="/" @click.prevent="handleError"
-              class="text-base font-medium text-yellow-600 hover:text-yellow-500">
+            <a
+              href="/" class="text-base font-medium text-yellow-600 hover:text-yellow-500"
+              @click.prevent="handleError"
+            >
               Go back home
               <span aria-hidden="true"> &rarr;</span>
             </a>

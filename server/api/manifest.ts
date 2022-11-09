@@ -1,4 +1,4 @@
-import { loadMinimalManifest } from "~/utils/server/manifest"
+import { loadMinimalManifest } from '~/utils/server/manifest'
 import pkg from '~/package.json'
 
 export default defineCachedEventHandler(async (event) => {
@@ -9,5 +9,5 @@ export default defineCachedEventHandler(async (event) => {
 
   return manifest
 }, {
-  maxAge: 0
+  maxAge: 0,
 })

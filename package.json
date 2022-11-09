@@ -12,9 +12,11 @@
     "dev": "nuxi dev",
     "generate": "nuxi generate",
     "preview": "nuxi preview",
-    "postinstall": "nuxi prepare"
+    "postinstall": "nuxi prepare",
+    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore ."
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.29.4",
     "@headlessui/vue": "0.0.0-insiders.f66f492",
     "@heroicons/vue": "^2.0.13",
     "@kevinmarrec/nuxt-pwa": "^0.9.1",
@@ -22,9 +24,12 @@
     "@pinia/nuxt": "^0.4.3",
     "@tailwindcss/typography": "^0.5.7",
     "bungie-api-ts": "^4.19.0",
+    "eslint": "^8.27.0",
+    "eslint-plugin-vue": "^9.7.0",
     "fuse.js": "^6.6.2",
     "nuxt": "^3.0.0-rc.13",
     "sitemap": "^7.1.1",
+    "typescript": "^4.8.4",
     "unstorage": "0.6.0",
     "vite-svg-loader": "^3.6.0",
     "vue-gtag-next": "^1.14.0",

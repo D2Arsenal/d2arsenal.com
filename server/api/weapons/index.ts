@@ -1,6 +1,6 @@
-import { loadManifest } from '~/utils/server/manifest';
+import { loadManifest } from '~/utils/server/manifest'
 import pkg from '~/package.json'
-import { getMinimalWeapons } from '~/utils/weapon';
+import { getMinimalWeapons } from '~/utils/weapon'
 
 export default defineCachedEventHandler(async (event) => {
   const { data, version } = await loadManifest()
@@ -12,5 +12,5 @@ export default defineCachedEventHandler(async (event) => {
 
   return minimalWeapons
 }, {
-  maxAge: 0
+  maxAge: 0,
 })

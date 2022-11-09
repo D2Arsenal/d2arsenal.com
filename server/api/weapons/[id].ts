@@ -1,7 +1,7 @@
-import { loadManifest } from '~/utils/server/manifest';
-import { buildPerks } from '~/utils/perks';
-import { buildMasterwork } from '~/utils/masterwork';
-import type { Masterwork } from '~/utils/masterwork';
+import { loadManifest } from '~/utils/server/manifest'
+import { buildPerks } from '~/utils/perks'
+import { buildMasterwork } from '~/utils/masterwork'
+import type { Masterwork } from '~/utils/masterwork'
 import pkg from '~/package.json'
 
 export default defineCachedEventHandler(async (event) => {
@@ -13,11 +13,10 @@ export default defineCachedEventHandler(async (event) => {
   const { weapons, weaponTraits, plugSets, statDefs, statGroups, frames, catalysts } = data
 
   const weapon = weapons.find(i => i.hash === id)
-  if (!weapon) {
+  if (!weapon)
     return createError({ statusCode: 404, message: 'Weapon not found' })
-  }
 
-  const frameForWeapon = frames.find((f) => f.hash === weapon?.sockets?.socketEntries[0]?.singleInitialItemHash)
+  const frameForWeapon = frames.find(f => f.hash === weapon?.sockets?.socketEntries[0]?.singleInitialItemHash)
   // TODO: Check if "building" perks (adding stats and so on) makes more sense on the frontend and only selecting perks here
   const perks = buildPerks(weapon, plugSets, weaponTraits, statDefs, statGroups, frameForWeapon)
 
@@ -27,13 +26,12 @@ export default defineCachedEventHandler(async (event) => {
     .filter(e => e[1].active)
     .map(([statistic, data]) => ({
       statistic,
-      data
+      data,
     }))
-
 
   setResponseHeader(event, 'ETag', version + pkg.version)
 
   return { weapon, perks, masterwork }
 }, {
-  maxAge: 0
+  maxAge: 0,
 })

@@ -1,55 +1,57 @@
 <script setup lang="ts">
-import { ArrowUpIcon } from '@heroicons/vue/20/solid';
-import type { Stat } from '~/utils/stats';
-import type { PrunedDestinyInventoryItemDefinition } from '~~/types/destiny.js';
+import { ArrowUpIcon } from '@heroicons/vue/20/solid'
+import type { Stat } from '~/utils/stats'
+import type { PrunedDestinyInventoryItemDefinition } from '~~/types/destiny.js'
 
 const props = defineProps<{
-  item?: PrunedDestinyInventoryItemDefinition,
-  subDescription?: string,
-  stats?: Stat[],
+  item?: PrunedDestinyInventoryItemDefinition
+  subDescription?: string
+  stats?: Stat[]
   // Enhanced info
-  enhancedItem?: PrunedDestinyInventoryItemDefinition,
-  enhancedSubDescription?: string,
-  enhancedStats?: Stat[],
+  enhancedItem?: PrunedDestinyInventoryItemDefinition
+  enhancedSubDescription?: string
+  enhancedStats?: Stat[]
   // Misc
-  warning?: string,
+  warning?: string
   // Visual info
-  placeholder?: string,
-  isSquared?: boolean,
-  isSelected?: boolean,
-  isDisabled?: boolean,
-  isDemoted?: boolean,
-  hasEnhanced?: boolean,
-  isEnhanced?: boolean,
-  canShrink?: boolean,
+  placeholder?: string
+  isSquared?: boolean
+  isSelected?: boolean
+  isDisabled?: boolean
+  isDemoted?: boolean
+  hasEnhanced?: boolean
+  isEnhanced?: boolean
+  canShrink?: boolean
 }>()
 
 const computedClasses = computed(() => [
   {
     'rounded-full': !props.isSquared,
-    'bg-gradient-radial from-yellow-500/75': props.isEnhanced
+    'bg-gradient-radial from-yellow-500/75': props.isEnhanced,
   },
   props.isSelected && 'bg-blue-500/75',
   // TODO: Move to weapon icon!
-  props.canShrink ? 'h-7 w-7 md:h-12 md:w-12' : 'h-12 w-12'
+  props.canShrink ? 'h-7 w-7 md:h-12 md:w-12' : 'h-12 w-12',
 ])
 
 const icon = computed(() => props.item?.displayProperties.icon ?? props.placeholder ?? '')
 
 const beforeClass = computed(() => `enabled:before:absolute enabled:before:top-0 enabled:before:left-0 enabled:before:w-full enabled:before:h-full ${props.isSquared ? '' : 'enabled:before:rounded-full '}enabled:before:transition-color enabled:before:duration-400 enabled:hover:before:bg-gray-300/25`)
 const afterClass = computed(() => `enabled:after:absolute enabled:after:top-0 enabled:after:left-0 enabled:after:w-full enabled:after:h-full ${props.isSquared ? '' : 'enabled:after:rounded-full '}enabled:after:transform enabled:after:transform-gpu enabled:after:scale-110 enabled:after:ease-in-out enabled:after:transition-shadow enabled:after:duration-400 enabled:hover:after:shadow-[0_0_0_1px]`)
-
 </script>
 
-
 <template>
-  <Tooltip :is-disabled="!item" :heading="item?.displayProperties.name ?? ''" :subheading="item?.itemTypeDisplayName"
+  <Tooltip
+    :is-disabled="!item" :heading="item?.displayProperties.name ?? ''" :subheading="item?.itemTypeDisplayName"
     :description="item?.displayProperties.description" :sub-description="subDescription" :warning="warning" :stats="stats"
-    :enhanced-description="enhancedItem?.displayProperties.description" :enhanced-sub-description="enhancedSubDescription" :enhanced-stats="enhancedStats">
-    <button class="border-2 relative flex justify-center items-center shadow-white"
-      :class="[computedClasses, beforeClass, afterClass]" :title="item?.displayProperties.name ?? ''" :disabled="isDisabled">
+    :enhanced-description="enhancedItem?.displayProperties.description" :enhanced-sub-description="enhancedSubDescription" :enhanced-stats="enhancedStats"
+  >
+    <button
+      class="border-2 relative flex justify-center items-center shadow-white"
+      :class="[computedClasses, beforeClass, afterClass]" :title="item?.displayProperties.name ?? ''" :disabled="isDisabled"
+    >
       <span class="relative" :class="{ 'opacity-50': isDemoted }">
-        <ArrowUpIcon class="absolute h-4 top-0 -left-3" :class="isEnhanced && 'fill-yellow-500'" v-if="hasEnhanced" />
+        <ArrowUpIcon v-if="hasEnhanced" class="absolute h-4 top-0 -left-3" :class="isEnhanced && 'fill-yellow-500'" />
         <WeaponIcon :icon="icon" size="auto" :watermark="item?.iconWatermark" />
       </span>
     </button>

@@ -1,17 +1,17 @@
-import { getDestinyManifest, getDestinyManifestSlice } from "bungie-api-ts/destiny2";
+import { getDestinyManifest, getDestinyManifestSlice } from 'bungie-api-ts/destiny2'
 import { createStorage } from 'unstorage'
 import { $fetch } from 'ohmyfetch'
-// @ts-ignore
+// @ts-expect-error
 import fsDriver from 'unstorage/drivers/fs'
 
+import type { HttpClientConfig } from 'bungie-api-ts/destiny2'
 import pkg from '../../package.json'
-import { isWeapon, isWeaponFrame, isWeaponMod, isWeaponTrait, isCatalyst, isMasterwork } from '../checks';
-import { toPrunedItemDef } from '../transforms';
-import { compress, decompress } from "./brotli";
+import { isCatalyst, isMasterwork, isWeapon, isWeaponFrame, isWeaponMod, isWeaponTrait } from '../checks'
+import { toPrunedItemDef } from '../transforms'
 
-import type { HttpClientConfig } from "bungie-api-ts/destiny2";
-import type { ManifestData, MinimalManifestData } from "../../types";
-import type { PrunedDestinyInventoryItemDefinition } from '../../types/destiny';
+import type { ManifestData, MinimalManifestData } from '../../types'
+import type { PrunedDestinyInventoryItemDefinition } from '../../types/destiny'
+import { compress, decompress } from './brotli'
 
 const MANIFEST_CACHE_KEY = 'manifest.json'
 const NODE_MODULES_CACHE_PATH = './node_modules/.cache/manifest'
@@ -22,19 +22,19 @@ const nodeModulesCacheKeyForVersion = (version: string) => `manifest-${version}-
 const $http = async (config: HttpClientConfig) => $fetch(config.url, {
   method: config.method,
   params: config.params,
-  body: config.body
+  body: config.body,
 })
 
 const storage = createStorage({
-  driver: fsDriver({ base: './server/assets/manifest' })
+  driver: fsDriver({ base: './server/assets/manifest' }),
 })
 
 const nodeModulesCacheStorage = createStorage({
-  driver: fsDriver({ base: NODE_MODULES_CACHE_PATH })
+  driver: fsDriver({ base: NODE_MODULES_CACHE_PATH }),
 })
 
 export const fetchBaseManifest = async () => {
-  const { Response: destinyManifest } = await getDestinyManifest($http);
+  const { Response: destinyManifest } = await getDestinyManifest($http)
   const version = destinyManifest.version
   return { destinyManifest, version }
 }
@@ -43,7 +43,7 @@ export const fetchManifest = async () => {
   const { destinyManifest, version } = await fetchBaseManifest()
 
   const manifestTables = await getDestinyManifestSlice($http, {
-    destinyManifest: destinyManifest,
+    destinyManifest,
     tableNames: [
       'DestinyInventoryItemDefinition',
       'DestinyItemTierTypeDefinition',
@@ -58,7 +58,7 @@ export const fetchManifest = async () => {
       'DestinyCollectibleDefinition',
     ],
     language: 'en',
-  });
+  })
 
   const {
     DestinyInventoryItemDefinition: rawItemDefs,
@@ -85,17 +85,16 @@ export const fetchManifest = async () => {
     { fn: isWeaponMod, arr: mods },
     { fn: isWeaponTrait, arr: weaponTraits },
     { fn: isCatalyst, arr: catalysts },
-    { fn: isMasterwork, arr: masterworks }
+    { fn: isMasterwork, arr: masterworks },
   ]
 
   Object.values(rawItemDefs).forEach((def) => {
     const { arr } = ARR_LOOKUP.find(({ fn }) => fn(def)) ?? {}
-    if (!arr) {
+    if (!arr)
       return
-    }
+
     arr.push(toPrunedItemDef(def))
   })
-
 
   const data: ManifestData = {
     weapons,
@@ -111,8 +110,8 @@ export const fetchManifest = async () => {
     damageTypes,
     sandboxPerks,
     powerCaps,
-    seasonCap: 1580,// TODO Ah, power cap for season currentSeasonRewardPowerCap from uhh, profile call. Can hardcode for now
-    energyTypes
+    seasonCap: 1580, // TODO Ah, power cap for season currentSeasonRewardPowerCap from uhh, profile call. Can hardcode for now
+    energyTypes,
   }
 
   return { data, version }
@@ -122,7 +121,7 @@ export const loadManifestFromNodeModulesCache = async () => {
   // TODO: What if endpoint is not available?
   const { version } = await fetchBaseManifest()
 
-  const possibleManifest = await nodeModulesCacheStorage.getItem(nodeModulesCacheKeyForVersion(version)) as { data: ManifestData, version: string } | null
+  const possibleManifest = await nodeModulesCacheStorage.getItem(nodeModulesCacheKeyForVersion(version)) as { data: ManifestData; version: string } | null
   return possibleManifest
 }
 
@@ -143,7 +142,7 @@ export const copyManifestFromNodeModulesCacheIfAvailable = async () => {
   console.log(`Saved manifest to node modules cache - ${nodeModulesCacheKey}`)
   await Promise.all([
     storage.setItem(MANIFEST_CACHE_KEY, compressed),
-    nodeModulesCacheStorage.setItem(nodeModulesCacheKey, compressed)
+    nodeModulesCacheStorage.setItem(nodeModulesCacheKey, compressed),
   ])
 }
 
@@ -152,8 +151,8 @@ export const loadManifest = async (fromConfig = false) => {
     ? storage.getItem(MANIFEST_CACHE_KEY)
     : useStorage().getItem(STORAGE_PATH)
 
-  const possibleCacheItem = await getItemPromise as { data: ManifestData, version: string }
-  return JSON.parse(await decompress(JSON.stringify(possibleCacheItem))) as { data: ManifestData, version: string }
+  const possibleCacheItem = await getItemPromise as { data: ManifestData; version: string }
+  return JSON.parse(await decompress(JSON.stringify(possibleCacheItem))) as { data: ManifestData; version: string }
 }
 
 export const loadMinimalManifest = async () => {
@@ -169,7 +168,7 @@ export const loadMinimalManifest = async () => {
     sandboxPerks: data.sandboxPerks,
     powerCaps: data.powerCaps,
     seasonCap: data.seasonCap,
-    energyTypes: data.energyTypes
+    energyTypes: data.energyTypes,
   }
   return { minimalManifest, version }
 }

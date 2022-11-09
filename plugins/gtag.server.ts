@@ -14,6 +14,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     },
   ]
   nuxtApp._useHead({
-    link: preloadLinks
+    link: preloadLinks,
   })
 })

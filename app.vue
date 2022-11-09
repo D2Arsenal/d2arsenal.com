@@ -8,8 +8,7 @@ await manifestStore.init()
 useHead({
   titleTemplate: t => t ? `${t} - D2 Arsenal` : 'D2 Arsenal - Craft your favorite weapon',
   // TODO: How to "delete" tag?
-  // TODO: Wrong type here
-  // @ts-ignore
+  // @ts-expect-error bug in use-head?
   link: [{ key: 'favicon' }],
 })
 </script>

@@ -1,8 +1,7 @@
-import { MinimalManifestData } from '../types';
-import { MinimalWeapon } from '../utils/weapon';
 import { defineStore } from 'pinia'
-import { isSandboxMod } from '../utils/checks';
-
+import type { MinimalManifestData } from '../types'
+import type { MinimalWeapon } from '../utils/weapon'
+import { isSandboxMod } from '../utils/checks'
 
 export const useManifestStore = defineStore('manifest', () => {
   const version = ref<string>()
@@ -15,9 +14,9 @@ export const useManifestStore = defineStore('manifest', () => {
   const mods = computed(() => data.value?.mods ?? [])
   const sandboxModsFn = computed(() => data.value?.sandboxPerks && isSandboxMod(data.value.sandboxPerks))
   const sandboxMods = computed(() => {
-    if (!sandboxModsFn.value) {
+    if (!sandboxModsFn.value)
       return []
-    }
+
     return mods.value?.filter(w => isSandboxMod(w))
   })
 
@@ -27,7 +26,6 @@ export const useManifestStore = defineStore('manifest', () => {
     data.value = minimalManifest
     weapons.value = minimalWeaponsData
   }
-
 
   return { init, version, data, weapons, damageTypes, mods, sandboxMods }
 })

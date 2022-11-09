@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { useManifestStore } from '~/store/manifest';
-import { PERK_NONE, PERK_LENGTH, changePerkStatus } from '~/utils/perks';
-import { buildMods } from '~/utils/mods';
-import { isExotic } from '~/utils/weapon';
-import { masterworkStatisticToTerm } from '~~/utils/masterwork.js';
+import { useManifestStore } from '~/store/manifest'
+import { PERK_LENGTH, PERK_NONE, changePerkStatus } from '~/utils/perks'
+import { buildMods } from '~/utils/mods'
+import { isExotic } from '~/utils/weapon'
+import { masterworkStatisticToTerm } from '~~/utils/masterwork.js'
 
-import type { Perk } from '~/utils/perks';
+import type { Perk } from '~/utils/perks'
 
 // Avoid re-rendering of the page component on hash switch
 definePageMeta({
-  key: (route) => (route.params.slug as string[])[0]
+  key: route => (route.params.slug as string[])[0],
 })
 
 const manifestStore = useManifestStore()
@@ -24,7 +24,7 @@ if (error.value) {
     // TODO: Revisit after https://github.com/nuxt/framework/pull/8521
     // message: error.value.message,
     message: 'Sorry, the provided weapon hash is invalid and could not be found',
-    fatal: true
+    fatal: true,
   })
 }
 
@@ -36,7 +36,7 @@ const decodeHashes = (str?: string) => {
   return {
     perks,
     masterwork: rawMasterwork ? Number(rawMasterwork) : null,
-    mod: rawMod ? Number(rawMod) : null
+    mod: rawMod ? Number(rawMod) : null,
   }
 }
 const decodedHashes = decodeHashes(possibleAttributes)
@@ -52,7 +52,7 @@ const stats = $computed(() => manifestStore.data?.statDefs)
 const mods = $computed(() => manifestStore.data ? buildMods(manifestStore.mods, stats!, statGroups!, manifestStore.data!.sandboxPerks) : [])
 const canApplyAdeptMods = computed(() => weaponName.includes('(Adept)'))
 let selectedModHash = $ref(decodedHashes.mod)
-let selectedMod = $computed(() => mods.find((m) => m.mod?.hash === selectedModHash))
+const selectedMod = $computed(() => mods.find(m => m.mod?.hash === selectedModHash))
 const resetMod = () => {
   selectedModHash = null
 }
@@ -61,27 +61,25 @@ const perks = $computed(() => data.value?.perks ?? { perks: [], curatedPerks: []
 // Hides intrinsic perks
 const perksToDisplay = $computed(() => ({ perks: perks?.perks.slice(1), curatedPerks: perks?.curatedPerks }))
 
-let selectedPerkHashes = $ref(decodedHashes.perks)
+const selectedPerkHashes = $ref(decodedHashes.perks)
 const selectedPerks = $computed(() => {
   const intrinsicPerks = (perks?.perks[0] ?? []).map(p => p.hash)
   const allPerks = perks.perks.flat()
 
   const perksToUse = intrinsicPerks.concat(selectedPerkHashes)
   return perksToUse.map((hash) => {
-    if (hash === PERK_NONE) {
+    if (hash === PERK_NONE)
       return null
-    }
 
     const isEnhancedPerk = (perk: Perk, hash: number) => perk.enhancedTrait?.hash === hash
 
     const perk = allPerks.find(t => isEnhancedPerk(t, hash) || (t.hash === hash))
-    if (!perk) {
+    if (!perk)
       return null
-    }
 
     return {
       perk,
-      isEnhanced: isEnhancedPerk(perk, hash)
+      isEnhanced: isEnhancedPerk(perk, hash),
     }
   })
 })
@@ -143,44 +141,50 @@ useHead({
   meta: [
     {
       property: 'og:title',
-      content: weaponName
+      content: weaponName,
     },
     {
       property: 'og:description',
-      content: description
+      content: description,
     },
     {
       property: 'description',
-      content: description
+      content: description,
     },
     {
-      property: 'og:image', content: favicon
+      property: 'og:image', content: favicon,
     },
   ],
   // TODO: Wrong type here
-  // @ts-ignore
-  link: [{ rel: 'icon', href: favicon, key: 'favicon' }]
+  // @ts-expect-error
+  link: [{ rel: 'icon', href: favicon, key: 'favicon' }],
 })
 </script>
 
 <template>
   <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-3 md:p-5">
     <div class="grid gap-4 grid-cols-1 sm:grid-cols-5 sm:col-span-2">
-      <WeaponSummary class="sm:col-span-5" v-if="weapon" :weapon="weapon" :damage-types="damageTypes"
+      <WeaponSummary
+        v-if="weapon" class="sm:col-span-5" :weapon="weapon" :damage-types="damageTypes"
         :masterwork="selectedMasterworkItem" :mod="selectedMod" :stat-groups="statGroups" :stats="stats"
         :perks="selectedPerks" @reset:masterwork="resetMasterwork" @reset:mod="resetMod"
-        @reset:perk="resetPerk($event)" />
+        @reset:perk="resetPerk($event)"
+      />
       <div class="hidden sm:block sm:col-span-2">
         <WeaponExtras />
       </div>
       <div class="sm:col-span-3 flex flex-col">
-        <WeaponMasterwork v-if="masterwork" :options="masterwork" v-model="selectedMasterworkHash"
-          :is-exotic-weapon="isExoticWeapon" />
-        <WeaponMods class="sm:mt-4" v-model="selectedModHash" v-if="mods" :mods="mods"
-          :can-apply-adept-mods="canApplyAdeptMods" />
+        <WeaponMasterwork
+          v-if="masterwork" v-model="selectedMasterworkHash" :options="masterwork"
+          :is-exotic-weapon="isExoticWeapon"
+        />
+        <WeaponMods
+          v-if="mods" v-model="selectedModHash" class="sm:mt-4" :mods="mods"
+          :can-apply-adept-mods="canApplyAdeptMods"
+        />
       </div>
     </div>
-    <WeaponPerks v-if="perks" :perks="perksToDisplay!" v-model="selectedPerkHashes" />
+    <WeaponPerks v-if="perks" v-model="selectedPerkHashes" :perks="perksToDisplay!" />
     <WeaponExtras class="sm:hidden" />
   </div>
 </template>

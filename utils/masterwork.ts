@@ -1,18 +1,18 @@
-import { PrunedDestinyInventoryItemDefinition } from './../types/destiny';
-import { TierType, DestinyItemSubType } from "bungie-api-ts/destiny2";
-import type { DestinyPlugSetDefinition, DestinyStatDisplayDefinition, DestinyStatGroupDefinition, } from "bungie-api-ts/destiny2";
-import type { DefinitionRecord } from "~/types";
+import { DestinyItemSubType, TierType } from 'bungie-api-ts/destiny2'
+import type { DestinyPlugSetDefinition, DestinyStatDisplayDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2'
+import type { PrunedDestinyInventoryItemDefinition } from './../types/destiny'
+import type { DefinitionRecord } from '~/types'
 
-type MasterworkData = {
-  benefits: PrunedDestinyInventoryItemDefinition[],
-  hash: number,
-  active: boolean,
+interface MasterworkData {
+  benefits: PrunedDestinyInventoryItemDefinition[]
+  hash: number
+  active: boolean
   catalyst?: PrunedDestinyInventoryItemDefinition
 }
 
-export type Masterwork = {
-  statistic: string,
-  data: MasterworkData,
+export interface Masterwork {
+  statistic: string
+  data: MasterworkData
 }
 
 const MASTERWORK_BASE: Record<string, MasterworkData> = {
@@ -75,7 +75,7 @@ const MASTERWORK_BASE: Record<string, MasterworkData> = {
 
 const createDefaultMasterwork = () => MASTERWORK_BASE
 
-export function buildMasterwork (weapon: PrunedDestinyInventoryItemDefinition, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, catalysts: PrunedDestinyInventoryItemDefinition[]) {
+export function buildMasterwork(weapon: PrunedDestinyInventoryItemDefinition, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, catalysts: PrunedDestinyInventoryItemDefinition[]) {
   const socketEntries = weapon.sockets!.socketEntries
   const plugItems = plugSets[1117738936]?.reusablePlugItems
   const scaledStats = statGroups[weapon.stats!.statGroupHash!].scaledStats
@@ -86,33 +86,30 @@ export function buildMasterwork (weapon: PrunedDestinyInventoryItemDefinition, s
     mw.catalyst = catalysts.find(c => c.hash === mw.hash)
     return mw
   })
-  if (!isSuperior) {
+  if (!isSuperior)
     return
-  }
 
-  const socketCategory = weapon?.sockets?.socketCategories.find((e) => 2685412949 === e.socketCategoryHash)
-  const socketIndexes = socketCategory?.socketIndexes ?? [];
+  const socketCategory = weapon?.sockets?.socketCategories.find(e => e.socketCategoryHash === 2685412949)
+  const socketIndexes = socketCategory?.socketIndexes ?? []
   const v = socketEntries
     .filter((_, t) => socketIndexes.includes(t))
-    .some((e) => w.find((s) => s === e.singleInitialItemHash));
+    .some(e => w.find(s => s === e.singleInitialItemHash))
 
   plugItems.forEach((e) => {
-    const masterworkItem = catalysts.find((t) => t.hash === e.plugItemHash);
-    if (!masterworkItem) {
+    const masterworkItem = catalysts.find(t => t.hash === e.plugItemHash)
+    if (!masterworkItem)
       return
-    }
 
-    const n = masterworkItem.plug!.plugCategoryIdentifier.split(".");
-    const r = n[n.length - 1];
-    masterwork[r].benefits.push(masterworkItem);
-  });
+    const n = masterworkItem.plug!.plugCategoryIdentifier.split('.')
+    const r = n[n.length - 1]
+    masterwork[r].benefits.push(masterworkItem)
+  })
 
-  function d (weapon: PrunedDestinyInventoryItemDefinition, hash: number, stats: DestinyStatDisplayDefinition[]) {
-    const firstCondition = hash !== 2961396640 || !weapon.itemCategoryHashes || !weapon.itemCategoryHashes.includes(3317538576);
+  function d(weapon: PrunedDestinyInventoryItemDefinition, hash: number, stats: DestinyStatDisplayDefinition[]) {
+    const firstCondition = hash !== 2961396640 || !weapon.itemCategoryHashes || !weapon.itemCategoryHashes.includes(3317538576)
 
-    if (!firstCondition) {
+    if (!firstCondition)
       return false
-    }
 
     const validForStatHash = [
       3614673599,
@@ -134,12 +131,12 @@ export function buildMasterwork (weapon: PrunedDestinyInventoryItemDefinition, s
       447667954,
       3871231066,
       1931675084,
-      925767036
+      925767036,
     ]
 
-    const validInGeneral = [1345609583, 3555269338, 2715839340];
+    const validInGeneral = [1345609583, 3555269338, 2715839340]
 
-    const secondCondition = validForStatHash.includes(hash) && (stats.find(((s) => hash === s.statHash)) || validInGeneral.includes(hash))
+    const secondCondition = validForStatHash.includes(hash) && (stats.find(s => hash === s.statHash) || validInGeneral.includes(hash))
 
     return secondCondition
   }
@@ -147,20 +144,20 @@ export function buildMasterwork (weapon: PrunedDestinyInventoryItemDefinition, s
   // TODO: Refactor
   Object.entries(masterwork).forEach(([key, value]) => {
     if (!d(weapon, value.hash, scaledStats)) {
-      masterwork[key].active = false;
+      masterwork[key].active = false
       return
     }
-    if (weapon.itemSubType !== DestinyItemSubType.Sword && "damage" === key) {
-      masterwork[key].active = false;
+    if (weapon.itemSubType !== DestinyItemSubType.Sword && key === 'damage') {
+      masterwork[key].active = false
       return
     }
-    masterwork[key].active = true;
+    masterwork[key].active = true
   })
 
   return {
     isYearOne: v,
     masterwork,
-  };
+  }
 }
 
 export const masterworkStatisticToTerm = (statistic: string) => statistic

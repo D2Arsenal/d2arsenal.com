@@ -1,8 +1,7 @@
-
 <script setup lang="ts">
 import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 import Fuse from 'fuse.js'
-import { useManifestStore } from '~/store/manifest';
+import { useManifestStore } from '~/store/manifest'
 import LogoWithFontSvg from '~/assets/img/d2a-logo-with-font.svg?component'
 
 const manifestStore = useManifestStore()
@@ -11,7 +10,7 @@ const query = ref('')
 
 const fuse = $computed(() => new Fuse(manifestStore.weapons, {
   keys: ['name'],
-  threshold: 0.2
+  threshold: 0.2,
 }))
 
 const SUGGESTED_WEAPON_HASHES = [
@@ -36,7 +35,7 @@ const SUGGESTED_WEAPON_HASHES = [
   912150785,
   2378101424,
   1532276803,
-  4009352833
+  4009352833,
 ]
 const suggestedWeapon = $computed(() => manifestStore.weapons
   .filter(w => SUGGESTED_WEAPON_HASHES.includes(w.hash))
@@ -44,9 +43,9 @@ const suggestedWeapon = $computed(() => manifestStore.weapons
 
 // TODO: Debounce?
 const filteredWeaponsWithoutSlice = $computed(() => {
-  if (query.value.length < 2) {
+  if (query.value.length < 2)
     return suggestedWeapon
-  }
+
   return fuse.search(query.value, { limit: 26 }).map(({ item }) => item)
 })
 
@@ -70,14 +69,13 @@ const handleMobileSearchInput = (e: Event) => {
   }
   isMobileSearchOpen = true
 }
-
-
 </script>
 
 <template>
   <div class="min-h-full">
     <div
-      class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-96 lg:flex-col lg:border-r lg:border-gray-700 lg:bg-slate-800 lg:pt-5 lg:pb-4">
+      class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-96 lg:flex-col lg:border-r lg:border-gray-700 lg:bg-slate-800 lg:pt-5 lg:pb-4"
+    >
       <NuxtLink to="/" class="flex flex-shrink-0 items-center px-6">
         <LogoWithFontSvg title="D2 Arsenal" alt="D2 Arsenal" class="text-gray-200" />
       </NuxtLink>
@@ -90,13 +88,17 @@ const handleMobileSearchInput = (e: Event) => {
             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3" aria-hidden="true">
               <MagnifyingGlassIcon class="mr-3 h-4 w-4 text-gray-100" aria-hidden="true" />
             </div>
-            <input type="text" name="search" id="search" v-model="query"
+            <input
+              id="search" v-model="query" type="text" name="search"
               class="block w-full rounded-md border-gray-100 placeholder-gray-100 bg-gray-900 text-gray-100 pl-9 focus:ring-indigo-800 sm:text-sm py-4"
-              placeholder="Search" />
+              placeholder="Search"
+            >
           </div>
         </div>
-        <ResultList class="mt-4 overflow-y-auto" :weapons="filteredWeapons.weapons"
-          :has-more="filteredWeapons.hasMore" />
+        <ResultList
+          class="mt-4 overflow-y-auto" :weapons="filteredWeapons.weapons"
+          :has-more="filteredWeapons.hasMore"
+        />
       </div>
     </div>
     <!-- Main column -->
@@ -110,15 +112,19 @@ const handleMobileSearchInput = (e: Event) => {
               <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
                 <MagnifyingGlassIcon class="h-5 w-5" aria-hidden="true" />
               </div>
-              <input id="search-field" v-model="query" name="search-field"
+              <input
+                id="search-field" v-model="query" name="search-field"
                 class="block w-full border-gray-100 placeholder-gray-100 bg-gray-900 text-gray-100 pl-9 focus:ring-indigo-800 sm:text-sm py-4"
-                placeholder="Search weapon" type="search" @input="handleMobileSearchInput" />
+                placeholder="Search weapon" type="search" @input="handleMobileSearchInput"
+              >
             </div>
           </div>
           <div v-if="isMobileSearchOpen" class="bg-slate-800">
-                <ResultList class="overflow-y-auto" :weapons="filteredWeapons.weapons"
-                  :has-more="filteredWeapons.hasMore" />
-              </div>
+            <ResultList
+              class="overflow-y-auto" :weapons="filteredWeapons.weapons"
+              :has-more="filteredWeapons.hasMore"
+            />
+          </div>
         </div>
       </div>
     </div>

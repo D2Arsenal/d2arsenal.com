@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Stat } from '~/utils/stats';
+import type { Stat } from '~/utils/stats'
 
 defineProps<{
-  stats?: Stat[],
+  stats?: Stat[]
 }>()
 
 const signForStatValue = (value: number) =>
@@ -19,14 +19,12 @@ const classForStatValue = (value: number) =>
       : 'text-red-700'
 
 const abs = Math.abs
-
 </script>
 
-
 <template>
-  <div class="border-t mt-4 pt-2 border-t-white" v-if="stats?.length">
+  <div v-if="stats?.length" class="border-t mt-4 pt-2 border-t-white">
     <ul>
-      <li class="grid grid-cols-5 w-2/3" v-for="stat in stats" :key="stat.name">
+      <li v-for="stat in stats" :key="stat.name" class="grid grid-cols-5 w-2/3">
         <span class="col-span-4">
           {{ stat.name }}
         </span>

@@ -1,9 +1,9 @@
-import { getStatsForItem } from '~/utils/stats';
-import { perks as perkInfo } from '~/utils/info';
-import type { Stat } from '~/utils/stats';
-import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny';
-import type { DestinyItemSocketEntryPlugItemRandomizedDefinition, DestinyPlugSetDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from "bungie-api-ts/destiny2"
-import type { DefinitionRecord } from "~/types"
+import type { DestinyItemSocketEntryPlugItemRandomizedDefinition, DestinyPlugSetDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2'
+import { getStatsForItem } from '~/utils/stats'
+import { perks as perkInfo } from '~/utils/info'
+import type { Stat } from '~/utils/stats'
+import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny'
+import type { DefinitionRecord } from '~/types'
 
 export const PERK_NONE = 0
 export const PERK_LENGTH = 6
@@ -11,41 +11,41 @@ export const COMMON_PERK_LENGTH = 4
 export const PERK_INTRINSIC_COLUMN = 0
 export const CANNOT_ROLL_PERK_WARNING = 'This perk currently cannot roll on this weapon'
 
-export type Perk = {
-  hash: number,
-  isIntrinsic: boolean,
-  currentlyCanRoll: boolean,
-  craftingLevel?: number,
-  trait?: PrunedDestinyInventoryItemDefinition,
-  enhancedTrait?: PrunedDestinyInventoryItemDefinition,
-  subDescription?: string,
-  enhancedSubDescription?: string,
-  stats: Stat[],
+export interface Perk {
+  hash: number
+  isIntrinsic: boolean
+  currentlyCanRoll: boolean
+  craftingLevel?: number
+  trait?: PrunedDestinyInventoryItemDefinition
+  enhancedTrait?: PrunedDestinyInventoryItemDefinition
+  subDescription?: string
+  enhancedSubDescription?: string
+  stats: Stat[]
   enhancedStats?: Stat[]
 }
 
 export type TransformedPerk = Omit<Perk, 'enhancedTrait'> & {
-  isEnhanced: boolean,
-  hasEnhanced: boolean,
+  isEnhanced: boolean
+  hasEnhanced: boolean
   enhancedTrait: undefined
 }
 
 const enrichPerkWithGivenTraitFactory = (stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>) => (hash: number, trait: PrunedDestinyInventoryItemDefinition) => ({
   trait,
   subDescription: perkInfo[trait.hash]?.description,
-  stats: getStatsForItem(stats, trait, statGroups) ?? []
+  stats: getStatsForItem(stats, trait, statGroups) ?? [],
 })
 
 const lookupTraitForPerkFactory = (traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>) => (hash: number) => {
-  const trait = traits.find(((t) => t.hash === hash));
+  const trait = traits.find(t => t.hash === hash)
   if (!trait) {
     return {
       trait: undefined,
       stats: [],
-      subDescription: undefined
-    };
+      subDescription: undefined,
+    }
   }
-  return enrichPerkWithGivenTraitFactory(stats, statGroups)(hash, trait);
+  return enrichPerkWithGivenTraitFactory(stats, statGroups)(hash, trait)
 }
 
 export function buildPerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<DestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition) {
@@ -56,7 +56,7 @@ export function buildPerks (weapon: PrunedDestinyInventoryItemDefinition, plugSe
   const filteredPerks = perks.map(col => col.filter(p => p.hash && p.trait)).filter(c => c.length > 0)
   return {
     curatedPerks: curatedPerks.filter(c => c.length > 0),
-    perks: filteredPerks
+    perks: filteredPerks,
   }
 }
 
@@ -69,8 +69,8 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
   const n = weapon.sockets?.socketEntries
   const perks: Perk[][] = [[], [], [], [], [], []]
   const curatedPerks: Perk[][] = [[], [], [], [], [], []]
-  const f = weapon.sockets?.socketCategories.find((s) => 3956125808 === s.socketCategoryHash)
-  const d = weapon.sockets?.socketCategories.find((s) => 4241085061 === s.socketCategoryHash)
+  const f = weapon.sockets?.socketCategories.find(s => s.socketCategoryHash === 3956125808)
+  const d = weapon.sockets?.socketCategories.find(s => s.socketCategoryHash === 4241085061)
 
   if (frame) {
     perks[0].push({
@@ -78,57 +78,57 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
       isIntrinsic: true,
       currentlyCanRoll: true,
       trait: frame,
-      stats: []
+      stats: [],
     })
   }
 
   // TODO: Is this line correct?
-  const h = n?.find((e) => Boolean(f?.socketIndexes.includes(e.singleInitialItemHash)))
+  const h = n?.find(e => Boolean(f?.socketIndexes.includes(e.singleInitialItemHash)))
 
   if (h && h.singleInitialItemHash !== 0) {
     perks[0].push({
       hash: h.singleInitialItemHash,
       isIntrinsic: true,
       currentlyCanRoll: true,
-      ...lookupTraitForPerk(h.singleInitialItemHash)
+      ...lookupTraitForPerk(h.singleInitialItemHash),
     })
   }
-  const m = n?.filter(function (e, n) {
+  const m = n?.filter((e, n) => {
     if (e.socketTypeHash === 3993098925) {
       const hash = e?.reusablePlugSetHash ?? e?.randomizedPlugSetHash
       if (hash) {
         const c = plugSets[hash]?.reusablePlugItems
-        perks[5] = c.map((p) => ({
+        perks[5] = c.map(p => ({
           hash: p.plugItemHash,
           isIntrinsic: false,
           currentlyCanRoll: p.currentlyCanRoll,
-          ...lookupTraitForPerk(p.plugItemHash)
+          ...lookupTraitForPerk(p.plugItemHash),
         }))
-        return
+        // TODO: Return false correct here?
+        return false
       }
     }
 
-    if (weapon.hash === 1744115122) {
+    if (weapon.hash === 1744115122)
       return false
-    }
 
     const m = d?.socketIndexes?.includes(n)
     const v = e.preventInitializationOnVendorPurchase || e.singleInitialItemHash === 2285418970
     return m && !v
   })
-  const v = m?.some((e) => "randomizedPlugSetHash" in e)
+  const v = m?.some(e => 'randomizedPlugSetHash' in e)
   // TODO: Refactor!
   if (!v) {
     m?.forEach((socketEntry, index) => {
-      if (!socketEntry?.reusablePlugSetHash) {
+      if (!socketEntry?.reusablePlugSetHash)
         return
-      }
+
       const c = plugSets[socketEntry.reusablePlugSetHash]
-      const r: Perk[] = c.reusablePlugItems.map((e) => ({
+      const r: Perk[] = c.reusablePlugItems.map(e => ({
         hash: e.plugItemHash,
         isIntrinsic: false,
         currentlyCanRoll: true,
-        ...lookupTraitForPerk(e.plugItemHash)
+        ...lookupTraitForPerk(e.plugItemHash),
       }))
 
       perks[index + 1].push(...r)
@@ -140,16 +140,16 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
   // TODO: Always add origin traits
   // TODO: Find a nicer way for this!
   m?.forEach((socketEntry, index) => {
-    const r: Perk[] = socketEntry.reusablePlugItems.map((e) => ({
+    const r: Perk[] = socketEntry.reusablePlugItems.map(e => ({
       hash: e.plugItemHash,
       isIntrinsic: false,
       currentlyCanRoll: true,
-      ...lookupTraitForPerk(e.plugItemHash)
+      ...lookupTraitForPerk(e.plugItemHash),
     }))
     curatedPerks[index + 1].push(...r)
   })
 
-  m?.forEach(function (socketEntry, index) {
+  m?.forEach((socketEntry, index) => {
     const plugSetHash = socketEntry?.randomizedPlugSetHash ?? socketEntry.reusablePlugSetHash ?? -1
     const plug = plugSets[plugSetHash].reusablePlugItems
     const h = plug
@@ -163,47 +163,44 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
       toPush.push(p)
     })
 
-
-    const e = (p: DestinyItemSocketEntryPlugItemRandomizedDefinition) => f.some((e) => e.plugItemHash === p.plugItemHash)
-    const t = (p: DestinyItemSocketEntryPlugItemRandomizedDefinition) => d.some((e) => e.plugItemHash === p.plugItemHash)
+    const e = (p: DestinyItemSocketEntryPlugItemRandomizedDefinition) => f.some(e => e.plugItemHash === p.plugItemHash)
+    const t = (p: DestinyItemSocketEntryPlugItemRandomizedDefinition) => d.some(e => e.plugItemHash === p.plugItemHash)
     const plugEntries = h
-      .filter((p) => !(e(p) && t(p) && !p.currentlyCanRoll) && p)
+      .filter(p => !(e(p) && t(p) && !p.currentlyCanRoll) && p)
       .filter((entry, index, array) => (
         // Dedupe
-        array.findIndex((t) => (
-          t.plugItemHash === entry.plugItemHash &&
-          t.currentlyCanRoll === entry.currentlyCanRoll
+        array.findIndex(t => (
+          t.plugItemHash === entry.plugItemHash
+          && t.currentlyCanRoll === entry.currentlyCanRoll
         )) === index
       ))
 
     const enhancedTraitPlugEntries = plugEntries.filter((e) => {
-      const trait = traits.find((t) => t.hash === e.plugItemHash)
-      return trait?.itemTypeDisplayName === "Enhanced Trait"
-    });
+      const trait = traits.find(t => t.hash === e.plugItemHash)
+      return trait?.itemTypeDisplayName === 'Enhanced Trait'
+    })
 
     const nonEnhancedTraitPlugEntries = plugEntries.filter((e) => {
-      const trait = traits.find((t) => t.hash === e.plugItemHash)
-      return trait?.itemTypeDisplayName !== "Enhanced Trait"
+      const trait = traits.find(t => t.hash === e.plugItemHash)
+      return trait?.itemTypeDisplayName !== 'Enhanced Trait'
     })
 
     perks[index + 1] = nonEnhancedTraitPlugEntries.map((nonEnhancedTraitEntry) => {
-      const normalTrait = traits.find((e) => e.hash === nonEnhancedTraitEntry.plugItemHash);
+      const normalTrait = traits.find(e => e.hash === nonEnhancedTraitEntry.plugItemHash)
 
-      let possibleEnhancedTrait: PrunedDestinyInventoryItemDefinition | undefined;
+      let possibleEnhancedTrait: PrunedDestinyInventoryItemDefinition | undefined
       for (const enhancedTraitEntry of enhancedTraitPlugEntries) {
-        const _possibleEnhancedTrait = traits.find((t) => t.hash === enhancedTraitEntry.plugItemHash);
-        const rName = normalTrait?.displayProperties.name;
-        const oName = _possibleEnhancedTrait?.displayProperties.name;
-        if (rName === oName?.replace(" Enhanced", "")) {
+        const _possibleEnhancedTrait = traits.find(t => t.hash === enhancedTraitEntry.plugItemHash)
+        const rName = normalTrait?.displayProperties.name
+        const oName = _possibleEnhancedTrait?.displayProperties.name
+        if (rName === oName?.replace(' Enhanced', ''))
           possibleEnhancedTrait = _possibleEnhancedTrait
-        }
       }
 
       const hash = nonEnhancedTraitEntry.plugItemHash
 
       const traitInfo = normalTrait ? enrichPerkWithGivenTrait(hash, normalTrait) : lookupTraitForPerk(hash)
       const { stats: enhancedStats, subDescription: enhancedSubDescription } = (possibleEnhancedTrait && enrichPerkWithGivenTrait(hash, possibleEnhancedTrait)) || {}
-
 
       return {
         hash,
@@ -216,7 +213,7 @@ function resolvePerks (weapon: PrunedDestinyInventoryItemDefinition, plugSets: D
         ...traitInfo,
         enhancedStats,
         enhancedSubDescription,
-      };
+      }
     })
   })
 
@@ -231,16 +228,14 @@ export const getHashesFromPerk = (perk: Perk) => {
 
 export const isPerkSelected = (perk: Perk, valueToCheck: unknown) => {
   const { hash, enhancedHash } = getHashesFromPerk(perk)
-  if (valueToCheck === hash) {
+  if (valueToCheck === hash)
     return true
-  }
 
-  if (!enhancedHash) {
+  if (!enhancedHash)
     return false
-  }
+
   return valueToCheck === enhancedHash
 }
-
 
 export const isEnhancedPerk = (perk: Perk, valueToCheck: unknown) => {
   const { enhancedHash } = getHashesFromPerk(perk)
@@ -250,33 +245,30 @@ export const isEnhancedPerk = (perk: Perk, valueToCheck: unknown) => {
 export const changePerkStatus = (perk: Perk, valueToCheck: unknown) => {
   const { hash, enhancedHash } = getHashesFromPerk(perk)
   const isHash = valueToCheck === hash
-  if (isEnhancedPerk(perk, valueToCheck)) {
+  if (isEnhancedPerk(perk, valueToCheck))
     return PERK_NONE
-  }
-  if (isHash) {
+
+  if (isHash)
     return enhancedHash ?? PERK_NONE
-  }
 
   return hash!
 }
 
-export const toTransformedPerks = (perks: Array<{ perk: Perk, isEnhanced: boolean } | null>) => perks.map(perkObj => {
-  if (!perkObj) {
+export const toTransformedPerks = (perks: Array<{ perk: Perk; isEnhanced: boolean } | null>) => perks.map((perkObj) => {
+  if (!perkObj)
     return null
-  }
 
-  const clonedObj: { perk: Perk, isEnhanced: boolean } = JSON.parse(JSON.stringify(perkObj))
+  const clonedObj: { perk: Perk; isEnhanced: boolean } = JSON.parse(JSON.stringify(perkObj))
   const newPerkObj: TransformedPerk = {
     ...clonedObj.perk,
     hasEnhanced: Boolean(clonedObj.perk.enhancedTrait),
     isEnhanced: clonedObj.isEnhanced,
-    enhancedTrait: undefined
+    enhancedTrait: undefined,
   }
 
   // Override trait for enhanced perk
-  if (clonedObj.isEnhanced) {
+  if (clonedObj.isEnhanced)
     newPerkObj.trait = clonedObj.perk.enhancedTrait
-  }
 
   return newPerkObj
 })
