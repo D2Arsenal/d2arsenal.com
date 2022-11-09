@@ -15,6 +15,7 @@ defineProps<{
       :icon="weapon.icon"
       :name="weapon.name"
       :watermark="weapon.watermark"
+      :key="weapon.hash"
     />
   </ul>
 </template>
