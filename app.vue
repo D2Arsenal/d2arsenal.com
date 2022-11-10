@@ -9,7 +9,7 @@ useHead({
   titleTemplate: t => t ? `${t} - D2 Arsenal` : 'D2 Arsenal - Craft your favorite weapon',
   // TODO: How to "delete" tag?
   // @ts-expect-error bug in use-head?
-  link: [{ key: 'favicon' }],
+  link: [{ rel: 'icon', key: 'favicon', href: usePWAIcon('64') }],
 })
 
 onBeforeMount(() => {
