@@ -138,15 +138,15 @@ useHead({
   title: weaponName,
   meta: [
     {
+      name: 'description',
+      content: description,
+    },
+    {
       property: 'og:title',
       content: weaponName,
     },
     {
       property: 'og:description',
-      content: description,
-    },
-    {
-      property: 'description',
       content: description,
     },
     {
