@@ -18,6 +18,7 @@ export const getMinimalWeapons = (weapons: PrunedDestinyInventoryItemDefinition[
 }))
 
 const SUGGESTED_WEAPON_HASHES = [
+  2208405142, // Telesto for fun
   2221264583,
   1937552980,
   431721920,
