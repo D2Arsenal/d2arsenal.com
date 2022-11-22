@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{
+const { icon } = defineProps<{
   hash: number
   icon: string
   name: string
@@ -7,13 +7,6 @@ const props = defineProps<{
 }>()
 // TODO: Fix active class
 // TODO: Disable link if already on the page / do not navigate
-
-// TODO: revert after telesto fun is over
-const TELESTO_IMG = '/common/destiny2_content/icons/977b96607460863e36260a5428bdd4c3.jpg'
-
-const hoverElement = ref()
-const isHovering = useElementHover(hoverElement)
-const actualIcon = computed(() => isHovering.value ? TELESTO_IMG : props.icon)
 </script>
 
 <template>
@@ -23,7 +16,7 @@ const actualIcon = computed(() => isHovering.value ? TELESTO_IMG : props.icon)
       class="peer relative flex items-center border border-gray-700 hover:bg-gray-900 hover:border-gray-700"
       :to="`/en/weapons/${hash}/`"
     >
-      <WeaponIcon :icon="actualIcon" :watermark="watermark" />
+      <WeaponIcon :icon="icon" :watermark="watermark" />
       <span class="ml-4">
         {{ name }}
       </span>
