@@ -26,7 +26,7 @@ const isEnhanced = (columnIndex: number, perk: Perk) => isEnhancedPerk(perk, mod
   <div>
     <Card heading="Weapon perks">
       <div class="flex mt-8 justify-center divide-x-2 divide-slate-500">
-        <ul v-for="perkColumn, i in perks.perks" :key="i" class="px-4 space-y-4">
+        <ul v-for="perkColumn, i in perks.perks" :key="i" class="px-2 md:px-4 space-y-4">
           <li v-for="perk, j in perkColumn" :key="perk.hash ?? j">
             <Plug
               :item="perk.trait" :is-selected="isSelected(i, perk)" :sub-description="perk.subDescription"
