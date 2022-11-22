@@ -93,12 +93,12 @@ const allStats = computed(() => weaponStats.value.slice()
 
 <template>
   <ul class="grid grid-cols-2 md:grid-cols-1 gap-2 text-xs sm:text-base">
-    <li v-for="stat in allStats" :key="stat.hash" class="grid grid-cols-6 sm:grid-cols-3 break-inside-avoid">
-      <div class="col-span-3 sm:col-span-1 overflow-hidden pr-8 sm:pr-4">
+    <li v-for="stat in allStats" :key="stat.hash" class="grid grid-cols-6 break-inside-avoid">
+      <div class="col-span-3 sm:col-span-2 md:col-span-3 xl:col-span-2 overflow-hidden pr-8 sm:pr-4">
         <span :title="stat.name" class="text-right whitespace-nowrap">{{ stat.name }}</span>
       </div>
       <WeaponStatsBar
-        v-if="stat.displayType === 'bar'" class="col-span-3 sm:col-span-2"
+        v-if="stat.displayType === 'bar'" class="col-span-3 sm:col-span-4 md:col-span-3 xl:col-span-4"
         :base-value="stat.value" :new-value="stat.augmentedValue"
       />
       <span v-else>{{ stat.augmentedValue }}{{ stat.displayType === 'ms' ? 'ms' : '' }}</span>

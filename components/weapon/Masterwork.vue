@@ -83,9 +83,9 @@ const buttonNames = computed(() => options.map(o => masterworkStatisticToTerm(o.
     <div v-if="!buttonNames.length && !isExoticWeapon">
       <h2>There are no masterworks for this weapon</h2>
     </div>
-    <nav v-if="!isExoticWeapon" class="flex flex-wrap sm:flex-nowrap items-center">
+    <nav v-if="!isExoticWeapon" class="flex flex-wrap xl:flex-nowrap">
       <AppButton
-        v-for="title, i in buttonNames" :key="title" class="mr-2 mt-2" :is-active="activeTabIndex === i"
+        v-for="title, i in buttonNames" :key="title" class="mr-2 mt-2 md:mt-4 xl:mt-2" :is-active="activeTabIndex === i"
         @click="onMasterworkTypeSwitch(i)"
       >
         {{ title }}

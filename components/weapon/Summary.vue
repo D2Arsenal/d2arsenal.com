@@ -30,7 +30,7 @@ const isExoticWeapon = computed(() => isExotic(weapon))
     <div class="relative z-[2] p-4 flex flex-col col-start-1 row-start-1">
       <div class="flex justify-between">
         <div class="flex items-center">
-          <div>
+          <div class="flex-shrink-0">
             <div class="inline-block relative border-2 border-white mr-4">
               <WeaponIcon size="lg" :icon="weapon.displayProperties.icon" :watermark="weapon.iconWatermark" />
             </div>
@@ -44,7 +44,7 @@ const isExoticWeapon = computed(() => isExotic(weapon))
             </h2>
           </div>
         </div>
-        <div>
+        <div class="flex-shrink-0">
           <div v-for="dt in damageTypes" :key="dt.hash">
             <img class="w-12 h-12" :src="useBungieUrl(dt.displayProperties.icon)" loading="lazy" aria-hidden>
           </div>
@@ -52,11 +52,11 @@ const isExoticWeapon = computed(() => isExotic(weapon))
       </div>
       <div class="mt-4">
         <WeaponStats
-          class="md:w-7/12" :weapon="weapon" :damage-types="damageTypes" :masterwork="masterwork" :mod="mod"
+          class="lg:w-7/12" :weapon="weapon" :damage-types="damageTypes" :masterwork="masterwork" :mod="mod"
           :stat-groups="statGroups" :perks="perks" :stats="stats"
         />
       </div>
-      <div class="flex justify-center sm:justify-end mt-auto mb-4">
+      <div class="flex justify-center sm:justify-end md:justify-center lg:justify-end mt-4 md:mt-8 lg:mt-auto md:mb-2 lg:mb-4">
         <WeaponPreset
           :masterwork="masterwork" :perks="perks" :mod="mod" :is-exotic="isExoticWeapon"
           @reset-mod="emit('resetMod')" @reset-masterwork="emit('resetMasterwork')"

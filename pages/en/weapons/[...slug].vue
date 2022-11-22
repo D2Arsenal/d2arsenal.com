@@ -164,18 +164,18 @@ useHead({
 </script>
 
 <template>
-  <div class="grid md:gap-4 grid-cols-1 md:grid-cols-3 md:p-5">
-    <div class="grid md:gap-4 grid-cols-1 md:grid-cols-5 md:col-span-2">
+  <div class="grid md:gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 md:p-5">
+    <div class="grid md:gap-4 grid-cols-1 md:grid-cols-5 xl:col-span-2">
       <WeaponSummary
         v-if="weapon" class="md:col-span-5" :weapon="weapon" :damage-types="damageTypes"
         :masterwork="selectedMasterworkItem" :mod="selectedMod" :stat-groups="statGroups" :stats="stats"
         :perks="selectedPerks" @reset-masterwork="resetMasterwork" @reset-mod="resetMod"
         @reset-perk="resetPerk($event)"
       />
-      <div class="hidden md:block md:col-span-2">
+      <div class="hidden xl:block xl:col-span-2">
         <WeaponExtras />
       </div>
-      <div class="md:col-span-3 flex flex-col">
+      <div class="md:col-span-5 xl:col-span-3 flex flex-col">
         <WeaponMasterwork
           v-if="masterwork" v-model="selectedMasterworkHash" :options="masterwork"
           :is-exotic-weapon="isExoticWeapon"
@@ -187,6 +187,6 @@ useHead({
       </div>
     </div>
     <WeaponPerks v-if="perks" v-model="selectedPerkHashes" :perks="perksToDisplay!" />
-    <WeaponExtras class="md:hidden" />
+    <WeaponExtras class="xl:hidden" />
   </div>
 </template>

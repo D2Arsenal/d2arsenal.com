@@ -1,6 +1,6 @@
 <template>
   <div class="relative overflow-hidden bg-black/25 py-16">
-    <div class="relative px-4 sm:px-6 lg:px-8">
+    <div class="relative px-4 sm:px-6 xl:px-8">
       <div class="mx-auto max-w-prose text-lg">
         <h1 class="mt-2 text-center text-3xl font-bold leading-8 tracking-tight text-gray-100 sm:text-4xl">
           Donating
