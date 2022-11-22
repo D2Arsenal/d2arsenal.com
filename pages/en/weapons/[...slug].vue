@@ -68,12 +68,16 @@ const selectedPerks = $computed(() => {
 
   const perksToUse = intrinsicPerks.concat(selectedPerkHashes)
   return perksToUse.map((hash) => {
-    if (hash === PERK_NONE) { return null }
+    if (hash === PERK_NONE) {
+      return null
+    }
 
     const isEnhancedPerk = (perk: Perk, hash: number) => perk.enhancedTrait?.hash === hash
 
     const perk = allPerks.find(t => isEnhancedPerk(t, hash) || (t.hash === hash))
-    if (!perk) { return null }
+    if (!perk) {
+      return null
+    }
 
     return {
       perk,
@@ -93,7 +97,9 @@ const masterwork = $computed(() => data.value?.masterwork)
 let selectedMasterworkHash = $ref(decodedHashes.masterwork)
 const selectedMasterworkArrayEntry = $computed(() => masterwork?.find(mw => mw.data.benefits.find(i => i.hash === selectedMasterworkHash)))
 const selectedMasterworkItem = computed(() => selectedMasterworkArrayEntry?.data.benefits.find(i => i.hash === selectedMasterworkHash))
-const resetMasterwork = () => { selectedMasterworkHash = null }
+const resetMasterwork = () => {
+  selectedMasterworkHash = null
+}
 
 const router = useRouter()
 const updateRouteOnChange = () => {
@@ -153,8 +159,6 @@ useHead({
       property: 'og:image', content: favicon,
     },
   ],
-  // TODO: Wrong type here
-  // @ts-expect-error bug in useHead
   link: [{ rel: 'icon', href: favicon, key: 'favicon' }],
 })
 </script>

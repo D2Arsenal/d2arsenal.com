@@ -24,7 +24,9 @@ export const isWeaponMod = (itemDef: DestinyInventoryItemDefinition | PrunedDest
 
 export const isWeapon = (itemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => itemDef.itemType === DestinyItemType.Weapon
 export const isWeaponTrait = (itemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => {
-  if (ITEM_TYPE_DISPLAY_NAMES.WEAPON_TRAIT.includes(itemDef.itemTypeDisplayName)) { return true }
+  if (ITEM_TYPE_DISPLAY_NAMES.WEAPON_TRAIT.includes(itemDef.itemTypeDisplayName)) {
+    return true
+  }
 
   return HASHES.WEAPON_TRAIT.some(t => itemDef.itemCategoryHashes?.includes(t))
 }
@@ -38,4 +40,4 @@ export const isCatalyst = (itemDef: DestinyInventoryItemDefinition | PrunedDesti
 const DEF_CHECKS = [isWeapon, isWeaponTrait, isWeaponFrame, isMasterwork, isCatalyst, isWeaponMod]
 export const isUsedItemDefinition = (itemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => DEF_CHECKS.some(check => check(itemDef))
 
-export const isSandboxMod = (sandboxPerks: DefinitionRecord<DestinySandboxPerkDefinition>) => (weaponModItemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => sandboxPerks[weaponModItemDef.perks[0]?.perkHash]
+export const isSandboxMod = (sandboxPerks: DefinitionRecord<DestinySandboxPerkDefinition>) => (weaponModItemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => sandboxPerks[weaponModItemDef.perks?.[0]?.perkHash ?? -1] ?? false

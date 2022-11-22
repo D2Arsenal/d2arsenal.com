@@ -23,6 +23,9 @@ export default defineNuxtConfig({
       routes: ['/', '/donate/', '/sitemap.xml'],
     },
   },
+  experimental: {
+    payloadExtraction: true,
+  },
   hooks: {
     'nitro:build:before': async () => {
       await copyManifestFromNodeModulesCacheIfAvailable()

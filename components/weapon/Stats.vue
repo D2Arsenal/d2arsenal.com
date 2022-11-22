@@ -35,7 +35,9 @@ const statsArrayToObject = (statsArray: Stat[]) => statsArray.reduce((obj, s) =>
 const statGroupEntry = computed(() => props.statGroups && getStatGroupEntryForItem(props.weapon, props.statGroups))
 
 const modStats = computed(() => {
-  if (!props.mod) { return {} }
+  if (!props.mod) {
+    return {}
+  }
 
   return statsArrayToObject(props.mod.stats)
 })
@@ -44,7 +46,9 @@ const modStats = computed(() => {
 const transformedPerks = $computed(() => toTransformedPerks(props.perks))
 
 const perkStats = computed(() => {
-  if (!props.stats || !props.statGroups) { return {} }
+  if (!props.stats || !props.statGroups) {
+    return {}
+  }
 
   const statsArray = transformedPerks
     .flatMap(p => p?.isEnhanced ? p?.enhancedStats : p?.stats)
@@ -54,7 +58,9 @@ const perkStats = computed(() => {
 })
 
 const masterworkStats = computed(() => {
-  if (!props.masterwork || !props.stats || !statGroupEntry.value) { return {} }
+  if (!props.masterwork || !props.stats || !statGroupEntry.value) {
+    return {}
+  }
   const stats = getStatsForItem(props.stats, props.masterwork, statGroupEntry.value)
   return statsArrayToObject(stats)
 })

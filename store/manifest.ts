@@ -13,7 +13,9 @@ export const useManifestStore = defineStore('manifest', () => {
   const mods = computed(() => data.value?.mods ?? [])
   const sandboxModsFn = computed(() => data.value?.sandboxPerks && isSandboxMod(data.value.sandboxPerks))
   const sandboxMods = computed(() => {
-    if (!sandboxModsFn.value) { return [] }
+    if (!sandboxModsFn.value) {
+      return []
+    }
 
     return mods.value?.filter(w => isSandboxMod(w))
   })

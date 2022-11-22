@@ -76,7 +76,9 @@ const displayTypeForStatHash = (hash: number): StatDisplayType => {
   if (STATS_IN_MS.includes(hash)) {
     return 'ms'
   }
-  if (!DISALLOWED_FOR_STAT_BAR.includes(hash)) { return 'bar' }
+  if (!DISALLOWED_FOR_STAT_BAR.includes(hash)) {
+    return 'bar'
+  }
 
   return 'none'
 }
@@ -186,7 +188,9 @@ function buildStat(
 
 export function getStatGroupEntryForItem(item: PrunedDestinyInventoryItemDefinition, statGroups: DefinitionRecord<DestinyStatGroupDefinition>) {
   const statHash = item.stats?.statGroupHash
-  if (!statHash) { return }
+  if (!statHash) {
+    return
+  }
 
   return statGroups[statHash]
 }
