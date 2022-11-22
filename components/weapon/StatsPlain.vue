@@ -15,17 +15,17 @@ const didImprove = $computed(() => isSmallerBetter ? !isPositive : isPositive)
 const iconName = computed(() => didImprove ? 'heroicons:chevron-double-up-20-solid' : 'heroicons:chevron-double-down-20-solid')
 const iconClasses = computed(() => didChange
   ? {
-      'text-green-600': didImprove,
+      'text-green-500': didImprove,
       'text-red-600': !didImprove,
     }
   : 'invisible')
 </script>
 
 <template>
-  <span class="flex items-end">
-    <span class="text-light-50">
+  <span class="flex items-center">
+    <span class="text-light-50 text-shadow-md">
       {{ newValue }}{{ displayType === 'ms' ? 'ms' : '' }}
     </span>
-    <Icon size="1.25em" :class="iconClasses" :name="iconName" />
+    <Icon class="text-shadow-md h-5 w-5" :class="iconClasses" :name="iconName" />
   </span>
 </template>

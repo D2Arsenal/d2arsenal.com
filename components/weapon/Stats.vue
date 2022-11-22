@@ -99,10 +99,14 @@ const allStats = computed(() => weaponStats.value.slice()
       </div>
       <WeaponStatsBar
         v-if="stat.displayType === 'bar'" class="col-span-3 sm:col-span-4 md:col-span-3 xl:col-span-4"
-        :base-value="stat.value" :new-value="stat.augmentedValue"
+        :base-value="stat.value" :new-value="stat.augmentedValue" :is-smaller-better="stat.isSmallerBetter"
       />
       <span v-else class="flex items-center">
-        <WeaponStatsPlain class="mr-4" :base-value="stat.value" :new-value="stat.augmentedValue" :display-type="stat.displayType" />
+        <WeaponStatsPlain
+          class="mr-4"
+          :base-value="stat.value"
+          :new-value="stat.augmentedValue" :display-type="stat.displayType" :is-smaller-better="stat.isSmallerBetter"
+        />
         <WeaponRecoilDirection v-if="stat.name === 'Recoil Direction'" :value="stat.augmentedValue" />
       </span>
     </li>

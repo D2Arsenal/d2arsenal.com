@@ -92,7 +92,7 @@ export interface Stat {
   base: number
   maximumValue: number
   displayType: StatDisplayType
-  smallerIsBetter: boolean
+  isSmallerBetter: boolean
   isConditionallyActive: boolean
 }
 
@@ -152,7 +152,7 @@ function buildStat(
   let value = itemStat.value ?? 0
   let maximumValue = statGroup?.maximumValue ?? -Infinity
   let bar = !DISALLOWED_FOR_STAT_BAR.includes(hash)
-  let smallerIsBetter = false
+  let isSmallerBetter = false
   const isMs = STATS_IN_MS.includes(hash)
 
   const statDisplay = displayStats.find(s => s.statHash === hash)
@@ -160,7 +160,7 @@ function buildStat(
     const [firstInterpolation] = statDisplay.displayInterpolation
     const lastInterpolation
       = statDisplay.displayInterpolation[statDisplay.displayInterpolation.length - 1]
-    smallerIsBetter = firstInterpolation.weight > lastInterpolation.weight
+    isSmallerBetter = firstInterpolation.weight > lastInterpolation.weight
     maximumValue = Math.max(statDisplay.maximumValue, firstInterpolation.weight, lastInterpolation.weight)
     bar = !statDisplay.displayAsNumeric
     value = interpolateStatValue(value, statDisplay)
@@ -181,7 +181,7 @@ function buildStat(
     base: value,
     maximumValue,
     displayType,
-    smallerIsBetter,
+    isSmallerBetter,
     isConditionallyActive: itemStat.isConditionallyActive,
   }
 }
