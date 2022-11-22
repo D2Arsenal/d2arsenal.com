@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 import Fuse from 'fuse.js'
 import { useManifestStore } from '~/store/manifest'
 import LogoWithFontSvg from '~/assets/img/d2a-logo-with-font.svg?component'
@@ -83,7 +82,7 @@ const handleMobileSearchInput = (e: Event) => {
             <label for="search-field" class="sr-only">Search</label>
             <div class="relative w-full text-gray-400 focus-within:text-gray-600">
               <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
-                <MagnifyingGlassIcon class="h-5 w-5" aria-hidden="true" />
+                <Icon name="heroicons:magnifying-glass-20-solid" class="h-5 w-5" aria-hidden="true" />
               </div>
               <input
                 id="search-field" v-model="query" name="search-field"

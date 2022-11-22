@@ -7,7 +7,7 @@ const SITE_NAME = 'D2 Arsenal'
 const GTAG_ID = 'G-SF9MC2HVRE'
 
 export default defineNuxtConfig({
-  modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', '@kevinmarrec/nuxt-pwa', '@vueuse/nuxt'],
+  modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', '@kevinmarrec/nuxt-pwa', '@vueuse/nuxt', 'nuxt-icon'],
   runtimeConfig: {
     public: {
       siteUrl: SITE_URL,
@@ -40,7 +40,7 @@ export default defineNuxtConfig({
     strict: true,
   },
   build: {
-    transpile: ['@heroicons/vue', '@headlessui/vue'],
+    transpile: ['@headlessui/vue'],
   },
   vite: {
     plugins: [svgLoader()],

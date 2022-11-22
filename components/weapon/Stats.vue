@@ -101,7 +101,10 @@ const allStats = computed(() => weaponStats.value.slice()
         v-if="stat.displayType === 'bar'" class="col-span-3 sm:col-span-4 md:col-span-3 xl:col-span-4"
         :base-value="stat.value" :new-value="stat.augmentedValue"
       />
-      <span v-else>{{ stat.augmentedValue }}{{ stat.displayType === 'ms' ? 'ms' : '' }}</span>
+      <span v-else class="flex items-center">
+        <WeaponStatsPlain class="mr-4" :base-value="stat.value" :new-value="stat.augmentedValue" :display-type="stat.displayType" />
+        <WeaponRecoilDirection v-if="stat.name === 'Recoil Direction'" :value="stat.augmentedValue" />
+      </span>
     </li>
   </ul>
 </template>
