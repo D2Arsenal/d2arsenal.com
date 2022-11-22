@@ -19,7 +19,7 @@ onBeforeMount(() => {
 <template>
   <div class="h-full">
     <AppSidebar />
-    <div class="flex flex-col justify-center lg:pl-96 min-h-screen">
+    <div class="flex flex-col justify-center lg:pl-64 xl:pl-80 min-h-screen">
       <main class="flex-auto">
         <NuxtPage />
       </main>

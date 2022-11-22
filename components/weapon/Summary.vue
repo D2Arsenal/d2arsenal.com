@@ -52,11 +52,11 @@ const isExoticWeapon = computed(() => isExotic(weapon))
       </div>
       <div class="mt-4">
         <WeaponStats
-          class="lg:w-7/12" :weapon="weapon" :damage-types="damageTypes" :masterwork="masterwork" :mod="mod"
+          class="2xl:w-7/12" :weapon="weapon" :damage-types="damageTypes" :masterwork="masterwork" :mod="mod"
           :stat-groups="statGroups" :perks="perks" :stats="stats"
         />
       </div>
-      <div class="flex justify-center sm:justify-end md:justify-center lg:justify-end mt-4 md:mt-8 lg:mt-auto md:mb-2 lg:mb-4">
+      <div class="flex justify-center sm:justify-end md:justify-center lg:justify-end mt-4 md:mt-8 2xl:mt-auto md:mb-2 lg:mb-4">
         <WeaponPreset
           :masterwork="masterwork" :perks="perks" :mod="mod" :is-exotic="isExoticWeapon"
           @reset-mod="emit('resetMod')" @reset-masterwork="emit('resetMasterwork')"

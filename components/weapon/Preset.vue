@@ -36,7 +36,7 @@ const resetMod = () => {
 </script>
 
 <template>
-  <div class="flex space-x-4 sm:space-x-8 md:space-x-6">
+  <div class="flex space-x-4 sm:space-x-8 md:space-x-3.5 xl:space-x-4.5 2xl:space-x-6">
     <Plug
       v-if="transformedPerks?.[0]" can-shrink :item="transformedPerks[0]?.trait" :stats="transformedPerks[0]?.stats"
       is-disabled :is-squared="!isExotic"

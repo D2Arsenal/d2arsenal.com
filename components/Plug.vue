@@ -31,7 +31,7 @@ const computedClasses = computed(() => [
   },
   props.isSelected && 'bg-blue-500/75',
   // TODO: Move to weapon icon!
-  props.canShrink ? 'h-8 w-8 sm:h-10 sm:w-10 md:h-8 md:w-8 lg:h-12 lg:w-12' : 'h-12 w-12',
+  props.canShrink ? 'h-8 w-8 sm:h-10 sm:w-10 md:h-8 md:w-8 lg:h-8 lg:w-8 xl:h-10 xl:w-10 2xl:h-12 2xl:w-12' : 'h-12 w-12',
 ])
 
 const icon = computed(() => props.item?.displayProperties.icon ?? props.placeholder ?? '')

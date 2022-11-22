@@ -47,7 +47,7 @@ const handleMobileSearchInput = (e: Event) => {
 <template>
   <div class="min-h-full">
     <div
-      class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-96 lg:flex-col lg:border-r lg:border-gray-700 lg:bg-slate-800 lg:pt-5 lg:pb-4"
+      class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 xl:w-80 lg:flex-col lg:border-r lg:border-gray-700 lg:bg-slate-800 lg:pt-5 lg:pb-4"
     >
       <NuxtLink to="/" class="flex flex-shrink-0 items-center px-6">
         <LogoWithFontSvg title="D2 Arsenal" alt="D2 Arsenal" class="text-gray-200" />
@@ -75,7 +75,7 @@ const handleMobileSearchInput = (e: Event) => {
       </div>
     </div>
     <!-- Main column -->
-    <div class="flex flex-col lg:pl-64">
+    <div class="flex flex-col lg:pl-48 xl:pl-64">
       <!-- Search header -->
       <div class="sticky top-0 z-10 flex h-14 flex-shrink-0 border-b border-gray-800 bg-black lg:hidden">
         <div class="w-full justify-between sm:px-6 lg:px-8">
