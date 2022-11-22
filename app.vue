@@ -7,8 +7,6 @@ await manifestStore.init()
 // TODO: Meta tags and so on
 useHead({
   titleTemplate: t => t ? `${t} - D2 Arsenal` : 'D2 Arsenal - Craft your favorite weapon',
-  // TODO: How to "delete" tag?
-  // @ts-expect-error bug in use-head?
   link: [{ rel: 'icon', key: 'favicon', href: usePWAIcon('64') }],
 })
 
@@ -21,7 +19,6 @@ onBeforeMount(() => {
 <template>
   <div class="h-full">
     <AppSidebar />
-
     <div class="flex flex-col justify-center lg:pl-96 min-h-screen">
       <main class="flex-auto">
         <NuxtPage />
