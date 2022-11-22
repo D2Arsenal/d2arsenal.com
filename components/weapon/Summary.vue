@@ -50,7 +50,7 @@ const isExoticWeapon = computed(() => isExotic(weapon))
           </div>
         </div>
       </div>
-      <div class="sm:mt-4">
+      <div class="mt-4">
         <WeaponStats
           class="md:w-7/12" :weapon="weapon" :damage-types="damageTypes" :masterwork="masterwork" :mod="mod"
           :stat-groups="statGroups" :perks="perks" :stats="stats"

@@ -165,7 +165,7 @@ useHead({
 
 <template>
   <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-3 md:p-5">
-    <div class="grid gap-4 grid-cols-1 sm:grid-cols-5 sm:col-span-2">
+    <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-5 sm:col-span-2">
       <WeaponSummary
         v-if="weapon" class="sm:col-span-5" :weapon="weapon" :damage-types="damageTypes"
         :masterwork="selectedMasterworkItem" :mod="selectedMod" :stat-groups="statGroups" :stats="stats"
