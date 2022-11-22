@@ -164,29 +164,29 @@ useHead({
 </script>
 
 <template>
-  <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-3 md:p-5">
-    <div class="grid sm:gap-4 grid-cols-1 sm:grid-cols-5 sm:col-span-2">
+  <div class="grid md:gap-4 grid-cols-1 md:grid-cols-3 md:p-5">
+    <div class="grid md:gap-4 grid-cols-1 md:grid-cols-5 md:col-span-2">
       <WeaponSummary
-        v-if="weapon" class="sm:col-span-5" :weapon="weapon" :damage-types="damageTypes"
+        v-if="weapon" class="md:col-span-5" :weapon="weapon" :damage-types="damageTypes"
         :masterwork="selectedMasterworkItem" :mod="selectedMod" :stat-groups="statGroups" :stats="stats"
         :perks="selectedPerks" @reset-masterwork="resetMasterwork" @reset-mod="resetMod"
         @reset-perk="resetPerk($event)"
       />
-      <div class="hidden sm:block sm:col-span-2">
+      <div class="hidden md:block md:col-span-2">
         <WeaponExtras />
       </div>
-      <div class="sm:col-span-3 flex flex-col">
+      <div class="md:col-span-3 flex flex-col">
         <WeaponMasterwork
           v-if="masterwork" v-model="selectedMasterworkHash" :options="masterwork"
           :is-exotic-weapon="isExoticWeapon"
         />
         <WeaponMods
-          v-if="mods" v-model="selectedModHash" class="sm:mt-4" :mods="mods"
+          v-if="mods" v-model="selectedModHash" class="md:mt-4" :mods="mods"
           :can-apply-adept-mods="canApplyAdeptMods"
         />
       </div>
     </div>
     <WeaponPerks v-if="perks" v-model="selectedPerkHashes" :perks="perksToDisplay!" />
-    <WeaponExtras class="sm:hidden" />
+    <WeaponExtras class="md:hidden" />
   </div>
 </template>
