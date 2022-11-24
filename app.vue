@@ -5,8 +5,8 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const canonical = computed(() => {
   const { path, query } = route
-  const pathWithoutTrailing = path.replace(/\/$/, '')
-  const url = new URL(pathWithoutTrailing, config.public.siteUrl)
+  const pathWithTrailing = path.endsWith('/') ? path : `${path}/`
+  const url = new URL(pathWithTrailing, config.public.siteUrl)
   for (const [key, value] of Object.entries(query)) {
     url.searchParams.set(key, value as string)
   }
