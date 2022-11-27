@@ -2,7 +2,7 @@ import svgLoader from 'vite-svg-loader'
 import tailwindTypography from '@tailwindcss/typography'
 import { copyManifestFromNodeModulesCacheIfAvailable, loadManifest } from './utils/server/manifest'
 
-const SITE_URL = 'https://d2arsenal.com'
+const SITE_URL = 'https://www.d2arsenal.com'
 const SITE_NAME = 'D2 Arsenal'
 const GTAG_ID = 'G-SF9MC2HVRE'
 
