@@ -72,17 +72,6 @@ const STATS_IN_MS = [
   STAT_MAPPING.CHARGE_TIME,
 ]
 
-const displayTypeForStatHash = (hash: number): StatDisplayType => {
-  if (STATS_IN_MS.includes(hash)) {
-    return 'ms'
-  }
-  if (!DISALLOWED_FOR_STAT_BAR.includes(hash)) {
-    return 'bar'
-  }
-
-  return 'none'
-}
-
 export interface Stat {
   investmentValue: number
   hash: number
