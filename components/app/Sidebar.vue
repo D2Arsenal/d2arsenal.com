@@ -58,7 +58,7 @@ const handleMobileSearchInput = (e: Event) => {
           <label for="search" class="sr-only">Search</label>
           <div class="relative mt-1 rounded-md shadow-sm">
             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3" aria-hidden="true">
-              <MagnifyingGlassIcon class="mr-3 h-4 w-4 text-gray-100" aria-hidden="true" />
+              <Icon name="heroicons:magnifying-glass-20-solid" class="mr-3 h-4 w-4 text-gray-100" aria-hidden="true" />
             </div>
             <input
               id="search" v-model="query" type="text" name="search"
