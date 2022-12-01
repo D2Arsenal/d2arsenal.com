@@ -126,17 +126,22 @@ export const loadManifestFromNodeModulesCache = async () => {
   return possibleManifest
 }
 
-export const copyManifestFromNodeModulesCacheIfAvailable = async () => {
-  // eslint-disable-next-line no-console
-  console.log('Try loading manifest from node_modules cache')
-  const possibleManifest = await loadManifestFromNodeModulesCache()
-  if (possibleManifest) {
+export const copyManifestFromNodeModulesCacheIfAvailable = async (skipCache = false) => {
+  if (!skipCache) {
     // eslint-disable-next-line no-console
-    console.log('Found manifest in node_modules cache, copying over')
-    return storage.setItem(MANIFEST_CACHE_KEY, possibleManifest)
+    console.log('Try loading manifest from node_modules cache')
+    const possibleManifest = await loadManifestFromNodeModulesCache()
+    if (possibleManifest) {
+      // eslint-disable-next-line no-console
+      console.log('Found manifest in node_modules cache, copying over')
+      return storage.setItem(MANIFEST_CACHE_KEY, possibleManifest)
+    }
   }
+  const msg = skipCache
+    ? 'Skipped loading manifest from node_modules cache'
+    : 'Did not find manifest in node_modules cache, fetching new'
   // eslint-disable-next-line no-console
-  console.log('Did not find manifest in node_modules cache, fetching new')
+  console.log(msg)
 
   const { data, version } = await fetchManifest()
   const compressed = await compress(JSON.stringify({ data, version }))

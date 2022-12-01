@@ -28,7 +28,7 @@ export default defineNuxtConfig({
   },
   hooks: {
     'nitro:build:before': async () => {
-      await copyManifestFromNodeModulesCacheIfAvailable()
+      await copyManifestFromNodeModulesCacheIfAvailable(Boolean(process.env.INCOMING_HOOK_BODY))
       // eslint-disable-next-line no-console
       console.log('preloading manifest')
       await loadManifest(true)
