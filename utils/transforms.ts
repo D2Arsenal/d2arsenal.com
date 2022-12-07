@@ -45,10 +45,9 @@ export const toPrunedPlugSetDef = (def: DestinyPlugSetDefinition): PrunedPlugSet
     hash: def.hash,
     redacted: def.redacted,
     reusablePlugItems: def.reusablePlugItems?.map(i => ({
-      ...i,
-      craftingRequirements: {
-        requiredLevel: i.craftingRequirements?.requiredLevel,
-      },
+      currentlyCanRoll: i.currentlyCanRoll,
+      plugItemHash: i.plugItemHash,
+      requiredLevel: i.craftingRequirements?.requiredLevel,
     })),
   }
 }

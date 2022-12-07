@@ -57,17 +57,16 @@ export type PrunedItemSocketEntryPlugItemRandomizedDefinition = Omit<
   DestinyItemSocketEntryPlugItemRandomizedDefinition,
   'craftingRequirements'
 > & {
-  craftingRequirements: Omit<DestinyPlugItemCraftingRequirements,
-    'unlockRequirements' |
-    'materialRequirementHashes'
-  >
+  requiredLevel?: DestinyPlugItemCraftingRequirements['requiredLevel']
 }
 
 export type PrunedPlugSetDefinition = Omit<
   DestinyPlugSetDefinition,
   'isFakePlugSet' |
   'index' |
-  'reusablePlugItems'
+  'reusablePlugItems' |
+  'weight' |
+  'alternateWeight'
 > & {
   reusablePlugItems?: PrunedItemSocketEntryPlugItemRandomizedDefinition[]
 }

@@ -7,7 +7,7 @@ import fsDriver from 'unstorage/drivers/fs'
 import type { HttpClientConfig } from 'bungie-api-ts/destiny2'
 import pkg from '../../package.json'
 import { isCatalyst, isMasterwork, isWeapon, isWeaponFrame, isWeaponMod, isWeaponTrait } from '../checks'
-import { toPrunedItemDef, toPrunedPlugSetDef } from '../transforms'
+import { toPrunedItemDef, toPrunedPlugSetDef, toPrunedStatDef, toPrunedStatGroupDef } from '../transforms'
 
 import type { ManifestData, MinimalManifestData } from '../../types'
 import type { PrunedDestinyInventoryItemDefinition } from '../../types/destiny'
@@ -35,7 +35,7 @@ const nodeModulesCacheStorage = createStorage({
 
 export const fetchBaseManifest = async () => {
   const { Response: destinyManifest } = await getDestinyManifest($http)
-  const version = destinyManifest.version
+  const { version } = destinyManifest
   return { destinyManifest, version }
 }
 
