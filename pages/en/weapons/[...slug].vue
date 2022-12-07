@@ -142,19 +142,34 @@ useHead({
   title: weaponName,
   meta: [
     {
+      hid: 'description',
       name: 'description',
       content: description,
     },
     {
+      hid: 'og:title',
       property: 'og:title',
       content: weaponName,
     },
     {
+      hid: 'og:description',
       property: 'og:description',
       content: description,
     },
     {
-      property: 'og:image', content: favicon,
+      hid: 'og:image',
+      property: 'og:image',
+      content: favicon,
+    },
+    {
+      hid: 'og:image:width',
+      property: 'og:image:width',
+      content: 64,
+    },
+    {
+      hid: 'og:image:height',
+      property: 'og:image:height',
+      content: 64,
     },
   ],
   link: [{ rel: 'icon', href: favicon, key: 'favicon' }],
