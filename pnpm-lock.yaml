@@ -23,7 +23,7 @@ specifiers:
   unstorage: 1.0.1
   vite-svg-loader: ^3.6.0
   vue-gtag-next: ^1.14.0
-  vue-tippy: ^4.16.0
+  vue-tippy: ^6.0.0-alpha.65
 
 devDependencies:
   '@antfu/eslint-config': 0.33.1_s5ps7njkmjlaqajutnox5ntcla
@@ -45,7 +45,7 @@ devDependencies:
   unstorage: 1.0.1
   vite-svg-loader: 3.6.0
   vue-gtag-next: 1.14.0
-  vue-tippy: 4.16.0
+  vue-tippy: 6.0.0-alpha.65
 
 packages:
 
@@ -889,6 +889,10 @@ packages:
       - supports-color
       - typescript
       - vue
+    dev: true
+
+  /@popperjs/core/2.11.6:
+    resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
     dev: true
 
   /@rollup/plugin-alias/4.0.2_rollup@2.79.1:
@@ -3839,10 +3843,6 @@ packages:
     engines: {node: '>=10.17.0'}
     dev: true
 
-  /humps/2.0.1:
-    resolution: {integrity: sha512-E0eIbrFWUhwfXJmsbdjRQFQPrl5pTEoKlz163j1mTqqUnU9PgR4AgB8AIITzuB3vLBdxZXyZ9TDIrwB2OASz4g==}
-    dev: true
-
   /iconv-lite/0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
     engines: {node: '>=0.10.0'}
@@ -5327,11 +5327,6 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /popper.js/1.16.1:
-    resolution: {integrity: sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==}
-    deprecated: You can find the new Popper v2 at @popperjs/core, this package is dedicated to the legacy v1
-    dev: true
-
   /portfinder/1.0.32:
     resolution: {integrity: sha512-on2ZJVVDXRADWE6jnQaX0ioEylzgBpQk8r55NE4wjXW1ZxO+BgDlY6DXwj20i0V8eB4SenDQ00WEaxfiIQPcxg==}
     engines: {node: '>= 0.12.0'}
@@ -6670,10 +6665,10 @@ packages:
     resolution: {integrity: sha512-AD5ih2NlSssTCwsMznbvwMZpJ1cbhkGd2uueNxzv2jDlEeZdU04JQfRnggJQ8DrcVBGjAsCKwFBbDlVNtEMlzw==}
     dev: true
 
-  /tippy.js/4.3.5:
-    resolution: {integrity: sha512-NDq3efte8nGK6BOJ1dDN1/WelAwfmh3UtIYXXck6+SxLzbIQNZE/cmRSnwScZ/FyiKdIcvFHvYUgqmoGx8CcyA==}
+  /tippy.js/6.3.7:
+    resolution: {integrity: sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==}
     dependencies:
-      popper.js: 1.16.1
+      '@popperjs/core': 2.11.6
     dev: true
 
   /tmp/0.0.33:
@@ -7163,13 +7158,12 @@ packages:
       vue: 3.2.45
     dev: true
 
-  /vue-tippy/4.16.0:
-    resolution: {integrity: sha512-ViI9Gd7PPzOfykkIcDlSqJ3Nx3g+mUoO5rkfkc1jxwNtf74vN7YvqfLO9zKjDAac1wFbKuc21ndLxsTeWkk0VA==}
+  /vue-tippy/6.0.0-alpha.65:
+    resolution: {integrity: sha512-AmPNcyrOillysYFDbpgBkdv0UDziAg4mubD1LiyiNgcmLux0Gb2dXvkDDiLoPpbu9CxFzAMAQZOdOTEaOJDb0Q==}
     peerDependencies:
-      vue: ^2.5.9
+      vue: ^3.2.0
     dependencies:
-      humps: 2.0.1
-      tippy.js: 4.3.5
+      tippy.js: 6.3.7
     dev: true
 
   /vue/3.2.45:
