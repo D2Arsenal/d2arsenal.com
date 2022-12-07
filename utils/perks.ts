@@ -1,8 +1,7 @@
-import type { DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2'
 import { getStatsForItem } from '~/utils/stats'
 import { perks as perkInfo } from '~/utils/info'
 import type { Stat } from '~/utils/stats'
-import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition, PrunedItemSocketEntryPlugItemRandomizedDefinition, PrunedPlugSetDefinition } from '~/types/destiny'
+import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition, PrunedDestinyStatGroupDefinition, PrunedItemSocketEntryPlugItemRandomizedDefinition, PrunedPlugSetDefinition } from '~/types/destiny'
 import type { DefinitionRecord } from '~/types'
 
 export const PERK_NONE = 0
@@ -31,13 +30,13 @@ export type TransformedPerk = Omit<Perk, 'enhancedTrait'> & {
   enhancedTrait: undefined
 }
 
-const enrichPerkWithGivenTraitFactory = (stats: DefinitionRecord<PrunedDestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>) => (hash: number, trait: PrunedDestinyInventoryItemDefinition) => ({
+const enrichPerkWithGivenTraitFactory = (stats: DefinitionRecord<PrunedDestinyStatDefinition>, statGroups: DefinitionRecord<PrunedDestinyStatGroupDefinition>) => (hash: number, trait: PrunedDestinyInventoryItemDefinition) => ({
   trait,
   subDescription: perkInfo[trait.hash]?.description,
   stats: getStatsForItem(stats, trait, statGroups) ?? [],
 })
 
-const lookupTraitForPerkFactory = (traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<PrunedDestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>) => (hash: number) => {
+const lookupTraitForPerkFactory = (traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<PrunedDestinyStatDefinition>, statGroups: DefinitionRecord<PrunedDestinyStatGroupDefinition>) => (hash: number) => {
   const trait = traits.find(t => t.hash === hash)
   if (!trait) {
     return {
@@ -49,7 +48,7 @@ const lookupTraitForPerkFactory = (traits: PrunedDestinyInventoryItemDefinition[
   return enrichPerkWithGivenTraitFactory(stats, statGroups)(hash, trait)
 }
 
-export function buildPerks(weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<PrunedPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<PrunedDestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition) {
+export function buildPerks(weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<PrunedPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<PrunedDestinyStatDefinition>, statGroups: DefinitionRecord<PrunedDestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition) {
   const { curatedPerks, perks } = resolvePerks(weapon, plugSets, traits, stats, statGroups, frame)
   // TODO: Get craftable catalysts, see e.g. Ostea Striga
   // https://www.light.gg/db/items/46524085/osteo-striga/
@@ -61,7 +60,7 @@ export function buildPerks(weapon: PrunedDestinyInventoryItemDefinition, plugSet
   }
 }
 
-function resolvePerks(weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<PrunedPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<PrunedDestinyStatDefinition>, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition) {
+function resolvePerks(weapon: PrunedDestinyInventoryItemDefinition, plugSets: DefinitionRecord<PrunedPlugSetDefinition>, traits: PrunedDestinyInventoryItemDefinition[], stats: DefinitionRecord<PrunedDestinyStatDefinition>, statGroups: DefinitionRecord<PrunedDestinyStatGroupDefinition>, frame?: PrunedDestinyInventoryItemDefinition) {
   const lookupTraitForPerk = lookupTraitForPerkFactory(traits, stats, statGroups)
   const enrichPerkWithGivenTrait = enrichPerkWithGivenTraitFactory(stats, statGroups)
 

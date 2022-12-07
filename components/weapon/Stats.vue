@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2'
 import type { DefinitionRecord } from '~/types'
-import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition } from '~/types/destiny.js'
+import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition, PrunedDestinyStatGroupDefinition } from '~/types/destiny.js'
 import type { Mod } from '~/utils/mods'
 
 import type { Stat } from '~/utils/stats'
@@ -14,7 +13,7 @@ const props = defineProps<{
   perks: Array<{ perk: Perk; isEnhanced: boolean } | null>
   masterwork?: PrunedDestinyInventoryItemDefinition
   mod?: Mod
-  statGroups?: DefinitionRecord<DestinyStatGroupDefinition>
+  statGroups?: DefinitionRecord<PrunedDestinyStatGroupDefinition>
   stats?: DefinitionRecord<PrunedDestinyStatDefinition>
 }>()
 

@@ -1,4 +1,4 @@
-import type { DestinyInventoryItemDefinition, DestinyItemPerkEntryDefinition, DestinyItemSocketCategoryDefinition, DestinyItemSocketEntryDefinition, DestinyItemSocketEntryPlugItemRandomizedDefinition, DestinyPlugItemCraftingRequirements, DestinyPlugSetDefinition, DestinyStatDefinition, TierType } from 'bungie-api-ts/destiny2'
+import type { DestinyInventoryItemDefinition, DestinyItemPerkEntryDefinition, DestinyItemSocketCategoryDefinition, DestinyItemSocketEntryDefinition, DestinyItemSocketEntryPlugItemRandomizedDefinition, DestinyPlugItemCraftingRequirements, DestinyPlugSetDefinition, DestinyStatDefinition, DestinyStatGroupDefinition, TierType } from 'bungie-api-ts/destiny2'
 export type PrunedDestinyInventoryItemDefinition = Omit<
   DestinyInventoryItemDefinition,
   'tooltipNotifications' |
@@ -75,4 +75,10 @@ export type PrunedPlugSetDefinition = Omit<
 export interface PrunedDestinyStatDefinition {
   displayProperties: DestinyStatDefinition['displayProperties']
   hash: number
+}
+
+export interface PrunedDestinyStatGroupDefinition {
+  hash: DestinyStatGroupDefinition['hash']
+  maximumValue: DestinyStatGroupDefinition['maximumValue']
+  scaledStats: DestinyStatGroupDefinition['scaledStats']
 }

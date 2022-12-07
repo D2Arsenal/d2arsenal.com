@@ -1,5 +1,5 @@
 import type { DestinyDamageTypeDefinition, DestinyEnergyTypeDefinition, DestinyItemTierTypeDefinition, DestinyPowerCapDefinition, DestinySandboxPerkDefinition, DestinySocketTypeDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2'
-import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition, PrunedPlugSetDefinition } from './types/destiny'
+import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition, PrunedDestinyStatGroupDefinition, PrunedPlugSetDefinition } from './types/destiny'
 
 export type DefinitionRecord<T> = Record<number, T>
 
@@ -12,7 +12,7 @@ export interface ManifestData {
   weaponTraits: PrunedDestinyInventoryItemDefinition[]
   itemTiers: DefinitionRecord<DestinyItemTierTypeDefinition>
   statDefs: DefinitionRecord<PrunedDestinyStatDefinition>
-  statGroups: DefinitionRecord<DestinyStatGroupDefinition>
+  statGroups: DefinitionRecord<PrunedDestinyStatGroupDefinition>
   plugSets: DefinitionRecord<PrunedPlugSetDefinition>
   damageTypes: DefinitionRecord<DestinyDamageTypeDefinition>
   sandboxPerks: DefinitionRecord<DestinySandboxPerkDefinition>

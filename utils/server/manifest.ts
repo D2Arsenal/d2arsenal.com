@@ -105,6 +105,10 @@ export const fetchManifest = async () => {
     Object.entries(statDefs).map(([hash, def]) => [hash, toPrunedStatDef(def)]),
   )
 
+  const prunedStatGroups = Object.fromEntries(
+    Object.entries(statGroups).map(([hash, def]) => [hash, toPrunedStatGroupDef(def)]),
+  )
+
   const data: ManifestData = {
     weapons,
     frames,
@@ -114,7 +118,7 @@ export const fetchManifest = async () => {
     masterworks,
     itemTiers,
     statDefs: prunedStatDefs,
-    statGroups,
+    statGroups: prunedStatGroups,
     plugSets: prunedPlugSets,
     damageTypes,
     sandboxPerks,

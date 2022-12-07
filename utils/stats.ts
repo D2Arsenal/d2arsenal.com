@@ -1,6 +1,6 @@
-import type { DestinyItemInvestmentStatDefinition, DestinyStatDisplayDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2'
+import type { DestinyItemInvestmentStatDefinition, DestinyStatDisplayDefinition } from 'bungie-api-ts/destiny2'
 import type { DefinitionRecord } from '~/types'
-import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition } from '~/types/destiny.js'
+import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition, PrunedDestinyStatGroupDefinition } from '~/types/destiny.js'
 
 type StatDisplayType = 'bar' | 'none' | 'ms'
 
@@ -85,10 +85,10 @@ export interface Stat {
   isConditionallyActive: boolean
 }
 
-const isDefinition = (x: DestinyStatGroupDefinition | DefinitionRecord<DestinyStatGroupDefinition>): x is DestinyStatGroupDefinition => {
+const isDefinition = (x: PrunedDestinyStatGroupDefinition | DefinitionRecord<PrunedDestinyStatGroupDefinition>): x is PrunedDestinyStatGroupDefinition => {
   return 'scaledStats' in x
 }
-export const getStatsForItem = (allStats: DefinitionRecord<PrunedDestinyStatDefinition>, item: PrunedDestinyInventoryItemDefinition, statGroupEntryOrRecord: DestinyStatGroupDefinition | DefinitionRecord<DestinyStatGroupDefinition>) => {
+export const getStatsForItem = (allStats: DefinitionRecord<PrunedDestinyStatDefinition>, item: PrunedDestinyInventoryItemDefinition, statGroupEntryOrRecord: PrunedDestinyStatGroupDefinition | DefinitionRecord<PrunedDestinyStatGroupDefinition>) => {
   const statGroupEntry = isDefinition(statGroupEntryOrRecord)
     ? statGroupEntryOrRecord
     : getStatGroupEntryForItem(item, statGroupEntryOrRecord)
@@ -109,7 +109,7 @@ export const getStatsForItem = (allStats: DefinitionRecord<PrunedDestinyStatDefi
   return investmentStats
 }
 
-function buildInvestmentStats(item: PrunedDestinyInventoryItemDefinition, allStats: PrunedDestinyStatDefinition[], displayStats: DestinyStatDisplayDefinition[], statGroup?: DestinyStatGroupDefinition) {
+function buildInvestmentStats(item: PrunedDestinyInventoryItemDefinition, allStats: PrunedDestinyStatDefinition[], displayStats: DestinyStatDisplayDefinition[], statGroup?: PrunedDestinyStatGroupDefinition) {
   const itemStats = item.investmentStats || []
 
   return itemStats.flatMap((itemStat) => {
@@ -135,7 +135,7 @@ function buildStat(
   | { statTypeHash: number; value: number; isConditionallyActive: boolean },
   statDef: PrunedDestinyStatDefinition,
   displayStats: DestinyStatDisplayDefinition[],
-  statGroup?: DestinyStatGroupDefinition,
+  statGroup?: PrunedDestinyStatGroupDefinition,
 ): Stat {
   const hash = itemStat.statTypeHash
   let value = itemStat.value ?? 0
@@ -175,7 +175,7 @@ function buildStat(
   }
 }
 
-export function getStatGroupEntryForItem(item: PrunedDestinyInventoryItemDefinition, statGroups: DefinitionRecord<DestinyStatGroupDefinition>) {
+export function getStatGroupEntryForItem(item: PrunedDestinyInventoryItemDefinition, statGroups: DefinitionRecord<PrunedDestinyStatGroupDefinition>) {
   const statHash = item.stats?.statGroupHash
   if (!statHash) {
     return

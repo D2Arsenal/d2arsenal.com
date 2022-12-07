@@ -1,5 +1,5 @@
-import type { DestinyInventoryItemDefinition, DestinyPlugSetDefinition, DestinyStatDefinition } from 'bungie-api-ts/destiny2'
-import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition, PrunedPlugSetDefinition } from '~/types/destiny'
+import type { DestinyInventoryItemDefinition, DestinyPlugSetDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2'
+import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition, PrunedDestinyStatGroupDefinition, PrunedPlugSetDefinition } from '~/types/destiny'
 
 export const toPrunedItemDef = (def: DestinyInventoryItemDefinition): PrunedDestinyInventoryItemDefinition => ({
   displayProperties: def.displayProperties,
@@ -56,4 +56,10 @@ export const toPrunedPlugSetDef = (def: DestinyPlugSetDefinition): PrunedPlugSet
 export const toPrunedStatDef = (def: DestinyStatDefinition): PrunedDestinyStatDefinition => ({
   displayProperties: def.displayProperties,
   hash: def.hash,
+})
+
+export const toPrunedStatGroupDef = (def: DestinyStatGroupDefinition): PrunedDestinyStatGroupDefinition => ({
+  hash: def.hash,
+  maximumValue: def.maximumValue,
+  scaledStats: def.scaledStats,
 })
