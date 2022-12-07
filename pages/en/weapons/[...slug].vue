@@ -115,6 +115,7 @@ const updateRouteOnChange = () => {
 watch([$$(selectedModHash), $$(selectedPerkHashes), $$(selectedMasterworkHash)], updateRouteOnChange)
 
 const favicon = computed(() => useBungieUrl(weapon.icon ?? ''))
+const ogImage = computed(() => useBungieUrl(weapon.screenshot ?? ''))
 const description = computed(() => {
   const perkList = selectedPerks
     .map(p => p?.perk.trait?.name)
@@ -159,17 +160,22 @@ useHead({
     {
       hid: 'og:image',
       property: 'og:image',
-      content: favicon,
+      content: ogImage,
     },
     {
       hid: 'og:image:width',
       property: 'og:image:width',
-      content: 64,
+      content: undefined,
     },
     {
       hid: 'og:image:height',
       property: 'og:image:height',
-      content: 64,
+      content: undefined,
+    },
+    {
+      hid: 'og:image:type',
+      property: 'og:image:type',
+      content: undefined,
     },
   ],
   link: [{ rel: 'icon', href: favicon, key: 'favicon' }],
