@@ -7,7 +7,7 @@ import fsDriver from 'unstorage/drivers/fs'
 import type { HttpClientConfig } from 'bungie-api-ts/destiny2'
 import pkg from '../../package.json'
 import { isCatalyst, isMasterwork, isWeapon, isWeaponFrame, isWeaponMod, isWeaponTrait } from '../checks'
-import { toPrunedItemDef } from '../transforms'
+import { toPrunedItemDef, toPrunedPlugSetDef } from '../transforms'
 
 import type { ManifestData, MinimalManifestData } from '../../types'
 import type { PrunedDestinyInventoryItemDefinition } from '../../types/destiny'
@@ -97,6 +97,14 @@ export const fetchManifest = async () => {
     arr.push(toPrunedItemDef(def))
   })
 
+  const prunedPlugSets = Object.fromEntries(
+    Object.entries(plugSets).map(([hash, def]) => [hash, toPrunedPlugSetDef(def)]),
+  )
+
+  const prunedStatDefs = Object.fromEntries(
+    Object.entries(statDefs).map(([hash, def]) => [hash, toPrunedStatDef(def)]),
+  )
+
   const data: ManifestData = {
     weapons,
     frames,
@@ -105,9 +113,9 @@ export const fetchManifest = async () => {
     catalysts,
     masterworks,
     itemTiers,
-    statDefs,
+    statDefs: prunedStatDefs,
     statGroups,
-    plugSets,
+    plugSets: prunedPlugSets,
     damageTypes,
     sandboxPerks,
     powerCaps,

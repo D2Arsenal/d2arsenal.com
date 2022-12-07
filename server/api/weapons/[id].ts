@@ -6,8 +6,9 @@ import pkg from '~/package.json'
 
 export default defineCachedEventHandler(async (event) => {
   const id = Number(event.context.params.id)
-  if(!id) {
-    return createError({ statusCode: 404, 
+  if (!id) {
+    return createError({
+      statusCode: 404,
       message: 'Please provide a weapon hash',
     })
   }
@@ -19,7 +20,8 @@ export default defineCachedEventHandler(async (event) => {
 
   const weapon = weapons.find(i => i.hash === id)
   if (!weapon) {
-    return createError({ statusCode: 404, 
+    return createError({
+      statusCode: 404,
       message: 'Sorry, the provided weapon hash is invalid and could not be found',
     })
   }

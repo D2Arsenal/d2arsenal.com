@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { DestinyDamageTypeDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2'
+import type { DestinyDamageTypeDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2'
 import type { DefinitionRecord } from '~/types'
-import type { PrunedDestinyInventoryItemDefinition } from '~/types/destiny.js'
+import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition } from '~/types/destiny.js'
 import type { Mod } from '~/utils/mods'
 import { isExotic } from '~/utils/weapon'
 import type { Perk } from '~~/utils/perks'
@@ -13,7 +13,7 @@ const { weapon } = defineProps<{
   masterwork?: PrunedDestinyInventoryItemDefinition
   mod?: Mod
   statGroups?: DefinitionRecord<DestinyStatGroupDefinition>
-  stats?: DefinitionRecord<DestinyStatDefinition>
+  stats?: DefinitionRecord<PrunedDestinyStatDefinition>
 }>()
 
 const emit = defineEmits<{

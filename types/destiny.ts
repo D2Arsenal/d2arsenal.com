@@ -1,4 +1,4 @@
-import type { DestinyInventoryItemDefinition, DestinyItemPerkEntryDefinition, DestinyItemSocketCategoryDefinition, DestinyItemSocketEntryDefinition, TierType } from 'bungie-api-ts/destiny2'
+import type { DestinyInventoryItemDefinition, DestinyItemPerkEntryDefinition, DestinyItemSocketCategoryDefinition, DestinyItemSocketEntryDefinition, DestinyItemSocketEntryPlugItemRandomizedDefinition, DestinyPlugItemCraftingRequirements, DestinyPlugSetDefinition, DestinyStatDefinition, TierType } from 'bungie-api-ts/destiny2'
 export type PrunedDestinyInventoryItemDefinition = Omit<
   DestinyInventoryItemDefinition,
   'tooltipNotifications' |
@@ -51,4 +51,28 @@ export type PrunedDestinyInventoryItemDefinition = Omit<
       'defaultVisible'>[]
     socketCategories: DestinyItemSocketCategoryDefinition[]
   }
+}
+
+export type PrunedItemSocketEntryPlugItemRandomizedDefinition = Omit<
+  DestinyItemSocketEntryPlugItemRandomizedDefinition,
+  'craftingRequirements'
+> & {
+  craftingRequirements: Omit<DestinyPlugItemCraftingRequirements,
+    'unlockRequirements' |
+    'materialRequirementHashes'
+  >
+}
+
+export type PrunedPlugSetDefinition = Omit<
+  DestinyPlugSetDefinition,
+  'isFakePlugSet' |
+  'index' |
+  'reusablePlugItems'
+> & {
+  reusablePlugItems?: PrunedItemSocketEntryPlugItemRandomizedDefinition[]
+}
+
+export interface PrunedDestinyStatDefinition {
+  displayProperties: DestinyStatDefinition['displayProperties']
+  hash: number
 }

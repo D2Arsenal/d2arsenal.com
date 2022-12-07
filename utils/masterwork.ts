@@ -1,6 +1,7 @@
 import { DestinyItemSubType, TierType } from 'bungie-api-ts/destiny2'
 import type { DestinyPlugSetDefinition, DestinyStatDisplayDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2'
 import type { PrunedDestinyInventoryItemDefinition } from './../types/destiny'
+import type { PrunedPlugSetDefinition } from '~/types/destiny'
 import type { DefinitionRecord } from '~/types'
 
 interface MasterworkData {
@@ -75,7 +76,7 @@ const MASTERWORK_BASE: Record<string, MasterworkData> = {
 
 const createDefaultMasterwork = () => MASTERWORK_BASE
 
-export function buildMasterwork(weapon: PrunedDestinyInventoryItemDefinition, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, catalysts: PrunedDestinyInventoryItemDefinition[]) {
+export function buildMasterwork(weapon: PrunedDestinyInventoryItemDefinition, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, plugSets: DefinitionRecord<PrunedPlugSetDefinition>, catalysts: PrunedDestinyInventoryItemDefinition[]) {
   const socketEntries = weapon.sockets!.socketEntries
   const plugItems = plugSets[2326575037]?.reusablePlugItems
   const scaledStats = statGroups[weapon.stats!.statGroupHash!].scaledStats
