@@ -40,12 +40,10 @@ const updateMasterwork = (hash: number | null) => {
 
 // TODO: Exotic Catalyst!
 
-const updateMasterworkForLevel = (event: Event) => {
+const updateMasterworkForLevel = (level: number) => {
   if (statisticsIndex === null) {
     return
   }
-  const target = event.target as HTMLInputElement
-  const level = target.valueAsNumber
   if (!level) {
     updateMasterwork(null)
     return
@@ -85,36 +83,17 @@ const buttonNames = computed(() => options.map(o => masterworkStatisticToTerm(o.
     </div>
     <nav v-if="!isExoticWeapon" class="flex flex-wrap xl:flex-nowrap">
       <AppButton
-        v-for="title, i in buttonNames" :key="title" class="mr-2 mt-2 md:mt-4 xl:mt-2" :is-active="activeTabIndex === i"
-        @click="onMasterworkTypeSwitch(i)"
+        v-for="title, i in buttonNames" :key="title" class="mr-2 mt-2 md:mt-4 xl:mt-2"
+        :is-active="activeTabIndex === i" @click="onMasterworkTypeSwitch(i)"
       >
         {{ title }}
       </AppButton>
     </nav>
-    <div class="grid grid-cols-5 w-full mt-8" :class="!modelValue && 'invisible'">
-      <label>
-        <span class="sr-only">Masterwork Level</span>
-        <input
-          :disabled="!modelValue"
-          class="appearance-none cursor-pointer bg-transparent w-12 h-12 pl-4 m-0 text-xl border border-white"
-          type="number" min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel"
-        >
-      </label>
-      <AppRangeInput
-        :disabled="!modelValue" wrapper-class="col-span-4 w-full" class="w-full h-full" type="range"
-        min="0" max="10" :value="currentLevel" @change="updateMasterworkForLevel"
+    <div class="flex w-full mt-8" :class="!modelValue && 'invisible'">
+      <AppNumberInput
+        :min-value="0" :max-value="10" :model-value="currentLevel"
+        @update:model-value="updateMasterworkForLevel"
       />
     </div>
   </Card>
 </template>
-
-<style scoped lang="pcss">
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  @apply appearance-none m-0;
-}
-
-input[type=number] {
-  -moz-appearance: textfield;
-}
-</style>
