@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     },
   },
   experimental: {
-    payloadExtraction: true,
+    // payloadExtraction: true,
   },
   hooks: {
     'nitro:build:before': async () => {
