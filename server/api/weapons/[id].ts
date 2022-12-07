@@ -6,6 +6,11 @@ import pkg from '~/package.json'
 
 export default defineCachedEventHandler(async (event) => {
   const id = Number(event.context.params.id)
+  if(!id) {
+    return createError({ statusCode: 404, 
+      message: 'Please provide a weapon hash',
+    })
+  }
 
   const { data, version } = await loadManifest()
 
@@ -14,7 +19,9 @@ export default defineCachedEventHandler(async (event) => {
 
   const weapon = weapons.find(i => i.hash === id)
   if (!weapon) {
-    return createError({ statusCode: 404, message: 'Weapon not found' })
+    return createError({ statusCode: 404, 
+      message: 'Sorry, the provided weapon hash is invalid and could not be found',
+    })
   }
 
   const frameForWeapon = frames.find(f => f.hash === weapon?.sockets?.socketEntries[0]?.singleInitialItemHash)

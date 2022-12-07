@@ -20,10 +20,8 @@ const { data, error } = await useFetch(`/api/weapons/${weaponHash}`, { key: weap
 
 if (error.value) {
   throw createError({
-    statusCode: 404,
-    // TODO: Revisit after https://github.com/nuxt/framework/pull/8521
-    // message: error.value.message,
-    message: 'Sorry, the provided weapon hash is invalid and could not be found',
+    statusCode: error.value.data.statusCode,
+    message: error.value.data.message ?? error.value.data.statusMessage,
     fatal: true,
   })
 }

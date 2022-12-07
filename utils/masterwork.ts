@@ -96,7 +96,7 @@ export function buildMasterwork(weapon: PrunedDestinyInventoryItemDefinition, st
     .filter((_, t) => socketIndexes.includes(t))
     .some(e => w.find(s => s === e.singleInitialItemHash))
 
-  plugItems.forEach((e) => {
+  plugItems?.forEach((e) => {
     const masterworkItem = catalysts.find(t => t.hash === e.plugItemHash)
     if (!masterworkItem) {
       return
