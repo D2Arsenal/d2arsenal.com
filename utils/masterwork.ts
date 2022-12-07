@@ -77,7 +77,7 @@ const createDefaultMasterwork = () => MASTERWORK_BASE
 
 export function buildMasterwork(weapon: PrunedDestinyInventoryItemDefinition, statGroups: DefinitionRecord<DestinyStatGroupDefinition>, plugSets: DefinitionRecord<DestinyPlugSetDefinition>, catalysts: PrunedDestinyInventoryItemDefinition[]) {
   const socketEntries = weapon.sockets!.socketEntries
-  const plugItems = plugSets[1117738936]?.reusablePlugItems
+  const plugItems = plugSets[2326575037]?.reusablePlugItems
   const scaledStats = statGroups[weapon.stats!.statGroupHash!].scaledStats
   const isSuperior = weapon.inventory!.tierType === TierType.Superior
   const w = [4160547565, 4126105782, 3728733956, 2273483223]
