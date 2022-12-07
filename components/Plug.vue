@@ -10,6 +10,9 @@ const props = defineProps<{
   enhancedItem?: PrunedDestinyInventoryItemDefinition
   enhancedSubDescription?: string
   enhancedStats?: Stat[]
+  // Crafting
+  craftingLevel?: number
+  enhancedCraftingLevel?: number
   // Misc
   warning?: string
   // Visual info
@@ -43,7 +46,9 @@ const afterClass = computed(() => `enabled:after:absolute enabled:after:top-0 en
   <Tooltip
     :is-disabled="!item" :heading="item?.displayProperties.name ?? ''" :subheading="item?.itemTypeDisplayName"
     :description="item?.displayProperties.description" :sub-description="subDescription" :warning="warning" :stats="stats"
-    :enhanced-description="enhancedItem?.displayProperties.description" :enhanced-sub-description="enhancedSubDescription" :enhanced-stats="enhancedStats"
+    :crafting-level="craftingLevel" :enhanced-crafting-level="enhancedCraftingLevel"
+    :enhanced-description="enhancedItem?.displayProperties.description"
+    :enhanced-sub-description="enhancedSubDescription" :enhanced-stats="enhancedStats"
   >
     <button
       class="border-2 relative flex justify-center items-center shadow-white"

@@ -37,7 +37,10 @@ onMounted(() => {
           <p class="uppercase text-xl font-bold">
             {{ heading }}
           </p>
-          <span>{{ subheading }}</span>
+          <p>{{ subheading }}</p>
+          <p v-if="craftingLevel" class="text-sm text-right -mt-2 p-0">
+            Lv. {{ craftingLevel }}
+          </p>
         </header>
         <p v-if="warning" class="px-4 text-xs py-2 mt-4 bg-red-500/50">
           {{ warning }}

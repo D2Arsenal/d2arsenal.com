@@ -34,7 +34,9 @@ const listClass = 'px-2 sm:px-6 md:px-3 xl:px-4 space-y-4'
               :item="perk.trait" :is-selected="isSelected(i, perk)" :sub-description="perk.subDescription"
               :warning="perk.currentlyCanRoll ? undefined : WARNING" :is-demoted="!perk.currentlyCanRoll"
               :has-enhanced="!!perk.enhancedTrait" :is-enhanced="isEnhanced(i, perk)" :stats="perk.stats" :enhanced-item="perk?.enhancedTrait"
-              :enhanced-stats="perk?.enhancedStats" :enhanced-sub-description="perk?.enhancedSubDescription" @click="setPerk(i, perk)"
+              :enhanced-stats="perk?.enhancedStats" :enhanced-sub-description="perk?.enhancedSubDescription"
+              :crafting-level="perk?.craftingLevel"
+              @click="setPerk(i, perk)"
             />
           </li>
         </ul>
@@ -48,7 +50,8 @@ const listClass = 'px-2 sm:px-6 md:px-3 xl:px-4 space-y-4'
               :item="perk.trait" :is-selected="isSelected(i, perk)" :sub-description="perk.subDescription"
               :warning="perk.currentlyCanRoll ? undefined : WARNING" :is-demoted="!perk.currentlyCanRoll"
               :has-enhanced="!!perk.enhancedTrait" :is-enhanced="isEnhanced(i, perk)" :stats="perk.stats" :enhanced-item="perk?.enhancedTrait"
-              :enhanced-stats="perk?.enhancedStats" :enhanced-sub-description="perk?.enhancedSubDescription" @click="setPerk(i, perk)"
+              :enhanced-stats="perk?.enhancedStats" :enhanced-sub-description="perk?.enhancedSubDescription" :crafting-level="perk?.craftingLevel"
+              @click="setPerk(i, perk)"
             />
           </li>
         </ul>
