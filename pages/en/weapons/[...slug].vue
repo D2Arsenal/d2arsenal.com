@@ -40,7 +40,7 @@ const decodeHashes = (str?: string) => {
 const decodedHashes = decodeHashes(possibleAttributes)
 
 const weapon = $computed(() => data.value!.weapon)
-const weaponName = $computed(() => weapon.displayProperties.name)
+const weaponName = $computed(() => weapon.name)
 const isExoticWeapon = computed(() => isExotic(weapon))
 const damageTypes = computed(() => weapon.damageTypeHashes.map(hash => manifestStore.damageTypes[hash]) ?? [])
 
@@ -114,17 +114,17 @@ const updateRouteOnChange = () => {
 }
 watch([$$(selectedModHash), $$(selectedPerkHashes), $$(selectedMasterworkHash)], updateRouteOnChange)
 
-const favicon = computed(() => useBungieUrl(weapon.displayProperties.highResIcon ?? weapon.displayProperties.icon ?? ''))
+const favicon = computed(() => useBungieUrl(weapon.icon ?? ''))
 const description = computed(() => {
   const perkList = selectedPerks
-    .map(p => p?.perk.trait?.displayProperties.name)
+    .map(p => p?.perk.trait?.name)
     .filter(a => a).join(', ')
   const hasPerks = Boolean(perkList)
 
-  const mod = selectedMod?.mod?.displayProperties.name
+  const mod = selectedMod?.mod?.name
   const hasMod = Boolean(mod)
 
-  const rawMasterworkTier = selectedMasterworkItem.value?.displayProperties.name.toLowerCase()
+  const rawMasterworkTier = selectedMasterworkItem.value?.name.toLowerCase()
   const masterworkTier = rawMasterworkTier === 'masterwork' ? 'max tier' : rawMasterworkTier
   const rawMasterworkStatistic = selectedMasterworkArrayEntry?.statistic
   const masterworkStatistic = rawMasterworkStatistic && masterworkStatisticToTerm(rawMasterworkStatistic)

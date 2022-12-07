@@ -1,7 +1,6 @@
 import { DestinyItemType } from 'bungie-api-ts/destiny2'
-import type { DestinyInventoryItemDefinition, DestinySandboxPerkDefinition } from 'bungie-api-ts/destiny2'
 import type { DefinitionRecord } from '../types'
-import type { PrunedDestinyInventoryItemDefinition } from '../types/destiny'
+import type { PrunedDestinyInventoryItemDefinition, PrunedDestinySandboxPerkDefinition } from '../types/destiny'
 
 const HASHES = {
   WEAPON_MOD: 1052191496,
@@ -19,11 +18,11 @@ const ITEM_TYPE_DISPLAY_NAMES = {
   WEAPON_FRAME: 'Intrinsic',
 }
 
-export const isWeaponMod = (itemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => itemDef.itemCategoryHashes?.includes(HASHES.WEAPON_MOD)
-  && itemDef.plug?.plugCategoryIdentifier.includes(PLUG_CATEGORY_IDENTIFIERS.WEAPON_MOD)
+export const isWeaponMod = (itemDef: PrunedDestinyInventoryItemDefinition) => itemDef.itemCategoryHashes?.includes(HASHES.WEAPON_MOD)
+  && itemDef.plugCategoryIdentifier?.includes(PLUG_CATEGORY_IDENTIFIERS.WEAPON_MOD)
 
-export const isWeapon = (itemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => itemDef.itemType === DestinyItemType.Weapon
-export const isWeaponTrait = (itemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => {
+export const isWeapon = (itemDef: PrunedDestinyInventoryItemDefinition) => itemDef.itemType === DestinyItemType.Weapon
+export const isWeaponTrait = (itemDef: PrunedDestinyInventoryItemDefinition) => {
   if (ITEM_TYPE_DISPLAY_NAMES.WEAPON_TRAIT.includes(itemDef.itemTypeDisplayName)) {
     return true
   }
@@ -31,13 +30,10 @@ export const isWeaponTrait = (itemDef: DestinyInventoryItemDefinition | PrunedDe
   return HASHES.WEAPON_TRAIT.some(t => itemDef.itemCategoryHashes?.includes(t))
 }
 
-export const isWeaponFrame = (itemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => itemDef.itemTypeDisplayName?.includes(ITEM_TYPE_DISPLAY_NAMES.WEAPON_FRAME)
+export const isWeaponFrame = (itemDef: PrunedDestinyInventoryItemDefinition) => itemDef.itemTypeDisplayName?.includes(ITEM_TYPE_DISPLAY_NAMES.WEAPON_FRAME)
 
-export const isMasterwork = (itemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => itemDef.itemCategoryHashes?.includes(HASHES.MASTERWORK)
+export const isMasterwork = (itemDef: PrunedDestinyInventoryItemDefinition) => itemDef.itemCategoryHashes?.includes(HASHES.MASTERWORK)
 
-export const isCatalyst = (itemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => itemDef.itemCategoryHashes?.includes(HASHES.CATALYST)
+export const isCatalyst = (itemDef: PrunedDestinyInventoryItemDefinition) => itemDef.itemCategoryHashes?.includes(HASHES.CATALYST)
 
-const DEF_CHECKS = [isWeapon, isWeaponTrait, isWeaponFrame, isMasterwork, isCatalyst, isWeaponMod]
-export const isUsedItemDefinition = (itemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => DEF_CHECKS.some(check => check(itemDef))
-
-export const isSandboxMod = (sandboxPerks: DefinitionRecord<DestinySandboxPerkDefinition>) => (weaponModItemDef: DestinyInventoryItemDefinition | PrunedDestinyInventoryItemDefinition) => sandboxPerks[weaponModItemDef.perks?.[0]?.perkHash ?? -1] ?? false
+export const isSandboxMod = (sandboxPerks: DefinitionRecord<PrunedDestinySandboxPerkDefinition>) => (weaponModItemDef: PrunedDestinyInventoryItemDefinition) => sandboxPerks[weaponModItemDef.perkHashes?.[0] ?? -1] ?? false

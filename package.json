@@ -10,6 +10,7 @@
   "scripts": {
     "build": "nuxi build",
     "dev": "nuxi dev",
+    "dev:prune": "rm -rf .nuxt/cache/nitro/handlers && rm -rf node_modules/.cache/manifest",
     "generate": "nuxi generate",
     "preview": "nuxi preview",
     "postinstall": "nuxi prepare",

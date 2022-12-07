@@ -7,7 +7,7 @@ import fsDriver from 'unstorage/drivers/fs'
 import type { HttpClientConfig } from 'bungie-api-ts/destiny2'
 import pkg from '../../package.json'
 import { isCatalyst, isMasterwork, isWeapon, isWeaponFrame, isWeaponMod, isWeaponTrait } from '../checks'
-import { toPrunedItemDef, toPrunedPlugSetDef, toPrunedStatDef, toPrunedStatGroupDef } from '../transforms'
+import { toPrunedItemDef, toPrunedPlugSetDef, toPrunedSandboxPerkDef, toPrunedStatDef, toPrunedStatGroupDef } from '../transforms'
 
 import type { ManifestData, MinimalManifestData } from '../../types'
 import type { PrunedDestinyInventoryItemDefinition } from '../../types/destiny'
@@ -53,7 +53,6 @@ export const fetchManifest = async () => {
       'DestinyPlugSetDefinition',
       'DestinyDamageTypeDefinition',
       'DestinySandboxPerkDefinition',
-      'DestinyPowerCapDefinition',
       'DestinyEnergyTypeDefinition',
       'DestinyCollectibleDefinition',
     ],
@@ -68,7 +67,6 @@ export const fetchManifest = async () => {
     DestinyPlugSetDefinition: plugSets,
     DestinyDamageTypeDefinition: damageTypes,
     DestinySandboxPerkDefinition: sandboxPerks,
-    DestinyPowerCapDefinition: powerCaps,
     DestinyEnergyTypeDefinition: energyTypes,
   } = manifestTables
 
@@ -89,12 +87,14 @@ export const fetchManifest = async () => {
   ]
 
   Object.values(rawItemDefs).forEach((def) => {
-    const { arr } = ARR_LOOKUP.find(({ fn }) => fn(def)) ?? {}
+    const pruned = toPrunedItemDef(def)
+
+    const { arr } = ARR_LOOKUP.find(({ fn }) => fn(pruned)) ?? {}
     if (!arr) {
       return
     }
 
-    arr.push(toPrunedItemDef(def))
+    arr.push(pruned)
   })
 
   const prunedPlugSets = Object.fromEntries(
@@ -109,6 +109,10 @@ export const fetchManifest = async () => {
     Object.entries(statGroups).map(([hash, def]) => [hash, toPrunedStatGroupDef(def)]),
   )
 
+  const prunedSandboxPerks = Object.fromEntries(
+    Object.entries(sandboxPerks).map(([hash, def]) => [hash, toPrunedSandboxPerkDef(def)]),
+  )
+
   const data: ManifestData = {
     weapons,
     frames,
@@ -121,8 +125,7 @@ export const fetchManifest = async () => {
     statGroups: prunedStatGroups,
     plugSets: prunedPlugSets,
     damageTypes,
-    sandboxPerks,
-    powerCaps,
+    sandboxPerks: prunedSandboxPerks,
     seasonCap: 1580, // TODO Ah, power cap for season currentSeasonRewardPowerCap from uhh, profile call. Can hardcode for now
     energyTypes,
   }
@@ -188,7 +191,6 @@ export const loadMinimalManifest = async () => {
     plugSets: data.plugSets,
     damageTypes: data.damageTypes,
     sandboxPerks: data.sandboxPerks,
-    powerCaps: data.powerCaps,
     seasonCap: data.seasonCap,
     energyTypes: data.energyTypes,
   }

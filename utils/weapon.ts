@@ -8,12 +8,12 @@ export interface MinimalWeapon {
   watermark: string
 }
 
-export const isExotic = (weapon: PrunedDestinyInventoryItemDefinition) => weapon.inventory?.tierType === TierType.Exotic
+export const isExotic = (weapon: PrunedDestinyInventoryItemDefinition) => weapon?.tierType === TierType.Exotic
 
 export const getMinimalWeapons = (weapons: PrunedDestinyInventoryItemDefinition[]) => weapons.map(weapon => ({
   hash: weapon.hash,
-  name: weapon.displayProperties.name,
-  icon: weapon.displayProperties.icon,
+  name: weapon.name,
+  icon: weapon.icon,
   watermark: weapon.iconWatermark,
 }))
 

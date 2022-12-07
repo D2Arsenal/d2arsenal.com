@@ -11,7 +11,7 @@ const emit = defineEmits<{
   (event: 'update:modelValue', mod: number | null): void
 }>()
 
-const isAdeptMod = (mod?: Mod) => mod?.mod.displayProperties.name.startsWith('Adept')
+const isAdeptMod = (mod?: Mod) => mod?.mod.name.startsWith('Adept')
 
 const modTabs = computed(() => [
   { mods: mods.filter(m => !isAdeptMod(m)), name: 'Normal' },

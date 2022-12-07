@@ -79,7 +79,7 @@ export function buildMasterwork(weapon: PrunedDestinyInventoryItemDefinition, st
   const socketEntries = weapon.sockets!.socketEntries
   const plugItems = plugSets[2326575037]?.reusablePlugItems
   const scaledStats = statGroups[weapon.stats!.statGroupHash!].scaledStats
-  const isSuperior = weapon.inventory!.tierType === TierType.Superior
+  const isSuperior = weapon.tierType === TierType.Superior
   const w = [4160547565, 4126105782, 3728733956, 2273483223]
   const masterwork = createDefaultMasterwork()
   Object.values(masterwork).forEach((mw) => {
@@ -102,7 +102,7 @@ export function buildMasterwork(weapon: PrunedDestinyInventoryItemDefinition, st
       return
     }
 
-    const n = masterworkItem.plug!.plugCategoryIdentifier.split('.')
+    const n = masterworkItem.plugCategoryIdentifier!.split('.')
     const r = n[n.length - 1]
     masterwork[r].benefits.push(masterworkItem)
   })

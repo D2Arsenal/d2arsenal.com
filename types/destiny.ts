@@ -32,18 +32,17 @@ export type PrunedDestinyInventoryItemDefinition = Omit<
   'plug' |
   'sockets' |
   'perks' |
+  'displayProperties' |
   // TODO: These are not needed right now but might be in the future
   'classType' |
   'defaultDamageType'
 > & {
-  inventory?: {
-    tierType: TierType
-  }
-  plug?: {
-    plugCategoryIdentifier: string
-  }
-  perks?: Omit<DestinyItemPerkEntryDefinition,
-    'requirementDisplayString' | 'perkVisibility'>[]
+  name: DestinyInventoryItemDefinition['displayProperties']['name']
+  description: DestinyInventoryItemDefinition['displayProperties']['description']
+  icon: DestinyInventoryItemDefinition['displayProperties']['icon']
+  tierType?: TierType
+  plugCategoryIdentifier?: string
+  perkHashes?: DestinyItemPerkEntryDefinition['perkHash'][]
   sockets?: {
     socketEntries: Omit<DestinyItemSocketEntryDefinition,
       'hidePerksInItemTooltip' |
@@ -72,7 +71,7 @@ export type PrunedPlugSetDefinition = Omit<
 }
 
 export interface PrunedDestinyStatDefinition {
-  displayProperties: DestinyStatDefinition['displayProperties']
+  name: DestinyInventoryItemDefinition['displayProperties']['name']
   hash: number
 }
 
@@ -80,4 +79,11 @@ export interface PrunedDestinyStatGroupDefinition {
   hash: DestinyStatGroupDefinition['hash']
   maximumValue: DestinyStatGroupDefinition['maximumValue']
   scaledStats: DestinyStatGroupDefinition['scaledStats']
+}
+
+export interface PrunedDestinySandboxPerkDefinition {
+  name: DestinyInventoryItemDefinition['displayProperties']['name']
+  description: DestinyInventoryItemDefinition['displayProperties']['description']
+  icon: DestinyInventoryItemDefinition['displayProperties']['icon']
+  hash: number
 }

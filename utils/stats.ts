@@ -164,7 +164,7 @@ function buildStat(
   return {
     investmentValue: itemStat.value || 0,
     hash,
-    name: statDef.displayProperties.name,
+    name: statDef.name,
     sort: STAT_ORDER.indexOf(hash),
     value,
     base: value,

@@ -1,15 +1,15 @@
-import type { DestinyInventoryItemDefinition, DestinyPlugSetDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2'
-import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition, PrunedDestinyStatGroupDefinition, PrunedPlugSetDefinition } from '~/types/destiny'
+import type { DestinyInventoryItemDefinition, DestinyPlugSetDefinition, DestinySandboxPerkDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2'
+import type { PrunedDestinyInventoryItemDefinition, PrunedDestinySandboxPerkDefinition, PrunedDestinyStatDefinition, PrunedDestinyStatGroupDefinition, PrunedPlugSetDefinition } from '~/types/destiny'
 
 export const toPrunedItemDef = (def: DestinyInventoryItemDefinition): PrunedDestinyInventoryItemDefinition => ({
-  displayProperties: def.displayProperties,
+  name: def.displayProperties.name,
+  description: def.displayProperties.description,
+  icon: def.displayProperties.icon,
   iconWatermark: def.iconWatermark,
   screenshot: def.screenshot,
   itemTypeDisplayName: def.itemTypeDisplayName,
   stats: def.stats,
-  plug: def.plug && {
-    plugCategoryIdentifier: def.plug.plugCategoryIdentifier,
-  },
+  plugCategoryIdentifier: def.plug?.plugCategoryIdentifier,
   sockets: def.sockets && {
     socketEntries: def.sockets.socketEntries.map(e => ({
       socketTypeHash: e.socketTypeHash,
@@ -22,18 +22,14 @@ export const toPrunedItemDef = (def: DestinyInventoryItemDefinition): PrunedDest
     socketCategories: def.sockets.socketCategories,
   },
   investmentStats: def.investmentStats,
-  perks: def.perks?.map(p => ({
-    perkHash: p.perkHash,
-  })),
+  perkHashes: def.perks?.map(p => p.perkHash),
   itemCategoryHashes: def.itemCategoryHashes,
   itemType: def.itemType,
   itemSubType: def.itemSubType,
   damageTypeHashes: def.damageTypeHashes,
   hash: def.hash,
   redacted: def.redacted,
-  inventory: def.inventory && {
-    tierType: def.inventory.tierType,
-  },
+  tierType: def.inventory?.tierType,
   // These are not needed yet but will likely in the future
   // classType: def.classType,
   // defaultDamageType: def.defaultDamageType
@@ -53,7 +49,7 @@ export const toPrunedPlugSetDef = (def: DestinyPlugSetDefinition): PrunedPlugSet
 }
 
 export const toPrunedStatDef = (def: DestinyStatDefinition): PrunedDestinyStatDefinition => ({
-  displayProperties: def.displayProperties,
+  name: def.displayProperties.name,
   hash: def.hash,
 })
 
@@ -61,4 +57,11 @@ export const toPrunedStatGroupDef = (def: DestinyStatGroupDefinition): PrunedDes
   hash: def.hash,
   maximumValue: def.maximumValue,
   scaledStats: def.scaledStats,
+})
+
+export const toPrunedSandboxPerkDef = (def: DestinySandboxPerkDefinition): PrunedDestinySandboxPerkDefinition => ({
+  name: def.displayProperties.name,
+  description: def.displayProperties.description,
+  icon: def.displayProperties.icon,
+  hash: def.hash,
 })

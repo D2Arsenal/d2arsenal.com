@@ -32,12 +32,12 @@ const isExoticWeapon = computed(() => isExotic(weapon))
         <div class="flex items-center">
           <div class="flex-shrink-0">
             <div class="inline-block relative border-2 border-white mr-4">
-              <WeaponIcon size="lg" :icon="weapon.displayProperties.icon" :watermark="weapon.iconWatermark" />
+              <WeaponIcon size="lg" :icon="weapon.icon" :watermark="weapon.iconWatermark" />
             </div>
           </div>
           <div class="uppercase -mt-2">
             <h1 class="text-lg sm:text-3xl font-bold">
-              {{ weapon.displayProperties.name }}
+              {{ weapon.name }}
             </h1>
             <h2 class="text-sm sm:text-base leading-tight">
               {{ weapon.itemTypeDisplayName }}

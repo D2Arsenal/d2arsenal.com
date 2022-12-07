@@ -193,8 +193,8 @@ function resolvePerks(weapon: PrunedDestinyInventoryItemDefinition, plugSets: De
       let possibleEnhancedTrait: PrunedDestinyInventoryItemDefinition | undefined
       for (const enhancedTraitEntry of enhancedTraitPlugEntries) {
         const _possibleEnhancedTrait = traits.find(t => t.hash === enhancedTraitEntry.plugItemHash)
-        const rName = normalTrait?.displayProperties.name
-        const oName = _possibleEnhancedTrait?.displayProperties.name
+        const rName = normalTrait?.name
+        const oName = _possibleEnhancedTrait?.name
         if (rName === oName?.replace(' Enhanced', '')) {
           possibleEnhancedTrait = _possibleEnhancedTrait
         }
@@ -213,8 +213,8 @@ function resolvePerks(weapon: PrunedDestinyInventoryItemDefinition, plugSets: De
         curatedOnly: false,
         isIntrinsic: false,
         currentlyCanRoll: nonEnhancedTraitEntry.currentlyCanRoll,
-        craftingLevel: nonEnhancedTraitEntry?.craftingRequirements?.requiredLevel,
-        enhancedCraftingLevel: possibleEnhancedPlugEntry?.craftingRequirements?.requiredLevel,
+        craftingLevel: nonEnhancedTraitEntry?.requiredLevel,
+        enhancedCraftingLevel: possibleEnhancedPlugEntry?.requiredLevel,
         enhancedTrait: possibleEnhancedTrait,
         ...traitInfo,
         enhancedStats,
