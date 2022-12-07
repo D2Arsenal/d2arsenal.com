@@ -16,6 +16,7 @@ export interface Perk {
   isIntrinsic: boolean
   currentlyCanRoll: boolean
   craftingLevel?: number
+  enhancedCraftingLevel?: number
   trait?: PrunedDestinyInventoryItemDefinition
   enhancedTrait?: PrunedDestinyInventoryItemDefinition
   subDescription?: string
@@ -205,6 +206,8 @@ function resolvePerks(weapon: PrunedDestinyInventoryItemDefinition, plugSets: De
       const traitInfo = normalTrait ? enrichPerkWithGivenTrait(hash, normalTrait) : lookupTraitForPerk(hash)
       const { stats: enhancedStats, subDescription: enhancedSubDescription } = (possibleEnhancedTrait && enrichPerkWithGivenTrait(hash, possibleEnhancedTrait)) || {}
 
+      const possibleEnhancedPlugEntry = enhancedTraitPlugEntries.find(e => e.plugItemHash === possibleEnhancedTrait?.hash)
+
       return {
         hash,
         isCurated: false,
@@ -212,6 +215,7 @@ function resolvePerks(weapon: PrunedDestinyInventoryItemDefinition, plugSets: De
         isIntrinsic: false,
         currentlyCanRoll: nonEnhancedTraitEntry.currentlyCanRoll,
         craftingLevel: nonEnhancedTraitEntry?.craftingRequirements?.requiredLevel,
+        enhancedCraftingLevel: possibleEnhancedPlugEntry?.craftingRequirements?.requiredLevel,
         enhancedTrait: possibleEnhancedTrait,
         ...traitInfo,
         enhancedStats,

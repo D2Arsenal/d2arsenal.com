@@ -54,9 +54,14 @@ onMounted(() => {
         </section>
         <template v-if="enhancedDescription">
           <header
-            class="mt-2 text-sm text-yellow-500 uppercase bg-gradient-to-b from-yellow-500/25 to-transparent px-4 py-1 border-t-yellow-500 border-t"
+            class="mt-2 text-yellow-500 bg-gradient-to-b from-yellow-500/25 to-transparent px-4 py-1 border-t-yellow-500 border-t"
           >
-            Enhanced Benefits
+            <p class="text-sm uppercase">
+              Enhanced Benefits
+            </p>
+            <p v-if="enhancedCraftingLevel" class="text-xs text-right -mt-2 p-0">
+              Lv. {{ enhancedCraftingLevel }}
+            </p>
           </header>
           <section class="mt-2 text-sm whitespace-pre-wrap px-4">
             <p>{{ enhancedDescription }}</p>
