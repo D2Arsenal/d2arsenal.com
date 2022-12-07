@@ -160,7 +160,7 @@ useHead({
     {
       hid: 'og:image',
       property: 'og:image',
-      content: ogImage,
+      content: favicon,
     },
     {
       hid: 'og:image:width',
@@ -170,11 +170,6 @@ useHead({
     {
       hid: 'og:image:height',
       property: 'og:image:height',
-      content: undefined,
-    },
-    {
-      hid: 'og:image:type',
-      property: 'og:image:type',
       content: undefined,
     },
   ],

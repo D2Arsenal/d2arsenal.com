@@ -69,7 +69,7 @@ export default defineNuxtConfig({
       ogHost: SITE_URL,
       ogSiteName: SITE_NAME,
       twitterCreator: '@D2Arsenal',
-      twitterCard: 'summary_large_image',
+      twitterCard: 'summary',
     },
   },
   routeRules: {
