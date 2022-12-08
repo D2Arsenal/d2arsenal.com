@@ -17,7 +17,7 @@ export const toPrunedItemDef = (def: DestinyInventoryItemDefinition): PrunedDest
     screenshot: def.screenshot,
     itemTypeDisplayName: def.itemTypeDisplayName,
     stats: def.stats,
-    traitIds: traitIds.length ? traitIds : undefined,
+    traitIds: traitIds?.length ? traitIds : undefined,
     plugCategoryIdentifier: def.plug?.plugCategoryIdentifier,
     sockets: def.sockets && {
       socketEntries: def.sockets.socketEntries.map(e => ({
