@@ -25,7 +25,6 @@ export type PrunedDestinyInventoryItemDefinition = Omit<
   'equippable' |
   'damageTypes' |
   'isWrapper' |
-  'traitIds' |
   'traitHashes' |
   'index' |
   'inventory' |

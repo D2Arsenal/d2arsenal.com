@@ -1,6 +1,12 @@
 import type { DestinyInventoryItemDefinition, DestinyPlugSetDefinition, DestinySandboxPerkDefinition, DestinyStatDefinition, DestinyStatGroupDefinition } from 'bungie-api-ts/destiny2'
 import type { PrunedDestinyInventoryItemDefinition, PrunedDestinySandboxPerkDefinition, PrunedDestinyStatDefinition, PrunedDestinyStatGroupDefinition, PrunedPlugSetDefinition } from '~/types/destiny'
 
+// Needed for range calc
+const ALLOWED_TRAIT_IDS = [
+  'foundry.field_forged',
+  'foundry.veist',
+  'foundry.suros',
+]
 export const toPrunedItemDef = (def: DestinyInventoryItemDefinition): PrunedDestinyInventoryItemDefinition => ({
   name: def.displayProperties.name,
   description: def.displayProperties.description,
@@ -9,6 +15,7 @@ export const toPrunedItemDef = (def: DestinyInventoryItemDefinition): PrunedDest
   screenshot: def.screenshot,
   itemTypeDisplayName: def.itemTypeDisplayName,
   stats: def.stats,
+  traitIds: def.traitIds.filter(t => ALLOWED_TRAIT_IDS.includes(t)),
   plugCategoryIdentifier: def.plug?.plugCategoryIdentifier,
   sockets: def.sockets && {
     socketEntries: def.sockets.socketEntries.map(e => ({

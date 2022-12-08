@@ -4,7 +4,7 @@ import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition,
 
 type StatDisplayType = 'bar' | 'none' | 'ms'
 
-const STAT_MAPPING = {
+export const STAT_MAPPING = {
   STABILITY: 155624089,
   GUARD_RESISTANCE: 209426660,
   DRAW_TIME: 447667954,
@@ -83,6 +83,17 @@ export interface Stat {
   displayType: StatDisplayType
   isSmallerBetter: boolean
   isConditionallyActive: boolean
+}
+
+export type FormattedStat = Omit<Stat,
+  'maximumValue' |
+  'investmentValue' |
+  'sort' |
+  'base' |
+  'hash'
+> & {
+  augmentedValue: number
+  showAs?: string
 }
 
 const isDefinition = (x: PrunedDestinyStatGroupDefinition | DefinitionRecord<PrunedDestinyStatGroupDefinition>): x is PrunedDestinyStatGroupDefinition => {

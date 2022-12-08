@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import { DestinyItemSubType } from 'bungie-api-ts/destiny2'
 import type { DefinitionRecord } from '~/types'
 import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition, PrunedDestinyStatGroupDefinition } from '~/types/destiny.js'
 import type { Mod } from '~/utils/mods'
 
-import type { Stat } from '~/utils/stats'
+import type { FormattedStat, Stat } from '~/utils/stats'
 import { STAT_ORDER, getStatGroupEntryForItem, getStatsForItem } from '~/utils/stats'
-import type { Perk } from '~/utils/perks'
+import type { Perk, TransformedPerk } from '~/utils/perks'
 import { toTransformedPerks } from '~/utils/perks'
+import type { RawRange } from '~/utils/range'
+import { calculateRange } from '~/utils/range'
 
 const props = defineProps<{
   weapon: PrunedDestinyInventoryItemDefinition
@@ -16,10 +19,6 @@ const props = defineProps<{
   statGroups?: DefinitionRecord<PrunedDestinyStatGroupDefinition>
   stats?: DefinitionRecord<PrunedDestinyStatDefinition>
 }>()
-
-type FormattedStat = Stat & {
-  augmentedValue: number
-}
 
 const statsArrayToObject = (statsArray: Stat[]) => statsArray.reduce((obj, s) => {
   if (!obj[s.hash]) {
@@ -41,7 +40,6 @@ const modStats = computed(() => {
   return statsArrayToObject(props.mod.stats)
 })
 
-// TODO: set up enhanced perk stats
 const transformedPerks = $computed(() => toTransformedPerks(props.perks))
 
 const perkStats = computed(() => {
@@ -72,7 +70,7 @@ const weaponStats = computed(() => {
   return getStatsForItem(props.stats, props.weapon, statGroupEntry.value)
 })
 
-const allStats = computed(() => weaponStats.value.slice()
+const allWeaponStats = $computed(() => weaponStats.value.slice()
   .sort((a, b) => STAT_ORDER.indexOf(a.hash) - STAT_ORDER.indexOf(b.hash))
   .map((stat) => {
     const perkStatValue = perkStats.value[stat.hash]?.value ?? 0
@@ -88,11 +86,45 @@ const allStats = computed(() => weaponStats.value.slice()
     return res
   }),
 )
+
+const formateRange = (rawRange: RawRange) => {
+  if (!rawRange) {
+    return ''
+  }
+
+  const isShotgun = props.weapon.itemSubType === DestinyItemSubType.Shotgun
+
+  if (isShotgun || typeof rawRange === 'number') {
+    return `${rawRange}m`
+  }
+  const hip = rawRange.hasSeraph ? rawRange.hipSR : rawRange.hip
+  const scope = rawRange.hasSeraph || rawRange.hasRangefinder ? rawRange.adsRF : rawRange.ads
+  return `${hip}m / ${scope}m`
+}
+
+const rawRange = $computed(() => {
+  const value = calculateRange(transformedPerks.filter((a): a is TransformedPerk => a !== null), allWeaponStats, props.weapon, true)
+  const augmentedValue = calculateRange(transformedPerks.filter((a): a is TransformedPerk => a !== null), allWeaponStats, props.weapon)
+  if (!value || !augmentedValue) {
+    return
+  }
+
+  return {
+    name: 'Damage Falloff',
+    value: typeof value === 'number' ? value : value.hip,
+    augmentedValue: typeof augmentedValue === 'number' ? augmentedValue : augmentedValue.hip,
+    displayType: 'none',
+    isSmallerBetter: false,
+    showAs: augmentedValue && formateRange(augmentedValue),
+  } as FormattedStat
+})
+
+const statsWithRange = computed(() => [...allWeaponStats, ...(rawRange?.value ? [rawRange] : [])])
 </script>
 
 <template>
   <ul class="grid grid-cols-2 md:grid-cols-1 gap-2 text-xs sm:text-base">
-    <li v-for="stat in allStats" :key="stat.hash" class="grid grid-cols-6 break-inside-avoid">
+    <li v-for="stat in statsWithRange" :key="stat.name" class="grid grid-cols-6 break-inside-avoid">
       <div class="col-span-3 sm:col-span-2 md:col-span-3 xl:col-span-2 overflow-hidden pr-8 sm:pr-4">
         <span :title="stat.name" class="text-right whitespace-nowrap">{{ stat.name }}</span>
       </div>
@@ -100,11 +132,10 @@ const allStats = computed(() => weaponStats.value.slice()
         v-if="stat.displayType === 'bar'" class="col-span-3 sm:col-span-4 md:col-span-3 xl:col-span-4"
         :base-value="stat.value" :new-value="stat.augmentedValue" :is-smaller-better="stat.isSmallerBetter"
       />
-      <span v-else class="flex items-center">
+      <span v-else class="flex items-center col-span-3 sm:col-span-4 md:col-span-3 xl:col-span-4">
         <WeaponStatsPlain
-          class="mr-4"
-          :base-value="stat.value"
-          :new-value="stat.augmentedValue" :display-type="stat.displayType" :is-smaller-better="stat.isSmallerBetter"
+          class="mr-4" :base-value="stat.value" :new-value="stat.augmentedValue"
+          :display-type="stat.displayType" :is-smaller-better="stat.isSmallerBetter" :show-as="stat.showAs"
         />
         <WeaponRecoilDirection v-if="stat.name === 'Recoil Direction'" :value="stat.augmentedValue" />
       </span>

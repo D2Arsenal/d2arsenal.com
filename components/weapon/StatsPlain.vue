@@ -1,9 +1,11 @@
 <script setup lang="ts">
-const { baseValue, newValue, isSmallerBetter } = defineProps<{
+const { baseValue, newValue, isSmallerBetter, showAs, displayType } = defineProps<{
   baseValue: number
   newValue: number
   isSmallerBetter?: boolean
   displayType?: string
+  hideIcon?: boolean
+  showAs?: string
 }>()
 
 const difference = $computed(() => newValue - baseValue)
@@ -19,13 +21,21 @@ const iconClasses = computed(() => didChange
       'text-red-600': !didImprove,
     }
   : 'invisible')
+
+const formattedValue = computed(() => {
+  if (showAs) {
+    return showAs
+  }
+
+  return newValue + (displayType === 'ms' ? ' ms' : '')
+})
 </script>
 
 <template>
   <span class="flex items-center">
     <span class="text-light-50 text-shadow-md">
-      {{ newValue }}{{ displayType === 'ms' ? 'ms' : '' }}
+      {{ formattedValue }}
     </span>
-    <Icon class="text-shadow-md h-5 w-5" :class="iconClasses" :name="iconName" />
+    <Icon v-if="!hideIcon" class="text-shadow-md h-5 w-5" :class="iconClasses" :name="iconName" />
   </span>
 </template>
