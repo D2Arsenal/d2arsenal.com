@@ -7,40 +7,43 @@ const ALLOWED_TRAIT_IDS = [
   'foundry.veist',
   'foundry.suros',
 ]
-export const toPrunedItemDef = (def: DestinyInventoryItemDefinition): PrunedDestinyInventoryItemDefinition => ({
-  name: def.displayProperties.name,
-  description: def.displayProperties.description,
-  icon: def.displayProperties.icon,
-  iconWatermark: def.iconWatermark,
-  screenshot: def.screenshot,
-  itemTypeDisplayName: def.itemTypeDisplayName,
-  stats: def.stats,
-  traitIds: def.traitIds.filter(t => ALLOWED_TRAIT_IDS.includes(t)),
-  plugCategoryIdentifier: def.plug?.plugCategoryIdentifier,
-  sockets: def.sockets && {
-    socketEntries: def.sockets.socketEntries.map(e => ({
-      socketTypeHash: e.socketTypeHash,
-      singleInitialItemHash: e.singleInitialItemHash,
-      reusablePlugItems: e.reusablePlugItems,
-      reusablePlugSetHash: e.reusablePlugSetHash,
-      randomizedPlugSetHash: e.randomizedPlugSetHash,
-      preventInitializationOnVendorPurchase: e.preventInitializationOnVendorPurchase,
-    })),
-    socketCategories: def.sockets.socketCategories,
-  },
-  investmentStats: def.investmentStats,
-  perkHashes: def.perks?.map(p => p.perkHash),
-  itemCategoryHashes: def.itemCategoryHashes,
-  itemType: def.itemType,
-  itemSubType: def.itemSubType,
-  damageTypeHashes: def.damageTypeHashes,
-  hash: def.hash,
-  redacted: def.redacted,
-  tierType: def.inventory?.tierType,
-  // These are not needed yet but will likely in the future
-  // classType: def.classType,
-  // defaultDamageType: def.defaultDamageType
-})
+export const toPrunedItemDef = (def: DestinyInventoryItemDefinition): PrunedDestinyInventoryItemDefinition => {
+  const traitIds = def.traitIds?.filter(t => ALLOWED_TRAIT_IDS.includes(t))
+  return {
+    name: def.displayProperties.name,
+    description: def.displayProperties.description,
+    icon: def.displayProperties.icon,
+    iconWatermark: def.iconWatermark,
+    screenshot: def.screenshot,
+    itemTypeDisplayName: def.itemTypeDisplayName,
+    stats: def.stats,
+    traitIds: traitIds.length ? traitIds : undefined,
+    plugCategoryIdentifier: def.plug?.plugCategoryIdentifier,
+    sockets: def.sockets && {
+      socketEntries: def.sockets.socketEntries.map(e => ({
+        socketTypeHash: e.socketTypeHash,
+        singleInitialItemHash: e.singleInitialItemHash,
+        reusablePlugItems: e.reusablePlugItems,
+        reusablePlugSetHash: e.reusablePlugSetHash,
+        randomizedPlugSetHash: e.randomizedPlugSetHash,
+        preventInitializationOnVendorPurchase: e.preventInitializationOnVendorPurchase,
+      })),
+      socketCategories: def.sockets.socketCategories,
+    },
+    investmentStats: def.investmentStats,
+    perkHashes: def.perks?.map(p => p.perkHash),
+    itemCategoryHashes: def.itemCategoryHashes,
+    itemType: def.itemType,
+    itemSubType: def.itemSubType,
+    damageTypeHashes: def.damageTypeHashes,
+    hash: def.hash,
+    redacted: def.redacted,
+    tierType: def.inventory?.tierType,
+    // These are not needed yet but will likely in the future
+    // classType: def.classType,
+    // defaultDamageType: def.defaultDamageType
+  }
+}
 
 export const toPrunedPlugSetDef = (def: DestinyPlugSetDefinition): PrunedPlugSetDefinition => {
   return {

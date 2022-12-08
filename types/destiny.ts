@@ -31,6 +31,7 @@ export type PrunedDestinyInventoryItemDefinition = Omit<
   'plug' |
   'sockets' |
   'perks' |
+  'traitIds' |
   'displayProperties' |
   // TODO: These are not needed right now but might be in the future
   'classType' |
@@ -41,6 +42,7 @@ export type PrunedDestinyInventoryItemDefinition = Omit<
   icon: DestinyInventoryItemDefinition['displayProperties']['icon']
   tierType?: TierType
   plugCategoryIdentifier?: string
+  traitIds?: DestinyInventoryItemDefinition['traitIds']
   perkHashes?: DestinyItemPerkEntryDefinition['perkHash'][]
   sockets?: {
     socketEntries: Omit<DestinyItemSocketEntryDefinition,
