@@ -1,36 +1,14 @@
-# TODO
+# D2 Arsenal
 
-## Pre-launch
+> Thought as a spiritual successor of D2Gunsmith, now one of the few open-source Destiny2 companion tools
 
-* Perks
-  * Show & selectable Enhanced Perks
-* WeaponSummary
-  * Stat Calculation
-    * Modules
-    * Masterwork?
-## Post-launch
+## Features
 
-* Perks
-  * Keep "dummy" rows of curated perks if some are empty
-* WeaponSummary
-  * Perks stats in summary
-  * Recoil SVG
-  * Up/Down arrows for non-bar stats
-* Mods
-  * Mod stats
-* Masterworks
-  * Exotic Catalyst on/off
-* Search
-  * Filters
-  * Shortcut (CMD/CTR + K)
-  * Pressing ENTER navigates to first search result
-* Extras
-  * DIM Wishlist
-  * Hide retired perks
-  * Damage Falloff
-  * TTK
-  * Reload
+* Search for weapons by name
+* Create and share own roll combinations (with image preview + adapted title)
+* Adapted stats depending on perks, mods, masterwork and more
+* Calculations for Damage Falloff for some weapon categories
 
+## Contributing
 
-* Incorporate https://github.com/DestinyItemManager/d2-additional-info
-* i18n with the API
+Please feel free to fork the repository and contribute through a Pull Request. Ideally, you write an issue about a bug or feature request before to ensure that your PR will be accepted 😊
