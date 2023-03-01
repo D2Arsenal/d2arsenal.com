@@ -12,3 +12,5 @@
 ## Contributing
 
 Please feel free to fork the repository and contribute through a Pull Request. Ideally, you write an issue about a bug or feature request before to ensure that your PR will be accepted 😊
+
+Feel free to join our Discord at https://www.d2arsenal.com/discord and ask any questions!
