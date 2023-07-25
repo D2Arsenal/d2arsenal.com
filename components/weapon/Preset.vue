@@ -55,7 +55,7 @@ const resetMod = () => {
     />
     <Plug
       can-shrink :item="mod?.mod" :stats="mod?.stats"
-      placeholder="/common/destiny2_content/icons/54fa140e3e70ea7e5bd29b623ef75518.png" :is-disabled="!mod"
+      placeholder="/common/destiny2_content/icons/b4d05ef69d0c3227a7d4f7f35bbc2848.png" :is-disabled="!mod"
       :sub-description="mod?.subDescription" is-squared @click="resetMod"
     />
     <Plug
