@@ -1,7 +1,6 @@
 import { getDestinyManifest, getDestinyManifestSlice } from 'bungie-api-ts/destiny2'
 import { createStorage } from 'unstorage'
-import { $fetch } from 'ohmyfetch'
-// @ts-expect-error can't import correctly, maybe in new TS version?
+import { $fetch } from 'ofetch'
 import fsDriver from 'unstorage/drivers/fs'
 
 import type { HttpClientConfig } from 'bungie-api-ts/destiny2'

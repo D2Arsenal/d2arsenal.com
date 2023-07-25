@@ -1,8 +1,8 @@
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
-  const id = config.gtagId
+  const id = config.public.gtagId
 
-  nuxtApp._useHead({
+  useHead({
     link: [
       {
         rel: 'preload',

@@ -44,12 +44,12 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [svgLoader()],
+    optimizeDeps: { exclude: ['fsevents'] },
     vue: {
       reactivityTransform: true,
     },
   },
   tailwindcss: {
-    // @ts-expect-error no content necessary I think
     config: {
       plugins: [tailwindTypography],
       theme: {

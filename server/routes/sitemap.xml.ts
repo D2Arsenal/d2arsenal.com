@@ -1,5 +1,5 @@
 import { joinURL } from 'ufo'
-import { $fetch } from 'ohmyfetch'
+import { $fetch } from 'ofetch'
 import { SitemapStream, streamToPromise } from 'sitemap'
 import type { MinimalWeapon } from '~/utils/weapon'
 
