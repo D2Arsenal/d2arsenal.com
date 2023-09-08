@@ -5,9 +5,9 @@ import type { Masterwork } from '~/utils/masterwork'
 import pkg from '~/package.json'
 
 export default defineCachedEventHandler(async (event) => {
-  const id = Number(event.context.params.id)
+  const id = event.context.params?.id ? Number(event.context.params.id) : null
   if (!id) {
-    return createError({
+    throw createError({
       statusCode: 404,
       message: 'Please provide a weapon hash',
     })
@@ -20,7 +20,7 @@ export default defineCachedEventHandler(async (event) => {
 
   const weapon = weapons.find(i => i.hash === id)
   if (!weapon) {
-    return createError({
+    throw createError({
       statusCode: 404,
       message: 'Sorry, the provided weapon hash is invalid and could not be found',
     })

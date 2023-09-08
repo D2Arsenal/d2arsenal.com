@@ -26,7 +26,7 @@ if (error.value) {
   })
 }
 
-const decodeHashes = (str?: string) => {
+function decodeHashes(str?: string) {
   const [rawPerks, rawMasterwork, rawMod] = str?.split('-') ?? []
   const transformedPerks = rawPerks?.split(',').map(Number) ?? []
   const perks = transformedPerks.concat(Array.from({ length: PERK_LENGTH - 1 - transformedPerks.length }, () => PERK_NONE))
@@ -51,7 +51,7 @@ const mods = $computed(() => manifestStore.data ? buildMods(manifestStore.mods, 
 const canApplyAdeptMods = computed(() => weaponName.includes('(Adept)'))
 let selectedModHash = $ref(decodedHashes.mod)
 const selectedMod = $computed(() => mods.find(m => m.mod?.hash === selectedModHash))
-const resetMod = () => {
+function resetMod() {
   selectedModHash = null
 }
 
@@ -85,7 +85,7 @@ const selectedPerks = $computed(() => {
 })
 
 // TODO: Rename, no actual reset but "cycle"
-const resetPerk = (colIndex: number) => {
+function resetPerk(colIndex: number) {
   const indexWithIntrinsics = colIndex + 1
   selectedPerkHashes[colIndex] = changePerkStatus(selectedPerks[indexWithIntrinsics]!.perk, selectedPerkHashes[colIndex])
 }
@@ -95,12 +95,12 @@ const masterwork = $computed(() => data.value?.masterwork)
 let selectedMasterworkHash = $ref(decodedHashes.masterwork)
 const selectedMasterworkArrayEntry = $computed(() => masterwork?.find(mw => mw.data.benefits.find(i => i.hash === selectedMasterworkHash)))
 const selectedMasterworkItem = computed(() => selectedMasterworkArrayEntry?.data.benefits.find(i => i.hash === selectedMasterworkHash))
-const resetMasterwork = () => {
+function resetMasterwork() {
   selectedMasterworkHash = null
 }
 
 const router = useRouter()
-const updateRouteOnChange = () => {
+function updateRouteOnChange() {
   const newRoutePrefix = `/en/weapons/${weaponHash}/`
   const slugValues = [
     selectedPerkHashes.join(','),

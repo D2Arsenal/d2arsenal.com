@@ -20,15 +20,17 @@ const props = defineProps<{
   stats?: DefinitionRecord<PrunedDestinyStatDefinition>
 }>()
 
-const statsArrayToObject = (statsArray: Stat[]) => statsArray.reduce((obj, s) => {
-  if (!obj[s.hash]) {
-    obj[s.hash] = s
-    return obj
-  }
+function statsArrayToObject(statsArray: Stat[]) {
+  return statsArray.reduce((obj, s) => {
+    if (!obj[s.hash]) {
+      obj[s.hash] = s
+      return obj
+    }
 
-  obj[s.hash].value += s.value
-  return obj
-}, {} as Record<string, Stat>)
+    obj[s.hash].value += s.value
+    return obj
+  }, {} as Record<string, Stat>)
+}
 
 const statGroupEntry = computed(() => props.statGroups && getStatGroupEntryForItem(props.weapon, props.statGroups))
 
@@ -87,7 +89,7 @@ const allWeaponStats = $computed(() => weaponStats.value.slice()
   }),
 )
 
-const formateRange = (rawRange: RawRange) => {
+function formateRange(rawRange: RawRange) {
   if (!rawRange) {
     return ''
   }

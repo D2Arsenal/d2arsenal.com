@@ -92,14 +92,15 @@ export type FormattedStat = Omit<Stat,
   'base' |
   'hash'
 > & {
+  hash?: number
   augmentedValue: number
   showAs?: string
 }
 
-const isDefinition = (x: PrunedDestinyStatGroupDefinition | DefinitionRecord<PrunedDestinyStatGroupDefinition>): x is PrunedDestinyStatGroupDefinition => {
+function isDefinition(x: PrunedDestinyStatGroupDefinition | DefinitionRecord<PrunedDestinyStatGroupDefinition>): x is PrunedDestinyStatGroupDefinition {
   return 'scaledStats' in x
 }
-export const getStatsForItem = (allStats: DefinitionRecord<PrunedDestinyStatDefinition>, item: PrunedDestinyInventoryItemDefinition, statGroupEntryOrRecord: PrunedDestinyStatGroupDefinition | DefinitionRecord<PrunedDestinyStatGroupDefinition>) => {
+export function getStatsForItem(allStats: DefinitionRecord<PrunedDestinyStatDefinition>, item: PrunedDestinyInventoryItemDefinition, statGroupEntryOrRecord: PrunedDestinyStatGroupDefinition | DefinitionRecord<PrunedDestinyStatGroupDefinition>) {
   const statGroupEntry = isDefinition(statGroupEntryOrRecord)
     ? statGroupEntryOrRecord
     : getStatGroupEntryForItem(item, statGroupEntryOrRecord)
@@ -150,7 +151,7 @@ function buildStat(
 ): Stat {
   const hash = itemStat.statTypeHash
   let value = itemStat.value ?? 0
-  let maximumValue = statGroup?.maximumValue ?? -Infinity
+  let maximumValue = statGroup?.maximumValue ?? Number.NEGATIVE_INFINITY
   let bar = !DISALLOWED_FOR_STAT_BAR.includes(hash)
   let isSmallerBetter = false
   const isMs = STATS_IN_MS.includes(hash)
