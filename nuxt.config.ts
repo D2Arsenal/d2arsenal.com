@@ -28,6 +28,7 @@ export default defineNuxtConfig({
   },
   hooks: {
     'nitro:build:before': async () => {
+      // eslint-disable-next-line n/prefer-global/process
       await copyManifestFromNodeModulesCacheIfAvailable(Boolean(process.env.INCOMING_HOOK_BODY))
       // eslint-disable-next-line no-console
       console.log('preloading manifest')
@@ -44,7 +45,6 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [svgLoader()],
-    optimizeDeps: { exclude: ['fsevents'] },
     vue: {
       reactivityTransform: true,
     },
