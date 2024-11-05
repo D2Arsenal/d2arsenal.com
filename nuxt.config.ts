@@ -8,24 +8,29 @@ const GTAG_ID = 'G-SF9MC2HVRE'
 
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', '@kevinmarrec/nuxt-pwa', '@vueuse/nuxt', 'nuxt-icon'],
+
   runtimeConfig: {
     public: {
       siteUrl: SITE_URL,
       gtagId: GTAG_ID,
     },
   },
+
   app: {
     pageTransition: false,
     layoutTransition: false,
   },
+
   nitro: {
     prerender: {
       routes: ['/', '/donate/', '/sitemap.xml'],
     },
   },
+
   experimental: {
     payloadExtraction: true,
   },
+
   hooks: {
     'nitro:build:before': async () => {
       // eslint-disable-next-line n/prefer-global/process
@@ -37,18 +42,19 @@ export default defineNuxtConfig({
       console.log('Successfully preloaded manifest')
     },
   },
+
   typescript: {
     strict: true,
   },
+
   build: {
     transpile: ['@headlessui/vue'],
   },
+
   vite: {
-    plugins: [svgLoader()],
-    vue: {
-      reactivityTransform: true,
-    },
+    plugins: [svgLoader()]
   },
+
   tailwindcss: {
     config: {
       plugins: [tailwindTypography],
@@ -61,6 +67,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   pwa: {
     meta: {
       name: `${SITE_NAME} - Craft your favorite weapon`,
@@ -72,9 +79,12 @@ export default defineNuxtConfig({
       twitterCard: 'summary',
     },
   },
+
   routeRules: {
     '/en/weapons/**': { static: true },
     '/discord/': { redirect: { to: 'https://discord.gg/vagYTbGHud', statusCode: 301 } },
     '/twitter/': { redirect: { to: 'https://twitter.com/D2Arsenal', statusCode: 301 } },
   },
+
+  compatibilityDate: '2024-11-05',
 })

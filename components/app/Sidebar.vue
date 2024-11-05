@@ -7,39 +7,39 @@ const manifestStore = useManifestStore()
 
 const query = ref('')
 
-const fuse = $computed(() => new Fuse(manifestStore.weapons, {
+const fuse = computed(() => new Fuse(manifestStore.weapons, {
   keys: ['name'],
   threshold: 0.2,
 }))
 
 // TODO: Debounce?
-const filteredWeaponsWithoutSlice = $computed(() => {
+const filteredWeaponsWithoutSlice = computed(() => {
   if (query.value.length < 2) {
     return manifestStore.suggestedWeapons
   }
 
-  return fuse.search(query.value, { limit: 26 }).map(({ item }) => item)
+  return fuse.value.search(query.value, { limit: 26 }).map(({ item }) => item)
 })
 
 const filteredWeapons = computed(() => {
-  const weapons = filteredWeaponsWithoutSlice.slice(0, 25)
-  const hasMore = filteredWeaponsWithoutSlice.length > 25
+  const weapons = filteredWeaponsWithoutSlice.value.slice(0, 25)
+  const hasMore = filteredWeaponsWithoutSlice.value.length > 25
   return { weapons, hasMore }
 })
 
 const route = useRoute()
-let isMobileSearchOpen = $ref(false)
+let isMobileSearchOpen = ref(false)
 watch(() => route.path, () => {
-  isMobileSearchOpen = false
+  isMobileSearchOpen.value = false
 })
 
 const handleMobileSearchInput = (e: Event) => {
   const target = e.target as HTMLInputElement
   if (!target.value) {
-    isMobileSearchOpen = false
+    isMobileSearchOpen.value = false
     return
   }
-  isMobileSearchOpen = true
+  isMobileSearchOpen.value = true
 }
 </script>
 

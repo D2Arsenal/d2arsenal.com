@@ -18,9 +18,9 @@ const emit = defineEmits<{
   (e: 'resetPerk', colIndex: number): void
 }>()
 
-const transformedPerks = $computed(() => toTransformedPerks(perks))
+const transformedPerks = computed(() => toTransformedPerks(perks))
 
-const perkColumns = computed(() => Array.from({ length: COMMON_PERK_LENGTH }, (_, i) => transformedPerks?.[i + 1] ?? undefined))
+const perkColumns = computed(() => Array.from({ length: COMMON_PERK_LENGTH }, (_, i) => transformedPerks.value?.[i + 1] ?? undefined))
 
 const resetPerk = (colIndex: number) => {
   emit('resetPerk', colIndex)

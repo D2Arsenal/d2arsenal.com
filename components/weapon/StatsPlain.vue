@@ -8,17 +8,17 @@ const { baseValue, newValue, isSmallerBetter, showAs, displayType } = defineProp
   showAs?: string
 }>()
 
-const difference = $computed(() => newValue - baseValue)
-const didChange = $computed(() => difference !== 0)
-const isPositive = $computed(() => difference > 0)
+const difference = computed(() => newValue - baseValue)
+const didChange = computed(() => difference.value !== 0)
+const isPositive = computed(() => difference.value > 0)
 
-const didImprove = $computed(() => isSmallerBetter ? !isPositive : isPositive)
+const didImprove = computed(() => isSmallerBetter ? !isPositive.value : isPositive.value)
 
-const iconName = computed(() => didImprove ? 'heroicons:chevron-double-up-20-solid' : 'heroicons:chevron-double-down-20-solid')
-const iconClasses = computed(() => didChange
+const iconName = computed(() => didImprove.value ? 'heroicons:chevron-double-up-20-solid' : 'heroicons:chevron-double-down-20-solid')
+const iconClasses = computed(() => didChange.value
   ? {
-      'text-green-500': didImprove,
-      'text-red-600': !didImprove,
+      'text-green-500': didImprove.value,
+      'text-red-600': !didImprove.value,
     }
   : 'invisible')
 

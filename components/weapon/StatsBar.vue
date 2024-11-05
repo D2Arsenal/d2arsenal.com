@@ -5,27 +5,27 @@ const { baseValue, newValue, isSmallerBetter } = defineProps<{
   isSmallerBetter?: boolean
 }>()
 
-const difference = $computed(() => newValue - baseValue)
-const didChange = $computed(() => difference !== 0)
-const isPositive = $computed(() => difference > 0)
+const difference = computed(() => newValue - baseValue)
+const didChange = computed(() => difference.value !== 0)
+const isPositive = computed(() => difference.value > 0)
 
-const whiteBarWidth = computed(() => isPositive
+const whiteBarWidth = computed(() => isPositive.value
   ? baseValue
-  : baseValue + difference,
+  : baseValue + difference.value,
 )
 
-const extraBarWidth = computed(() => Math.abs(difference))
+const extraBarWidth = computed(() => Math.abs(difference.value))
 
-const textClasses = computed(() => didChange
+const textClasses = computed(() => didChange.value
   ? {
-      'text-green-900': isSmallerBetter ? !isPositive : isPositive,
-      'text-red-900': isSmallerBetter ? isPositive : !isPositive,
+      'text-green-900': isSmallerBetter ? !isPositive.value : isPositive.value,
+      'text-red-900': isSmallerBetter ? isPositive.value : !isPositive.value,
     }
   : 'text-gray-900')
 
 const extraBarClass = computed(() => ({
-  'bg-green-500': isSmallerBetter ? !isPositive : isPositive,
-  'bg-red-600': isSmallerBetter ? isPositive : !isPositive,
+  'bg-green-500': isSmallerBetter ? !isPositive.value : isPositive.value,
+  'bg-red-600': isSmallerBetter ? isPositive.value : !isPositive.value,
 }))
 </script>
 

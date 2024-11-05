@@ -20,18 +20,18 @@ const emit = defineEmits<{
   (event: 'update:modelValue', masterwork: number | null): void
 }>()
 
-const statisticsIndex = $computed(() => {
+const statisticsIndex = computed(() => {
   const index = options.findIndex(({ data }) => data.benefits.some(b => b.hash === modelValue))
   return index === -1 ? null : index
 })
 
 const activeTabIndex = computed(() => statisticsIndex ?? -1)
 
-const currentIndex = $computed(() => statisticsIndex !== null
-  ? options[statisticsIndex].data.benefits.findIndex(b => b.hash === modelValue)
+const currentIndex = computed(() => statisticsIndex.value !== null
+  ? options[statisticsIndex.value].data.benefits.findIndex(b => b.hash === modelValue)
   : null)
-const currentLevel = computed(() => currentIndex !== null
-  ? currentIndex + 1
+const currentLevel = computed(() => currentIndex.value !== null
+  ? currentIndex.value + 1
   : 1)
 
 const updateMasterwork = (hash: number | null) => {
@@ -41,7 +41,7 @@ const updateMasterwork = (hash: number | null) => {
 // TODO: Exotic Catalyst!
 
 const updateMasterworkForLevel = (level: number) => {
-  if (statisticsIndex === null) {
+  if (statisticsIndex.value === null) {
     return
   }
   if (!level) {
@@ -49,12 +49,12 @@ const updateMasterworkForLevel = (level: number) => {
     return
   }
 
-  const masterwork = options[statisticsIndex].data.benefits[level - 1]
+  const masterwork = options[statisticsIndex.value].data.benefits[level - 1]
   updateMasterwork(masterwork.hash)
 }
 
 const updateMasterworkForStatisticIndex = (index: number) => {
-  const masterwork = options[index].data.benefits[currentIndex ?? 0]
+  const masterwork = options[index].data.benefits[currentIndex.value ?? 0]
   updateMasterwork(masterwork.hash)
 }
 
@@ -63,7 +63,7 @@ const resetMasterwork = () => {
 }
 
 const onMasterworkTypeSwitch = (index: number) => {
-  if (index === statisticsIndex) {
+  if (index === statisticsIndex.value) {
     resetMasterwork()
     return
   }
@@ -84,7 +84,7 @@ const buttonNames = computed(() => options.map(o => masterworkStatisticToTerm(o.
     <nav v-if="!isExoticWeapon" class="flex flex-wrap xl:flex-nowrap">
       <AppButton
         v-for="title, i in buttonNames" :key="title" class="mr-2 mt-2 md:mt-4 xl:mt-2"
-        :is-active="activeTabIndex === i" @click="onMasterworkTypeSwitch(i)"
+        :is-active="activeTabIndex.value === i" @click="onMasterworkTypeSwitch(i)"
       >
         {{ title }}
       </AppButton>

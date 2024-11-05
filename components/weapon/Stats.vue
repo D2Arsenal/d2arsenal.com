@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-expect-error verbatim mode
 import { DestinyItemSubType } from 'bungie-api-ts/destiny2'
 import type { DefinitionRecord } from '~/types'
 import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition, PrunedDestinyStatGroupDefinition } from '~/types/destiny.js'
@@ -42,14 +43,14 @@ const modStats = computed(() => {
   return statsArrayToObject(props.mod.stats)
 })
 
-const transformedPerks = $computed(() => toTransformedPerks(props.perks))
+const transformedPerks = computed(() => toTransformedPerks(props.perks))
 
 const perkStats = computed(() => {
   if (!props.stats || !props.statGroups) {
     return {}
   }
 
-  const statsArray = transformedPerks
+  const statsArray = transformedPerks.value
     .flatMap(p => p?.isEnhanced ? p?.enhancedStats : p?.stats)
     .filter((s): s is Stat => Boolean(s && s?.value !== 0))
 
@@ -72,7 +73,7 @@ const weaponStats = computed(() => {
   return getStatsForItem(props.stats, props.weapon, statGroupEntry.value)
 })
 
-const allWeaponStats = $computed(() => weaponStats.value.slice()
+const allWeaponStats = computed(() => weaponStats.value.slice()
   .sort((a, b) => STAT_ORDER.indexOf(a.hash) - STAT_ORDER.indexOf(b.hash))
   .map((stat) => {
     const perkStatValue = perkStats.value[stat.hash]?.value ?? 0
@@ -94,6 +95,7 @@ function formateRange(rawRange: RawRange) {
     return ''
   }
 
+  // @ts-expect-error verbatim mode
   const isShotgun = props.weapon.itemSubType === DestinyItemSubType.Shotgun
 
   if (isShotgun || typeof rawRange === 'number') {
@@ -104,9 +106,9 @@ function formateRange(rawRange: RawRange) {
   return `${hip}m / ${scope}m`
 }
 
-const rawRange = $computed(() => {
-  const value = calculateRange(transformedPerks.filter((a): a is TransformedPerk => a !== null), allWeaponStats, props.weapon, true)
-  const augmentedValue = calculateRange(transformedPerks.filter((a): a is TransformedPerk => a !== null), allWeaponStats, props.weapon)
+const rawRange = computed(() => {
+  const value = calculateRange(transformedPerks.value.filter((a): a is TransformedPerk => a !== null), allWeaponStats.value, props.weapon, true)
+  const augmentedValue = calculateRange(transformedPerks.value.filter((a): a is TransformedPerk => a !== null), allWeaponStats.value, props.weapon)
   if (!value || !augmentedValue) {
     return
   }
@@ -121,7 +123,7 @@ const rawRange = $computed(() => {
   } as FormattedStat
 })
 
-const statsWithRange = computed(() => [...allWeaponStats, ...(rawRange?.value ? [rawRange] : [])])
+const statsWithRange = computed(() => [...allWeaponStats.value, ...(rawRange?.value ? [rawRange.value] : [])])
 </script>
 
 <template>

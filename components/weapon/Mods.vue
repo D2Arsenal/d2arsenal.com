@@ -18,10 +18,10 @@ const modTabs = computed(() => [
   { mods: mods.filter(m => isAdeptMod(m)), name: 'Adept' },
 ])
 
-const selectedMod = $computed(() => mods.find(({ mod }) => mod.hash === modelValue))
+const selectedMod = computed(() => mods.find(({ mod }) => mod.hash === modelValue))
 
-const activeModTabIndex = $ref(isAdeptMod(selectedMod) ? 1 : 0)
-const activeModTab = computed(() => modTabs.value[activeModTabIndex])
+const activeModTabIndex = ref(isAdeptMod(selectedMod.value) ? 1 : 0)
+const activeModTab = computed(() => modTabs.value[activeModTabIndex.value])
 
 const updateMod = (hash: number) => {
   emit('update:modelValue', modelValue === hash ? null : hash)

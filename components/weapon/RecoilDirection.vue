@@ -5,32 +5,32 @@ const { value } = defineProps<{
 const verticalScale = 0.8
 const maxSpread = 180
 
-const direction = $computed(() => {
+const direction = computed(() => {
   return Math.sin((value + 5) * (Math.PI / 10)) * (100 - value) * verticalScale * (Math.PI / 180)
 })
-const x = $computed(() => {
-  return Math.sin(direction)
+const x = computed(() => {
+  return Math.sin(direction.value)
 })
-const y = $computed(() => {
-  return Math.cos(direction)
+const y = computed(() => {
+  return Math.cos(direction.value)
 })
-const spread = $computed(() => {
-  return (100 - value) / 100 * (maxSpread / 2) * (Math.PI / 180) * Math.sign(direction)
+const spread = computed(() => {
+  return (100 - value) / 100 * (maxSpread / 2) * (Math.PI / 180) * Math.sign(direction.value)
 })
-const xSpreadMore = $computed(() => {
-  return Math.sin(direction + spread)
+const xSpreadMore = computed(() => {
+  return Math.sin(direction.value + spread.value)
 })
-const ySpreadMore = $computed(() => {
-  return Math.cos(direction + spread)
+const ySpreadMore = computed(() => {
+  return Math.cos(direction.value + spread.value)
 })
-const xSpreadLess = $computed(() => {
-  return Math.sin(direction - spread)
+const xSpreadLess = computed(() => {
+  return Math.sin(direction.value - spread.value)
 })
-const ySpreadLess = $computed(() => {
-  return Math.cos(direction - spread)
+const ySpreadLess = computed(() => {
+  return Math.cos(direction.value - spread.value)
 })
 
-const pathD = $computed(() => `M1,1 L${1 + xSpreadMore},${1 - ySpreadMore} A1,1 0 0,${direction < 0 ? '1' : '0'} ${1 + xSpreadLess},${1 - ySpreadLess} Z`)
+const pathD = computed(() => `M1,1 L${1 + xSpreadMore.value},${1 - ySpreadMore.value} A1,1 0 0,${direction.value < 0 ? '1' : '0'} ${1 + xSpreadLess.value},${1 - ySpreadLess.value} Z`)
 </script>
 
 <template>
