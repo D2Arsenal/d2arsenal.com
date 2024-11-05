@@ -104,7 +104,8 @@ export function buildMasterwork(weapon: PrunedDestinyInventoryItemDefinition, st
 
     const n = masterworkItem.plugCategoryIdentifier!.split('.')
     const r = n[n.length - 1]
-    masterwork[r].benefits.push(masterworkItem)
+    // TODO: This shouldn't be optional
+    masterwork[r]?.benefits.push(masterworkItem)
   })
 
   function d(weapon: PrunedDestinyInventoryItemDefinition, hash: number, stats: DestinyStatDisplayDefinition[]) {

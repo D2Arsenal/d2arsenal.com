@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// @ts-expect-error verbatim mode
 import { DestinyItemSubType } from 'bungie-api-ts/destiny2'
 import type { DefinitionRecord } from '~/types'
 import type { PrunedDestinyInventoryItemDefinition, PrunedDestinyStatDefinition, PrunedDestinyStatGroupDefinition } from '~/types/destiny.js'
@@ -95,7 +94,6 @@ function formateRange(rawRange: RawRange) {
     return ''
   }
 
-  // @ts-expect-error verbatim mode
   const isShotgun = props.weapon.itemSubType === DestinyItemSubType.Shotgun
 
   if (isShotgun || typeof rawRange === 'number') {
