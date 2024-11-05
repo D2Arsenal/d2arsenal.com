@@ -1,0 +1,746 @@
+diff --git a/destiny2/interfaces.d.ts b/destiny2/interfaces.d.ts
+index 47ed202aee7305ad30a5834b6ce1fc00563da1b4..fa8468969643c3af6c4af45ab50cccfd8469d1f9 100644
+--- a/destiny2/interfaces.d.ts
++++ b/destiny2/interfaces.d.ts
+@@ -231,7 +231,7 @@ export interface DestinyIconSequenceDefinition {
+  * Where/if they are stored * How they are calculated * Where they can be used in
+  * other game logic
+  */
+-export declare const enum DestinyProgressionScope {
++export declare enum DestinyProgressionScope {
+   Account = 0,
+   Character = 1,
+   Clan = 2,
+@@ -278,7 +278,7 @@ export interface DestinyProgressionStepDefinition {
+  * If progression is earned, this determines whether the progression shows visual
+  * effects on the character or its item - or neither.
+  */
+-export declare const enum DestinyProgressionStepDisplayEffect {
++export declare enum DestinyProgressionStepDisplayEffect {
+   None = 0,
+   Character = 1,
+   Item = 2,
+@@ -845,7 +845,7 @@ export interface DestinyCollectibleDefinition {
+  * or character level. For everything else, there's this more generic sense of
+  * scope.
+  */
+-export declare const enum DestinyScope {
++export declare enum DestinyScope {
+   Profile = 0,
+   Character = 1,
+ }
+@@ -965,7 +965,7 @@ export interface DestinyPresentationChildBlock {
+   readonly parentPresentationNodeHashes: number[];
+   readonly displayStyle: DestinyPresentationDisplayStyle;
+ }
+-export declare const enum DestinyPresentationNodeType {
++export declare enum DestinyPresentationNodeType {
+   Default = 0,
+   Category = 1,
+   Collectibles = 2,
+@@ -1236,7 +1236,7 @@ export interface DestinyObjectiveDefinition {
+  * globally" scoped unlock data may be assumed as the worst case unless it has been
+  * specifically whitelisted as otherwise. That sucks, but them's the breaks.
+  */
+-export declare const enum DestinyGatingScope {
++export declare enum DestinyGatingScope {
+   None = 0,
+   Global = 1,
+   Clan = 2,
+@@ -1594,7 +1594,7 @@ export interface DestinyVendorRequirementDisplayEntryDefinition {
+   readonly type: string;
+ }
+ /** Describes the type of progression that a vendor has. */
+-export declare const enum DestinyVendorProgressionType {
++export declare enum DestinyVendorProgressionType {
+   /** The original rank progression from token redemption. */
+   Default = 0,
+   /**
+@@ -2262,7 +2262,7 @@ export interface DestinyActivityModeDefinition {
+  * Modes in it. Please don't take this to mean that some D1-only feature is coming
+  * back!
+  */
+-export declare const enum DestinyActivityModeType {
++export declare enum DestinyActivityModeType {
+   None = 0,
+   Story = 2,
+   Strike = 3,
+@@ -2353,7 +2353,7 @@ export declare const enum DestinyActivityModeType {
+   IronBannerZoneControl = 91,
+ }
+ /** Activity Modes are grouped into a few possible broad categories. */
+-export declare const enum DestinyActivityModeCategory {
++export declare enum DestinyActivityModeCategory {
+   /** Activities that are neither PVP nor PVE, such as social activities. */
+   None = 0,
+   /** PvE activities, where you shoot aliens in the face. */
+@@ -2512,7 +2512,7 @@ export interface DestinyActivityGraphNodeFeaturingStateDefinition {
+  * have their own special highlight states. Don't ask me, I can't imagine they're
+  * still used.
+  */
+-export declare const enum ActivityGraphNodeHighlightType {
++export declare enum ActivityGraphNodeHighlightType {
+   None = 0,
+   Normal = 1,
+   Hyper = 2,
+@@ -2552,7 +2552,7 @@ export interface DestinyActivityGraphNodeStateEntry {
+   readonly state: DestinyGraphNodeState;
+ }
+ /** Represents a potential state of an Activity Graph node. */
+-export declare const enum DestinyGraphNodeState {
++export declare enum DestinyGraphNodeState {
+   Hidden = 0,
+   Visible = 1,
+   Teaser = 2,
+@@ -2820,18 +2820,18 @@ export interface DestinyInventoryBucketDefinition {
+    */
+   readonly redacted: boolean;
+ }
+-export declare const enum BucketScope {
++export declare enum BucketScope {
+   Character = 0,
+   Account = 1,
+ }
+-export declare const enum BucketCategory {
++export declare enum BucketCategory {
+   Invisible = 0,
+   Item = 1,
+   Currency = 2,
+   Equippable = 3,
+   Ignored = 4,
+ }
+-export declare const enum ItemLocation {
++export declare enum ItemLocation {
+   Unknown = 0,
+   Inventory = 1,
+   Vault = 2,
+@@ -2857,7 +2857,7 @@ export interface DestinyArtDyeReference {
+  * NOTE: This is not all of the item types available, and some of these are
+  * holdovers from Destiny 1 that may or may not still exist.
+  */
+-export declare const enum DestinyItemSubType {
++export declare enum DestinyItemSubType {
+   None = 0,
+   /** DEPRECATED. Items can be both "Crucible" and something else interesting. */
+   Crucible = 1,
+@@ -3111,7 +3111,7 @@ export interface DestinyDisplayCategoryDefinition {
+   readonly displayStyleIdentifier: string;
+ }
+ /** Display categories can have custom sort orders. These are the possible options. */
+-export declare const enum VendorDisplayCategorySortOrder {
++export declare enum VendorDisplayCategorySortOrder {
+   Default = 0,
+   SortByTier = 1,
+ }
+@@ -3199,13 +3199,13 @@ export interface DestinyVendorInteractionReplyDefinition {
+  * When a Vendor Interaction provides rewards, they'll either let you choose one or
+  * let you have all of them. This determines which it will be.
+  */
+-export declare const enum DestinyVendorInteractionRewardSelection {
++export declare enum DestinyVendorInteractionRewardSelection {
+   None = 0,
+   One = 1,
+   All = 2,
+ }
+ /** This determines the type of reply that a Vendor will have during an Interaction. */
+-export declare const enum DestinyVendorReplyType {
++export declare enum DestinyVendorReplyType {
+   Accept = 0,
+   Decline = 1,
+   Complete = 2,
+@@ -3219,7 +3219,7 @@ export interface DestinyVendorInteractionSackEntryDefinition {
+   readonly sackType: number;
+ }
+ /** An enumeration of the known UI interactions for Vendors. */
+-export declare const enum VendorInteractionType {
++export declare enum VendorInteractionType {
+   Unknown = 0,
+   /** An empty interaction. If this ends up in content, it is probably a game bug. */
+   Undefined = 1,
+@@ -3290,7 +3290,7 @@ export interface DestinyVendorInventoryFlyoutBucketDefinition {
+   readonly sortItemsBy: DestinyItemSortType;
+ }
+ /** Determines how items are sorted in an inventory bucket. */
+-export declare const enum DestinyItemSortType {
++export declare enum DestinyItemSortType {
+   ItemId = 0,
+   Timestamp = 1,
+   StackSize = 2,
+@@ -3463,7 +3463,7 @@ export interface DestinyVendorItemQuantity {
+   readonly hasConditionalVisibility: boolean;
+ }
+ /** The action that happens when the user attempts to refund an item. */
+-export declare const enum DestinyVendorItemRefundPolicy {
++export declare enum DestinyVendorItemRefundPolicy {
+   NotRefundable = 0,
+   DeletesItem = 1,
+   RevokesLicense = 2,
+@@ -3589,7 +3589,7 @@ export interface DestinyInsertPlugActionDefinition {
+   readonly actionType: SocketTypeActionType;
+ }
+ /** Indicates the type of actions that can be performed */
+-export declare const enum SocketTypeActionType {
++export declare enum SocketTypeActionType {
+   InsertPlug = 0,
+   InfuseItem = 1,
+   ReinitializeSocket = 2,
+@@ -3687,7 +3687,7 @@ export interface DestinySocketCategoryDefinition {
+  * Represents the possible and known UI styles used by the game for rendering
+  * Socket Categories.
+  */
+-export declare const enum DestinySocketCategoryStyle {
++export declare enum DestinySocketCategoryStyle {
+   Unknown = 0,
+   Reusable = 1,
+   Consumable = 2,
+@@ -3698,7 +3698,7 @@ export declare const enum DestinySocketCategoryStyle {
+   Abilities = 7,
+   Supers = 8,
+ }
+-export declare const enum DestinySocketVisibility {
++export declare enum DestinySocketVisibility {
+   Visible = 0,
+   Hidden = 1,
+   HiddenWhenEmpty = 2,
+@@ -3864,7 +3864,7 @@ export interface DestinyLocationReleaseDefinition {
+    */
+   readonly worldPosition: number[];
+ }
+-export declare const enum DestinyActivityNavPointType {
++export declare enum DestinyActivityNavPointType {
+   Inactive = 0,
+   PrimaryObjective = 1,
+   SecondaryObjective = 2,
+@@ -3888,7 +3888,7 @@ export declare const enum DestinyActivityNavPointType {
+  * should be shown. You'll have to build your own algorithms on the client side to
+  * determine how best to render these options.
+  */
+-export declare const enum DestinyUnlockValueUIStyle {
++export declare enum DestinyUnlockValueUIStyle {
+   /** Generally, Automatic means "Just show the number" */
+   Automatic = 0,
+   /**
+@@ -4053,7 +4053,7 @@ export interface DestinySandboxPerkDefinition {
+    */
+   readonly redacted: boolean;
+ }
+-export declare const enum DamageType {
++export declare enum DamageType {
+   None = 0,
+   Kinetic = 1,
+   Arc = 2,
+@@ -4149,7 +4149,7 @@ export interface DestinyTalentNodeStepGroups {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum DestinyTalentNodeStepWeaponPerformances {
++export declare enum DestinyTalentNodeStepWeaponPerformances {
+   None = 0,
+   RateOfFire = 1,
+   Damage = 2,
+@@ -4170,7 +4170,7 @@ export declare const enum DestinyTalentNodeStepWeaponPerformances {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum DestinyTalentNodeStepImpactEffects {
++export declare enum DestinyTalentNodeStepImpactEffects {
+   None = 0,
+   ArmorPiercing = 1,
+   Ricochet = 2,
+@@ -4184,7 +4184,7 @@ export declare const enum DestinyTalentNodeStepImpactEffects {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum DestinyTalentNodeStepGuardianAttributes {
++export declare enum DestinyTalentNodeStepGuardianAttributes {
+   None = 0,
+   Stats = 1,
+   Shields = 2,
+@@ -4200,7 +4200,7 @@ export declare const enum DestinyTalentNodeStepGuardianAttributes {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum DestinyTalentNodeStepLightAbilities {
++export declare enum DestinyTalentNodeStepLightAbilities {
+   None = 0,
+   Grenades = 1,
+   Melee = 2,
+@@ -4214,7 +4214,7 @@ export declare const enum DestinyTalentNodeStepLightAbilities {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum DestinyTalentNodeStepDamageTypes {
++export declare enum DestinyTalentNodeStepDamageTypes {
+   None = 0,
+   Kinetic = 1,
+   Arc = 2,
+@@ -4227,7 +4227,7 @@ export declare const enum DestinyTalentNodeStepDamageTypes {
+  * interesting modifier for a Challenge or Quest. This indicates when the Perk is
+  * granted.
+  */
+-export declare const enum DestinyObjectiveGrantStyle {
++export declare enum DestinyObjectiveGrantStyle {
+   WhenIncomplete = 0,
+   WhenComplete = 1,
+   Always = 2,
+@@ -4374,20 +4374,20 @@ export interface DestinyStatDefinition {
+  * character. * Item = don't aggregate: the stat should be located and used
+  * directly on the item.
+  */
+-export declare const enum DestinyStatAggregationType {
++export declare enum DestinyStatAggregationType {
+   CharacterAverage = 0,
+   Character = 1,
+   Item = 2,
+ }
+ /** At last, stats have categories. Use this for whatever purpose you might wish. */
+-export declare const enum DestinyStatCategory {
++export declare enum DestinyStatCategory {
+   Gameplay = 0,
+   Weapon = 1,
+   Defense = 2,
+   Primary = 3,
+ }
+ /** If the objective has a known UI label, this enumeration will represent it. */
+-export declare const enum DestinyObjectiveUiStyle {
++export declare enum DestinyObjectiveUiStyle {
+   None = 0,
+   Highlighted = 1,
+   CraftingWeaponLevel = 2,
+@@ -4484,7 +4484,7 @@ export interface DestinyLoreDefinition {
+    */
+   readonly redacted: boolean;
+ }
+-export declare const enum DestinyRecordValueStyle {
++export declare enum DestinyRecordValueStyle {
+   Integer = 0,
+   Percentage = 1,
+   Milliseconds = 2,
+@@ -4535,7 +4535,7 @@ export interface DestinyGenderDefinition {
+    */
+   readonly redacted: boolean;
+ }
+-export declare const enum DestinyGender {
++export declare enum DestinyGender {
+   Male = 0,
+   Female = 1,
+   Unknown = 2,
+@@ -4550,7 +4550,7 @@ export interface DestinyRecordCompletionBlock {
+   readonly shouldFireToast: boolean;
+   readonly toastStyle: DestinyRecordToastStyle;
+ }
+-export declare const enum DestinyRecordToastStyle {
++export declare enum DestinyRecordToastStyle {
+   None = 0,
+   Record = 1,
+   Lore = 2,
+@@ -4691,7 +4691,7 @@ export interface DestinyPresentationNodeCraftableChildEntry {
+  * A hint for how the presentation node should be displayed when shown in a list.
+  * How you use this is your UI is up to you.
+  */
+-export declare const enum DestinyPresentationDisplayStyle {
++export declare enum DestinyPresentationDisplayStyle {
+   /** Display the item as a category, through which sub-items are filtered. */
+   Category = 0,
+   Badge = 1,
+@@ -4705,7 +4705,7 @@ export declare const enum DestinyPresentationDisplayStyle {
+  * A hint for what screen should be shown when this presentation node is clicked
+  * into. How you use this is your UI is up to you.
+  */
+-export declare const enum DestinyPresentationScreenStyle {
++export declare enum DestinyPresentationScreenStyle {
+   /** Use the "default" view for the presentation nodes. */
+   Default = 0,
+   /**
+@@ -5008,7 +5008,7 @@ export interface DestinyItemTierTypeInfusionBlock {
+    */
+   readonly minimumQualityIncrement: number;
+ }
+-export declare const enum TierType {
++export declare enum TierType {
+   Unknown = 0,
+   Currency = 1,
+   Basic = 2,
+@@ -5383,11 +5383,11 @@ export interface DestinyEquippingBlockDefinition {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum EquippingItemBlockAttributes {
++export declare enum EquippingItemBlockAttributes {
+   None = 0,
+   EquipOnAcquire = 1,
+ }
+-export declare const enum DestinyAmmunitionType {
++export declare enum DestinyAmmunitionType {
+   None = 0,
+   Primary = 1,
+   Special = 2,
+@@ -5491,7 +5491,7 @@ export interface DestinyClassDefinition {
+    */
+   readonly redacted: boolean;
+ }
+-export declare const enum DestinyClass {
++export declare enum DestinyClass {
+   Titan = 0,
+   Hunter = 1,
+   Warlock = 2,
+@@ -5894,7 +5894,7 @@ export interface DestinyRewardSourceDefinition {
+  * ways that items could be spawned, and tried to make high-level categorizations
+  * of them. This needs to be re-evaluated for Destiny 2.
+  */
+-export declare const enum DestinyRewardSourceCategory {
++export declare enum DestinyRewardSourceCategory {
+   /** The source doesn't fit well into any of the other types. */
+   None = 0,
+   /**
+@@ -6217,7 +6217,7 @@ export interface DestinyPlugRuleDefinition {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum PlugUiStyles {
++export declare enum PlugUiStyles {
+   None = 0,
+   Masterwork = 1,
+ }
+@@ -6235,7 +6235,7 @@ export declare const enum PlugUiStyles {
+  * For category matching, use the plug's "plugCategoryIdentifier" property,
+  * comparing it to
+  */
+-export declare const enum PlugAvailabilityMode {
++export declare enum PlugAvailabilityMode {
+   Normal = 0,
+   UnavailableIfSocketContainsMatchingPlugCategory = 1,
+   AvailableIfSocketContainsMatchingPlugCategory = 2,
+@@ -6320,7 +6320,7 @@ export interface DestinyEnergyTypeDefinition {
+  * Represents the socket energy types for Armor 2.0, Ghosts 2.0, and Stasis
+  * subclasses.
+  */
+-export declare const enum DestinyEnergyType {
++export declare enum DestinyEnergyType {
+   Any = 0,
+   Arc = 1,
+   Thermal = 2,
+@@ -6519,7 +6519,7 @@ export interface DestinyItemSocketEntryPlugItemDefinition {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum SocketPlugSources {
++export declare enum SocketPlugSources {
+   /** If there's no way we can detect to insert new plugs. */
+   None = 0,
+   /**
+@@ -7311,7 +7311,7 @@ export interface DestinyItemPerkEntryDefinition {
+  * useful for those of you trying to filter out internal-use-only perks (or for
+  * those of you trying to figure out what they do!)
+  */
+-export declare const enum ItemPerkVisibility {
++export declare enum ItemPerkVisibility {
+   Visible = 0,
+   Disabled = 1,
+   Hidden = 2,
+@@ -7446,7 +7446,7 @@ export interface DestinyItemCategoryDefinition {
+  * A plug can optionally have a "Breaker Type": a special ability that can affect
+  * units in unique ways. Activating this plug can grant one of these types.
+  */
+-export declare const enum DestinyBreakerType {
++export declare enum DestinyBreakerType {
+   None = 0,
+   ShieldPiercing = 1,
+   Disruption = 2,
+@@ -7472,7 +7472,7 @@ export declare const enum DestinyBreakerType {
+  * I keep updating these because they're so damn convenient. I guess I shouldn't
+  * fight it.
+  */
+-export declare const enum DestinyItemType {
++export declare enum DestinyItemType {
+   None = 0,
+   Currency = 1,
+   Armor = 2,
+@@ -7510,7 +7510,7 @@ export declare const enum DestinyItemType {
+  * NOTE: This is not all of the item types available, and some of these are
+  * holdovers from Destiny 1 that may or may not still exist.
+  */
+-export declare const enum SpecialItemType {
++export declare enum SpecialItemType {
+   None = 0,
+   SpecialCurrency = 1,
+   Armor = 8,
+@@ -7686,7 +7686,7 @@ export interface DestinyProgressionRewardItemQuantity {
+  * Represents the different kinds of acquisition behavior for progression reward
+  * items.
+  */
+-export declare const enum DestinyProgressionRewardItemAcquisitionBehavior {
++export declare enum DestinyProgressionRewardItemAcquisitionBehavior {
+   Instant = 0,
+   PlayerClaimRequired = 1,
+ }
+@@ -7706,7 +7706,7 @@ export interface DestinyProgressionResetEntry {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum DestinyProgressionRewardItemState {
++export declare enum DestinyProgressionRewardItemState {
+   None = 0,
+   /** If this is set, the reward should be hidden. */
+   Invisible = 1,
+@@ -7732,7 +7732,7 @@ export declare const enum DestinyProgressionRewardItemState {
+  * progressions, you would pass "?components=Profiles,Characters,
+  * CharacterProgressions" You may use either the numerical or string values.
+  */
+-export declare const enum DestinyComponentType {
++export declare enum DestinyComponentType {
+   None = 0,
+   /**
+    * Profiles is the most basic component, only relevant when calling GetProfile.
+@@ -7962,7 +7962,7 @@ export declare const enum DestinyComponentType {
+   SocialCommendations = 1400,
+ }
+ /** Indicates the type of filter to apply to Vendor results. */
+-export declare const enum DestinyVendorFilter {
++export declare enum DestinyVendorFilter {
+   None = 0,
+   ApiPurchasable = 1,
+ }
+@@ -8082,7 +8082,7 @@ export interface DestinyReportOffensePgcrRequest {
+  * directly (special cases apply to when they are returned, and are not relevant in
+  * general cases)
+  */
+-export declare const enum DestinyStatsGroupType {
++export declare enum DestinyStatsGroupType {
+   None = 0,
+   General = 1,
+   Weapons = 2,
+@@ -8101,7 +8101,7 @@ export declare const enum DestinyStatsGroupType {
+   UniqueWeapon = 103,
+   Internal = 104,
+ }
+-export declare const enum PeriodType {
++export declare enum PeriodType {
+   None = 0,
+   Daily = 1,
+   AllTime = 2,
+@@ -8430,7 +8430,7 @@ export interface DestinyItemComponent {
+    */
+   readonly itemValueVisibility?: boolean[];
+ }
+-export declare const enum ItemBindStatus {
++export declare enum ItemBindStatus {
+   NotBound = 0,
+   BoundToCharacter = 1,
+   BoundToAccount = 2,
+@@ -8442,7 +8442,7 @@ export declare const enum ItemBindStatus {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum TransferStatuses {
++export declare enum TransferStatuses {
+   /** The item can be transferred. */
+   CanTransfer = 0,
+   /** You can't transfer the item because it is equipped on a character. */
+@@ -8466,7 +8466,7 @@ export declare const enum TransferStatuses {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum ItemState {
++export declare enum ItemState {
+   None = 0,
+   /**
+    * If this bit is set, the item has been "locked" by the user and cannot be deleted.
+@@ -8845,7 +8845,7 @@ export interface DestinyVendorReceipt {
+  * A set of flags for reason(s) why the component populated in the way that it did.
+  * Inspect the individual flags for the reasons.
+  */
+-export declare const enum ComponentPrivacySetting {
++export declare enum ComponentPrivacySetting {
+   None = 0,
+   Public = 1,
+   Private = 2,
+@@ -8954,7 +8954,7 @@ export interface DestinyProfileComponent {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum DestinyGameVersions {
++export declare enum DestinyGameVersions {
+   None = 0,
+   Destiny2 = 1,
+   DLC1 = 2,
+@@ -9330,7 +9330,7 @@ export interface DestinyPresentationNodeComponent {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum DestinyPresentationNodeState {
++export declare enum DestinyPresentationNodeState {
+   None = 0,
+   /**
+    * If this is set, the game recommends that you not show this node. But you know
+@@ -9400,7 +9400,7 @@ export interface DestinyRecordComponent {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum DestinyRecordState {
++export declare enum DestinyRecordState {
+   /**
+    * If there are no flags set, the record is in a state where it *could* be redeemed,
+    * but it has not been yet.
+@@ -9497,7 +9497,7 @@ export interface DestinyCollectibleComponent {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum DestinyCollectibleState {
++export declare enum DestinyCollectibleState {
+   None = 0,
+   /** If this flag is set, you have not yet obtained this collectible. */
+   NotAcquired = 1,
+@@ -9619,7 +9619,7 @@ export interface DestinyProfileTransitoryPartyMember {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum DestinyPartyMemberStates {
++export declare enum DestinyPartyMemberStates {
+   None = 0,
+   /** This one's pretty obvious - they're on your Fireteam. */
+   FireteamMember = 1,
+@@ -9683,7 +9683,7 @@ export interface DestinyProfileTransitoryJoinability {
+  * A player can choose to restrict requests to join their Fireteam to specific
+  * states. These are the possible states a user can choose.
+  */
+-export declare const enum DestinyGamePrivacySetting {
++export declare enum DestinyGamePrivacySetting {
+   Open = 0,
+   ClanAndFriendsOnly = 1,
+   FriendsOnly = 2,
+@@ -9697,7 +9697,7 @@ export declare const enum DestinyGamePrivacySetting {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum DestinyJoinClosedReasons {
++export declare enum DestinyJoinClosedReasons {
+   None = 0,
+   /** The user is currently in matchmaking. */
+   InMatchmaking = 1,
+@@ -10037,7 +10037,7 @@ export interface DestinyRaceDefinition {
+    */
+   readonly redacted: boolean;
+ }
+-export declare const enum DestinyRace {
++export declare enum DestinyRace {
+   Human = 0,
+   Awoken = 1,
+   Exo = 2,
+@@ -10570,7 +10570,7 @@ export interface DestinyMilestoneDefinition {
+  * If for some reason the indicated property is not populated, fall back to the
+  * MilestoneDefinition.displayProperties.
+  */
+-export declare const enum DestinyMilestoneDisplayPreference {
++export declare enum DestinyMilestoneDisplayPreference {
+   /**
+    * Indicates you should show DestinyMilestoneDefinition.displayProperties for this
+    * Milestone.
+@@ -10591,7 +10591,7 @@ export declare const enum DestinyMilestoneDisplayPreference {
+  * The type of milestone. Milestones can be Tutorials, one-time/triggered/non-
+  * repeating but not necessarily tutorials, or Repeating Milestones.
+  */
+-export declare const enum DestinyMilestoneType {
++export declare enum DestinyMilestoneType {
+   Unknown = 0,
+   /**
+    * One-time milestones that are specifically oriented toward teaching players about
+@@ -11555,7 +11555,7 @@ export interface DestinyActivity {
+  * An enumeration representing the potential difficulty levels of an activity.
+  * Their names are... more qualitative than quantitative.
+  */
+-export declare const enum DestinyActivityDifficultyTier {
++export declare enum DestinyActivityDifficultyTier {
+   Trivial = 0,
+   Easy = 1,
+   Normal = 2,
+@@ -11826,7 +11826,7 @@ export interface DestinyUnlockDefinition {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum EquipFailureReason {
++export declare enum EquipFailureReason {
+   /** The item is/was able to be equipped. */
+   None = 0,
+   /**
+@@ -12199,7 +12199,7 @@ export interface DestinyTalentNode {
+    */
+   readonly nodeStatsBlock: DestinyTalentNodeStatBlock;
+ }
+-export declare const enum DestinyTalentNodeState {
++export declare enum DestinyTalentNodeState {
+   Invalid = 0,
+   CanUpgrade = 1,
+   NoPoints = 2,
+@@ -12786,7 +12786,7 @@ export interface DestinyVendorSaleItemComponent {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum VendorItemStatus {
++export declare enum VendorItemStatus {
+   Success = 0,
+   NoInventorySpace = 1,
+   NoFunds = 2,
+@@ -12832,7 +12832,7 @@ export interface DestinyUnlockStatus {
+  * This enum represents a set of flags - use bitwise operators to check which of
+  * these match your value.
+  */
+-export declare const enum DestinyVendorItemState {
++export declare enum DestinyVendorItemState {
+   /** There are no augments on the item. */
+   None = 0,
+   /**
+@@ -13187,7 +13187,7 @@ export interface DestinyInsertPlugsRequestEntry {
+  * talking about. You have to know whether it's in the default "socketEntries" or
+  * if it's in the "intrinsic" list.
+  */
+-export declare const enum DestinySocketArrayType {
++export declare enum DestinySocketArrayType {
+   Default = 0,
+   Intrinsic = 1,
+ }
+@@ -13445,7 +13445,7 @@ export interface DestinyHistoricalStatsDefinition {
+    */
+   readonly medalTierHash?: number;
+ }
+-export declare const enum DestinyStatsCategoryType {
++export declare enum DestinyStatsCategoryType {
+   None = 0,
+   Kills = 1,
+   Assists = 2,
+@@ -13463,7 +13463,7 @@ export declare const enum DestinyStatsCategoryType {
+   MedalMultiKills = 14,
+   MedalAbilities = 15,
+ }
+-export declare const enum UnitType {
++export declare enum UnitType {
+   None = 0,
+   /** Indicates the statistic is a simple count of something. */
+   Count = 1,
+@@ -13936,7 +13936,7 @@ export interface DestinyPublicMilestoneVendor {
+    */
+   readonly previewItemHash?: number;
+ }
+-export declare const enum AwaType {
++export declare enum AwaType {
+   None = 0,
+   /** Insert plugs into sockets. */
+   InsertPlugs = 1,
+@@ -13950,7 +13950,7 @@ export interface AwaInitializeResponse {
+   /** True if the PUSH message will only be sent to the device that made this request. */
+   readonly sentToSelf: boolean;
+ }
+-export declare const enum AwaUserSelection {
++export declare enum AwaUserSelection {
+   None = 0,
+   Rejected = 1,
+   Approved = 2,
+@@ -13979,7 +13979,7 @@ export interface AwaAuthorizationResult {
+   /** MembershipType from the permission request. */
+   readonly membershipType: BungieMembershipType;
+ }
+-export declare const enum AwaResponseReason {
++export declare enum AwaResponseReason {
+   None = 0,
+   /** User provided an answer */
+   Answered = 1,

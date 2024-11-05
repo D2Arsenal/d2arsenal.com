@@ -40,5 +40,10 @@
   },
   "resolutions": {
     "@types/node": "18.8.0"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "bungie-api-ts": "patches/bungie-api-ts.patch"
+    }
   }
 }
