@@ -3,11 +3,10 @@ import tailwindTypography from '@tailwindcss/typography'
 import { copyManifestFromNodeModulesCacheIfAvailable, loadManifest } from './utils/server/manifest'
 
 const SITE_URL = 'https://www.d2arsenal.com'
-const SITE_NAME = 'D2 Arsenal'
 const GTAG_ID = 'G-SF9MC2HVRE'
 
 export default defineNuxtConfig({
-  modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', '@kevinmarrec/nuxt-pwa', '@vueuse/nuxt', '@nuxt/icon'],
+  modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', '@vueuse/nuxt', '@nuxt/icon'],
 
   runtimeConfig: {
     public: {
@@ -65,18 +64,6 @@ export default defineNuxtConfig({
           },
         },
       },
-    },
-  },
-
-  pwa: {
-    meta: {
-      name: `${SITE_NAME} - Craft your favorite weapon`,
-      author: 'D2 Arsenal Team',
-      description: 'D2 Arsenal allows you to create your favorite weapon rolls for Destiny 2 and share them along with the community.',
-      ogHost: SITE_URL,
-      ogSiteName: SITE_NAME,
-      twitterCreator: '@D2Arsenal',
-      twitterCard: 'summary',
     },
   },
 

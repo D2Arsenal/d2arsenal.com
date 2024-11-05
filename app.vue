@@ -17,9 +17,19 @@ const canonical = computed(() => {
 useHead({
   titleTemplate: t => t ? `${t} - D2 Arsenal` : 'D2 Arsenal - Craft your favorite weapon',
   link: [
-    { rel: 'icon', key: 'favicon', href: usePWAIcon('64') },
+    { rel: 'icon', key: 'favicon', href: '/icon.png' },
     { rel: 'canonical', href: canonical },
   ],
+})
+
+const SITE_NAME = 'D2 Arsenal'
+useSeoMeta({
+  title: `${SITE_NAME} - Craft your favorite weapon`,
+  author: 'D2 Arsenal Team',
+  description: 'D2 Arsenal allows you to create your favorite weapon rolls for Destiny 2 and share them along with the community.',
+  ogSiteName: SITE_NAME,
+  twitterCreator: '@D2Arsenal',
+  twitterCard: 'summary',
 })
 
 const manifestStore = useManifestStore()
