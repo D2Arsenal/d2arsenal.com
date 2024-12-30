@@ -73,5 +73,5 @@ export default defineNuxtConfig({
     '/twitter/': { redirect: { to: 'https://twitter.com/D2Arsenal', statusCode: 301 } },
   },
 
-  compatibilityDate: '2024-11-05',
+  compatibilityDate: '2024-04-03',
 })
